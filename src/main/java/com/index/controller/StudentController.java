@@ -1,10 +1,11 @@
 package com.index.controller;
 
-import com.index.domain.dto.CreateUserDto;
-import com.index.domain.dto.UserDto;
+import com.index.domain.dto.CreateStudentDto;
+import com.index.domain.dto.StudentDto;
+import com.index.domain.dto.TeacherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.index.service.UserService;
+import com.index.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,32 +17,32 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value="/api")
-public class UserController {
+public class StudentController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 
-    private final UserService userService;
+    private final StudentService studentService;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     @CrossOrigin
     @GetMapping(value = "/students", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<UserDto>> getUsers() {
+    public ResponseEntity<List<StudentDto>> getUsers() {
         LOGGER.info("Find all users");
 
-        List<UserDto> usersDto = userService.findAll();
+        List<StudentDto> usersDto = studentService.findAll();
         return new ResponseEntity<>(usersDto,HttpStatus.OK);
     }
 
     @CrossOrigin
     @PostMapping(value = "/addUser", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> createUser(@RequestBody CreateUserDto createUserDto) {
-        LOGGER.info("create movie: {}", createUserDto);
+    public ResponseEntity<Void> createUser(@RequestBody CreateStudentDto createStudentDto) {
+        LOGGER.info("create movie: {}", createStudentDto);
 
-        userService.createUser(createUserDto);
+        studentService.createUser(createStudentDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

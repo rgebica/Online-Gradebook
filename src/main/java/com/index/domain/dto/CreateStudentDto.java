@@ -1,15 +1,14 @@
 package com.index.domain.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
 
-public class CreateUserDto implements Serializable {
+public class CreateStudentDto implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
     private String dateofBirth;
 
-    public CreateUserDto() {}
+    public CreateStudentDto() {}
 
     public String getFirstName() {
         return firstName;
