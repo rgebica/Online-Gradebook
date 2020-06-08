@@ -1,5 +1,7 @@
 package com.index.service;
 
+import com.index.dto.AuthenticationResponse;
+import com.index.dto.LoginRequest;
 import com.index.dto.RegisterRequest;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.NotificationEmail;
@@ -7,7 +9,12 @@ import com.index.model.User;
 import com.index.model.VerificationToken;
 import com.index.repository.UserRepository;
 import com.index.repository.VerificationTokenRepository;
+import com.index.security.JwtProvider;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +31,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final MailService mailService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtProvider jwtProvider;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
@@ -64,4 +73,13 @@ public class AuthService {
         user.setEnabled(true);
         userRepository.save(user);
     }
+
+    public AuthenticationResponse login(LoginRequest loginRequest) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtProvider.generateToken(authenticate);
+        return new AuthenticationResponse(token, loginRequest.getUsername());
+    }
 }
+

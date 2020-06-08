@@ -1,5 +1,7 @@
 package com.index.controller;
 
+import com.index.dto.AuthenticationResponse;
+import com.index.dto.LoginRequest;
 import com.index.dto.RegisterRequest;
 import com.index.service.AuthService;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,11 @@ public class AuthController {
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
         authService.verifyAccount(token);
-        return  new ResponseEntity<>("Account Activated Succesfully", OK);
+        return new ResponseEntity<>("Account Activated Succesfully", OK);
+    }
+
+    @PostMapping("/login")
+    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
     }
 }
