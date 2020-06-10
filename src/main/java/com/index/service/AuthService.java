@@ -41,6 +41,11 @@ public class AuthService {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
+        if (user.getEmail().contains("@student.pl")) {
+            user.setRole("Student");
+        } else {
+            user.setRole("Teacher");
+        }
 
         userRepository.save(user);
         String token = generateVerificationToken(user);
@@ -55,6 +60,7 @@ public class AuthService {
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(token);
         verificationToken.setUser(user);
+        verificationToken.setRole(user.getRole());
 
         verificationTokenRepository.save(verificationToken);
         return token;
