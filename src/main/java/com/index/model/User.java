@@ -34,4 +34,6 @@ public class User {
     private Instant created;
     private boolean enabled;
     private String role;
+    private String FirstName;
+    private String lastName;
 }
