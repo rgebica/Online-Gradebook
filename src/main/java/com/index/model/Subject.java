@@ -6,22 +6,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "subjects", schema="gradebook")
-public class Subjects {
+@Table(name = "subjects", schema = "gradebook")
+public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subjectId")
     private Long subjectId;
-
     @Column(name = "name")
     private String subjectName;
-
-    @ManyToOne(fetch = LAZY)
-    private User user;
 }
