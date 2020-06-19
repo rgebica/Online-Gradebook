@@ -31,13 +31,18 @@ public class Grade {
         return Grade.builder()
                 .subjectId(addGrade.getSubjectId())
                 .userId(addGrade.getUserId())
+                .date(Instant.now())
                 .build();
     }
 
     public GradeDto dto() {
         return GradeDto.builder()
+                .gradeId(gradeId)
                 .subjectId(subjectId)
                 .userId(userId)
+                .grade(grade)
+                .date(date)
+                .comment(comment)
                 .build();
     }
 }

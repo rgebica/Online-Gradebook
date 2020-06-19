@@ -3,8 +3,10 @@ package com.index.service;
 import com.index.dto.AuthenticationResponse;
 import com.index.dto.LoginRequest;
 import com.index.dto.RegisterRequest;
+import com.index.dto.UserDto;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.NotificationEmail;
+import com.index.model.Role;
 import com.index.model.User;
 import com.index.model.VerificationToken;
 import com.index.repository.UserRepository;
@@ -34,6 +36,12 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
 
+    public UserDto getById(long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new SpringGradebookException("No user"))
+                .dto();
+    }
+
     @Transactional
     public void signup(RegisterRequest registerRequest) {
         User user = new User();
@@ -44,9 +52,9 @@ public class AuthService {
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
         if (user.getEmail().contains("@student.pl")) {
-            user.setRole("Student");
+            user.setRole(Role.STUDENT);
         } else {
-            user.setRole("Teacher");
+            user.setRole(Role.TEACHER);
         }
 
         userRepository.save(user);
@@ -62,7 +70,6 @@ public class AuthService {
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(token);
         verificationToken.setUser(user);
-        verificationToken.setRole(user.getRole());
 
         verificationTokenRepository.save(verificationToken);
         return token;

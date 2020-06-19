@@ -1,5 +1,6 @@
 package com.index.model;
 
+import com.index.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,17 @@ public class User {
     private String email;
     private Instant created;
     private boolean enabled;
-    private String role;
-    private String FirstName;
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.STUDENT;
+    private String firstName;
     private String lastName;
+
+    public UserDto dto() {
+        return UserDto.builder()
+                .userId(userId)
+                .firstName(firstName)
+                .lastName(lastName)
+                .role(role)
+                .build();
+    }
 }

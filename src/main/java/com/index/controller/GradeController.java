@@ -2,11 +2,11 @@ package com.index.controller;
 
 import com.index.dto.AddGradeDto;
 import com.index.dto.GradeDto;
-import com.index.dto.UserDto;
+import com.index.dto.UserSubjectsDetailsDto;
 import com.index.service.GradeService;
 import com.index.service.SubjectService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +15,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/grade")
-@AllArgsConstructor
 @Slf4j
 public class GradeController {
 
     private final GradeService gradeService;
+    private final SubjectService subjectService;
+
+    @Autowired
+    public GradeController(GradeService gradeService, SubjectService subjectService) {
+        this.gradeService = gradeService;
+        this.subjectService = subjectService;
+    }
 
     @PostMapping("/addGrade")
     public ResponseEntity<GradeDto> addGrade(@RequestBody AddGradeDto addGradeDto) {
@@ -31,5 +37,11 @@ public class GradeController {
     public ResponseEntity<List<GradeDto>> getAllGrades(@PathVariable long userId) {
         final List<GradeDto> grades = gradeService.getGradesByUser(userId);
         return ResponseEntity.ok(grades);
+    }
+
+    @GetMapping("/{userId}/subjects")
+    public ResponseEntity<List<UserSubjectsDetailsDto>> getUserSubjectsWithGrades(@PathVariable long userId) {
+        final List<UserSubjectsDetailsDto> userSubjects = subjectService.getUserSubjectsWithGrades(userId);
+        return ResponseEntity.ok(userSubjects);
     }
 }

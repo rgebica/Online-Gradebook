@@ -18,6 +18,4 @@ public class GradeDto {
     private int grade;
     private Instant date;
     private String comment;
-    private String firstName;
-    private String lastName;
 }
