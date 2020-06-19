@@ -4,6 +4,8 @@ import com.index.dto.AddGradeDto;
 import com.index.dto.GradeDto;
 import com.index.model.Grade;
 import com.index.repository.GradeRepository;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GradeService {
 
-    private final GradeRepository gradeRepository;
+    GradeRepository gradeRepository;
 
     public GradeService(GradeRepository gradeRepository) {
         this.gradeRepository = gradeRepository;

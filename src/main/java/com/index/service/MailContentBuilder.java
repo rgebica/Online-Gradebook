@@ -1,15 +1,18 @@
 package com.index.service;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Service
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MailContentBuilder {
 
-    private final TemplateEngine templateEngine;
+    TemplateEngine templateEngine;
 
     public String build(String message) {
         Context context = new Context();

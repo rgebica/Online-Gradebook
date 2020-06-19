@@ -2,7 +2,9 @@ package com.index.service;
 
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.NotificationEmail;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,10 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class MailService {
 
-    private JavaMailSender mailSender;
-    private final MailContentBuilder mailContentBuilder;
+    JavaMailSender mailSender;
+    MailContentBuilder mailContentBuilder;
 
     @Async
     void sendMail(NotificationEmail notificationEmail) {

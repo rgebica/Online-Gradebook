@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.Instant;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -16,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name="Grade", schema = "gradebook")
+@Table(name = "Grade", schema = "gradebook")
 public class Grade {
     @Id
     @GeneratedValue(strategy = IDENTITY)

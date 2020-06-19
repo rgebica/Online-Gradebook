@@ -61,5 +61,4 @@ public class SubjectService {
     void checkIfSubjectExists(long subjectId) {
         subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
     }
-
 }

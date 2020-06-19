@@ -16,6 +16,7 @@ import java.security.cert.CertificateException;
 import static io.jsonwebtoken.Jwts.parser;
 
 @Service
+
 public class JwtProvider {
 
     private KeyStore keyStore;

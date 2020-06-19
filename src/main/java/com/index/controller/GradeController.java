@@ -5,6 +5,8 @@ import com.index.dto.GradeDto;
 import com.index.dto.UserSubjectsDetailsDto;
 import com.index.service.GradeService;
 import com.index.service.SubjectService;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping("api/grade")
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GradeController {
 
-    private final GradeService gradeService;
-    private final SubjectService subjectService;
+    GradeService gradeService;
+    SubjectService subjectService;
 
     @Autowired
     public GradeController(GradeService gradeService, SubjectService subjectService) {

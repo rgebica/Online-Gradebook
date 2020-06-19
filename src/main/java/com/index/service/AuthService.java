@@ -12,7 +12,9 @@ import com.index.model.VerificationToken;
 import com.index.repository.UserRepository;
 import com.index.repository.VerificationTokenRepository;
 import com.index.security.JwtProvider;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,14 +29,15 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthService {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-    private final VerificationTokenRepository verificationTokenRepository;
-    private final MailService mailService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtProvider jwtProvider;
+    PasswordEncoder passwordEncoder;
+    UserRepository userRepository;
+    VerificationTokenRepository verificationTokenRepository;
+    MailService mailService;
+    AuthenticationManager authenticationManager;
+    JwtProvider jwtProvider;
 
     public UserDto getById(long userId) {
         return userRepository.findById(userId)
