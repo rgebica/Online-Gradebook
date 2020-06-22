@@ -32,6 +32,7 @@ public class Grade {
         return Grade.builder()
                 .subjectId(addGrade.getSubjectId())
                 .userId(addGrade.getUserId())
+                .grade(addGrade.getGrade())
                 .date(Instant.now())
                 .build();
     }

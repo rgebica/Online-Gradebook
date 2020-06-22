@@ -20,7 +20,6 @@ public class GradeService {
     GradeRepository gradeRepository;
 
     public GradeService(GradeRepository gradeRepository) {
-
         this.gradeRepository = gradeRepository;
     }
 
@@ -33,4 +32,5 @@ public class GradeService {
                 .map(Grade::dto)
                 .collect(Collectors.toList());
     }
+
 }
