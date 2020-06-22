@@ -24,8 +24,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -98,6 +100,12 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
         return new AuthenticationResponse(token, loginRequest.getUsername());
+    }
+
+    public List<UserDto> findUsersByClass(long classId) {
+        return userRepository.findAllByClassId(classId).stream()
+                .map(User::dto)
+                .collect(Collectors.toList());
     }
 }
 

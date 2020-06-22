@@ -8,9 +8,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class AddGradeDto {
-    long subjectId;
-    long userId;
-    Integer grade;
-    String description;
+public class ClassDto {
+    long classId;
+    String className;
 }

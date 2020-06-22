@@ -1,8 +1,10 @@
 package com.index.controller;
 
 import com.index.dto.AddGradeDto;
+import com.index.dto.ClassDto;
 import com.index.dto.GradeDto;
 import com.index.dto.UserSubjectsDetailsDto;
+import com.index.service.ClassService;
 import com.index.service.GradeService;
 import com.index.service.SubjectService;
 import lombok.AccessLevel;
@@ -23,11 +25,13 @@ public class GradeController {
 
     GradeService gradeService;
     SubjectService subjectService;
+    ClassService classService;
 
     @Autowired
-    public GradeController(GradeService gradeService, SubjectService subjectService) {
+    public GradeController(GradeService gradeService, SubjectService subjectService, ClassService classService) {
         this.gradeService = gradeService;
         this.subjectService = subjectService;
+        this.classService = classService;
     }
 
     @PostMapping("/addGrade")

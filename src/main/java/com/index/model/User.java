@@ -36,10 +36,12 @@ public class User {
     private Role role = Role.STUDENT;
     private String firstName;
     private String lastName;
+    private Long classId;
 
     public UserDto dto() {
         return UserDto.builder()
                 .userId(userId)
+                .classId(classId)
                 .firstName(firstName)
                 .lastName(lastName)
                 .role(role)

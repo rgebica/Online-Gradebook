@@ -1,5 +1,6 @@
 package com.index.model;
 
+import com.index.dto.ClassDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Class {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long class_id;
+    private Long classId;
     private String className;
+
+    public ClassDto dto() {
+        return ClassDto.builder()
+                .classId(classId)
+                .className(className)
+                .build();
+    }
 }
