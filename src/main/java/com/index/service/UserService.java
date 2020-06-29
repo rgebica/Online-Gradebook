@@ -1,14 +1,9 @@
 package com.index.service;
 
-import com.index.dto.AuthenticationResponse;
-import com.index.dto.LoginRequest;
-import com.index.dto.RegisterRequest;
-import com.index.dto.UserDto;
+import com.index.dto.*;
 import com.index.exceptions.SpringGradebookException;
-import com.index.model.NotificationEmail;
-import com.index.model.Role;
-import com.index.model.User;
-import com.index.model.VerificationToken;
+import com.index.model.*;
+import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
 import com.index.repository.VerificationTokenRepository;
 import com.index.security.JwtProvider;
@@ -32,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class AuthService {
+public class UserService {
 
     PasswordEncoder passwordEncoder;
     UserRepository userRepository;
@@ -40,6 +35,7 @@ public class AuthService {
     MailService mailService;
     AuthenticationManager authenticationManager;
     JwtProvider jwtProvider;
+    SubjectRepository subjectRepository;
 
     public UserDto getById(long userId) {
         return userRepository.findById(userId)
@@ -107,5 +103,6 @@ public class AuthService {
                 .map(User::dto)
                 .collect(Collectors.toList());
     }
+
 }
 

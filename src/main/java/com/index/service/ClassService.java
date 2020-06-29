@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 public class ClassService {
 
     ClassRepository classRepository;
-    AuthService userService;
+    UserService userService;
 
-    public ClassService(ClassRepository classRepository, AuthService userService) {
+    public ClassService(ClassRepository classRepository, UserService userService) {
         this.classRepository = classRepository;
         this.userService = userService;
     }

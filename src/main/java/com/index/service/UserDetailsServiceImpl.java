@@ -1,4 +1,4 @@
-package com.index.service.serviceImpl;
+package com.index.service;
 
 import com.index.model.User;
 import com.index.repository.UserRepository;

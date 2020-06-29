@@ -1,5 +1,7 @@
 package com.index.model;
 
+import com.index.dto.SubjectDto;
+import com.index.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +20,11 @@ public class Subject {
     private Long subjectId;
     @Column(name = "name")
     private String subjectName;
+
+    public SubjectDto dto() {
+        return SubjectDto.builder()
+                .subjectId(subjectId)
+                .subjectName(subjectName)
+                .build();
+    }
 }

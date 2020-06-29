@@ -1,9 +1,8 @@
 package com.index.controller;
 
 import com.index.dto.AddGradeDto;
-import com.index.dto.ClassDto;
 import com.index.dto.GradeDto;
-import com.index.dto.UserSubjectsDetailsDto;
+import com.index.dto.UserSubjectsGradesDetailsDto;
 import com.index.service.ClassService;
 import com.index.service.GradeService;
 import com.index.service.SubjectService;
@@ -47,8 +46,8 @@ public class GradeController {
     }
 
     @GetMapping("/{userId}/subjects")
-    public ResponseEntity<List<UserSubjectsDetailsDto>> getUserSubjectsWithGrades(@PathVariable long userId) {
-        final List<UserSubjectsDetailsDto> userSubjects = subjectService.getUserSubjectsWithGrades(userId);
+    public ResponseEntity<List<UserSubjectsGradesDetailsDto>> getUserSubjectsWithGrades(@PathVariable long userId) {
+        final List<UserSubjectsGradesDetailsDto> userSubjects = subjectService.getUserSubjectsWithGrades(userId);
         return ResponseEntity.ok(userSubjects);
     }
 }

@@ -11,14 +11,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
 
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="User", schema = "gradebook")
+@Table(name = "User", schema = "gradebook")
 public class User {
     @Id
     @GeneratedValue(strategy = IDENTITY)

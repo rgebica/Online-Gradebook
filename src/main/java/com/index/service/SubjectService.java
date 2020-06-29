@@ -1,13 +1,13 @@
 package com.index.service;
 
-import com.index.dto.AddGradeDto;
-import com.index.dto.GradeDto;
-import com.index.dto.UserDto;
-import com.index.dto.UserSubjectsDetailsDto;
+import com.index.dto.*;
 import com.index.exceptions.SpringGradebookException;
+import com.index.model.Grade;
 import com.index.model.Role;
 import com.index.model.Subject;
+import com.index.model.User;
 import com.index.repository.SubjectRepository;
+import com.index.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,15 @@ public class SubjectService {
 
     SubjectRepository subjectRepository;
     GradeService gradeService;
-    AuthService userService;
+    UserService userService;
+    UserRepository userRepository;
 
     @Autowired
-    public SubjectService(SubjectRepository subjectRepository, GradeService gradeService, AuthService userService) {
+    public SubjectService(SubjectRepository subjectRepository, GradeService gradeService, UserService userService, UserRepository userRepository) {
         this.subjectRepository = subjectRepository;
         this.gradeService = gradeService;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     GradeDto addGrade(AddGradeDto addGrade) {
@@ -44,7 +46,7 @@ public class SubjectService {
         }
     }
 
-    public List<UserSubjectsDetailsDto> getUserSubjectsWithGrades(long userId) {
+    public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
         Map<Long, List<GradeDto>> gradesBySubjectIds = gradeService.getGradesByUser(userId).stream()
                 .collect(Collectors.groupingBy(GradeDto::getSubjectId));
         Set<Long> subjectIds = gradesBySubjectIds.keySet();
@@ -54,11 +56,29 @@ public class SubjectService {
         return subjects.stream()
                 .map(subject -> {
                     List<GradeDto> grades = gradesBySubjectIds.getOrDefault(subject.getSubjectId(), Collections.emptyList());
-                    return UserSubjectsDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), user, grades);
+                    return UserSubjectsGradesDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), user, grades);
                 }).collect(Collectors.toList());
     }
 
     void checkIfSubjectExists(long subjectId) {
         subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
+    }
+
+    public UserSubjectsDetailsDto getSubjectsByUserId(long userId) {
+        UserDto user = userService.getById(userId);
+        List<Long> subjectIds = gradeService.getGradesByUser(userId).stream()
+                .map(GradeDto::getSubjectId)
+                .distinct()
+                .collect(Collectors.toList());
+        List<SubjectDto> subjects = subjectRepository.findAllById(subjectIds).stream()
+                .map(Subject::dto)
+                .collect(Collectors.toList());
+
+        return UserSubjectsDetailsDto.builder()
+                .userId(userId)
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .subjects(subjects)
+                .build();
     }
 }

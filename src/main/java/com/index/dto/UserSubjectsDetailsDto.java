@@ -1,34 +1,30 @@
 package com.index.dto;
 
-
-import com.index.dto.GradeDto;
+import com.index.model.Subject;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
+import java.util.Map;
 
 @Builder
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserSubjectsDetailsDto {
 
-    long subjectId;
     long userId;
-    String subjectName;
     String firstName;
     String lastName;
-    List<GradeDto> grades;
+    List<SubjectDto> subjects;
 
-    public static UserSubjectsDetailsDto from(long subjectId, String subjectName, UserDto user, List<GradeDto> grades) {
+    public static UserSubjectsDetailsDto from(long userId, String firstName, String lastName, List<SubjectDto> subjects) {
         return UserSubjectsDetailsDto.builder()
-                .subjectId(subjectId)
-                .subjectName(subjectName)
-                .userId(user.getUserId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .grades(grades)
+                .userId(userId)
+                .firstName(firstName)
+                .lastName(lastName)
+                .subjects(subjects)
                 .build();
     }
 }

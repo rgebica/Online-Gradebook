@@ -32,5 +32,4 @@ public class GradeService {
                 .map(Grade::dto)
                 .collect(Collectors.toList());
     }
-
 }
