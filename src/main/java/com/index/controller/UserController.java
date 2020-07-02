@@ -46,13 +46,13 @@ public class UserController {
         return userService.login(loginRequest);
     }
 
-    @GetMapping("/Users/{classId}")
+    @GetMapping("/users/{classId}")
     public ResponseEntity<List<ClassUsersDetailsDto>> getStudenstFromClass(@PathVariable long classId) {
         final List<ClassUsersDetailsDto> students = classService.getUsersByClassId(classId);
         return ResponseEntity.ok(students);
     }
 
-    @GetMapping("/Subjects/{userId}")
+    @GetMapping("/subjects/{userId}")
     public ResponseEntity<UserSubjectsDetailsDto> getSubjectsByUserId(@PathVariable long userId) {
         final UserSubjectsDetailsDto subjects = subjectService.getSubjectsByUserId(userId);
         return ResponseEntity.ok(subjects);

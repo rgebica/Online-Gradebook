@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -56,7 +57,11 @@ public class SubjectService {
         return subjects.stream()
                 .map(subject -> {
                     List<GradeDto> grades = gradesBySubjectIds.getOrDefault(subject.getSubjectId(), Collections.emptyList());
-                    return UserSubjectsGradesDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), user, grades);
+                    double average = grades.stream()
+                            .mapToDouble(GradeDto::getGrade)
+                            .average()
+                            .orElse(Double.NaN);
+                    return UserSubjectsGradesDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), average, user, grades);
                 }).collect(Collectors.toList());
     }
 

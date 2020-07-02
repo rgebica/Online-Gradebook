@@ -6,6 +6,7 @@ public class SpringGradebookException extends RuntimeException {
     }
 
     public SpringGradebookException(String exMessage) {
+
         super(exMessage);
     }
 }

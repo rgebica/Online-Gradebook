@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/grade")
+@RequestMapping("api/auth")
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GradeController {
@@ -37,7 +37,7 @@ public class GradeController {
                 .body(gradeService.addGrade(addGradeDto));
     }
 
-    @GetMapping("/UserGrades/{userId}")
+    @GetMapping("/userGrades/{userId}")
     public ResponseEntity<List<GradeDto>> getAllGrades(@PathVariable long userId) {
         final List<GradeDto> grades = gradeService.getGradesByUser(userId);
         return ResponseEntity.ok(grades);
