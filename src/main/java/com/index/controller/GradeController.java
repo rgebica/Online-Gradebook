@@ -24,13 +24,11 @@ public class GradeController {
 
     GradeService gradeService;
     SubjectService subjectService;
-    ClassService classService;
 
     @Autowired
-    public GradeController(GradeService gradeService, SubjectService subjectService, ClassService classService) {
+    public GradeController(GradeService gradeService, SubjectService subjectService) {
         this.gradeService = gradeService;
         this.subjectService = subjectService;
-        this.classService = classService;
     }
 
     @PostMapping("/addGrade")

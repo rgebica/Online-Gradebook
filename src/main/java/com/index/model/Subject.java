@@ -20,11 +20,13 @@ public class Subject {
     private Long subjectId;
     @Column(name = "name")
     private String subjectName;
+    private long userId;
 
     public SubjectDto dto() {
         return SubjectDto.builder()
                 .subjectId(subjectId)
                 .subjectName(subjectName)
+                .userId(userId)
                 .build();
     }
 }

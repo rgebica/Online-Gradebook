@@ -2,8 +2,11 @@ package com.index.service;
 
 import com.index.dto.AddGradeDto;
 import com.index.dto.GradeDto;
+import com.index.dto.SubjectDto;
 import com.index.model.Grade;
+import com.index.model.Subject;
 import com.index.repository.GradeRepository;
+import com.index.repository.SubjectRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +21,11 @@ import java.util.stream.Collectors;
 public class GradeService {
 
     GradeRepository gradeRepository;
+    SubjectRepository subjectRepository;
 
-    public GradeService(GradeRepository gradeRepository) {
+    public GradeService(GradeRepository gradeRepository, SubjectRepository subjectRepository) {
         this.gradeRepository = gradeRepository;
+        this.subjectRepository = subjectRepository;
     }
 
     public GradeDto addGrade(AddGradeDto addGrade) {
@@ -30,6 +35,12 @@ public class GradeService {
     public List<GradeDto> getGradesByUser(long userId) {
         return gradeRepository.findAllByUserId(userId).stream()
                 .map(Grade::dto)
+                .collect(Collectors.toList());
+    }
+
+    public List<SubjectDto> getSubjectsByUser(long userId) {
+        return subjectRepository.findAllByUserId(userId).stream()
+                .map(Subject::dto)
                 .collect(Collectors.toList());
     }
 }

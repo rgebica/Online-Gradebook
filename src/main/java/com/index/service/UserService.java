@@ -103,6 +103,5 @@ public class UserService {
                 .map(User::dto)
                 .collect(Collectors.toList());
     }
-
 }
 

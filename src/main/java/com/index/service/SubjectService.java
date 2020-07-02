@@ -66,9 +66,10 @@ public class SubjectService {
 
     public UserSubjectsDetailsDto getSubjectsByUserId(long userId) {
         UserDto user = userService.getById(userId);
-        List<Long> subjectIds = gradeService.getGradesByUser(userId).stream()
-                .map(GradeDto::getSubjectId)
+        List<Long> subjectIds = gradeService.getSubjectsByUser(userId).stream()
+                .map(SubjectDto::getSubjectId)
                 .distinct()
+                .sorted()
                 .collect(Collectors.toList());
         List<SubjectDto> subjects = subjectRepository.findAllById(subjectIds).stream()
                 .map(Subject::dto)
