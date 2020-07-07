@@ -1,11 +1,11 @@
 package com.index.service;
 
-import com.index.dto.AddGradeDto;
-import com.index.dto.GradeDto;
-import com.index.dto.SubjectDto;
+import com.index.dto.*;
 import com.index.model.Grade;
+import com.index.model.Presence;
 import com.index.model.Subject;
 import com.index.repository.GradeRepository;
+import com.index.repository.PresenceRepository;
 import com.index.repository.SubjectRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -22,10 +22,12 @@ public class GradeService {
 
     GradeRepository gradeRepository;
     SubjectRepository subjectRepository;
+    PresenceRepository presenceRepository;
 
-    public GradeService(GradeRepository gradeRepository, SubjectRepository subjectRepository) {
+    public GradeService(GradeRepository gradeRepository, SubjectRepository subjectRepository, PresenceRepository presenceRepository) {
         this.gradeRepository = gradeRepository;
         this.subjectRepository = subjectRepository;
+        this.presenceRepository = presenceRepository;
     }
 
     public GradeDto addGrade(AddGradeDto addGrade) {
@@ -43,4 +45,9 @@ public class GradeService {
                 .map(Subject::dto)
                 .collect(Collectors.toList());
     }
+
+    public PresenceDto addPresenceDto(AddPresenceDto addPresence) {
+        return presenceRepository.save(Presence.createPresence(addPresence)).dto();
+    }
+
 }

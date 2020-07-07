@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
-import java.util.OptionalDouble;
 
 @Builder
 @Getter
@@ -19,14 +18,14 @@ public class UserSubjectsGradesDetailsDto {
     String subjectName;
     String firstName;
     String lastName;
-    double average;
+    double subjectAverage;
     List<GradeDto> grades;
 
-    public static UserSubjectsGradesDetailsDto from(long subjectId, String subjectName, double average, UserDto user, List<GradeDto> grades) {
+    public static UserSubjectsGradesDetailsDto from(long subjectId, String subjectName, double subjectAverage, UserDto user, List<GradeDto> grades) {
         return UserSubjectsGradesDetailsDto.builder()
                 .subjectId(subjectId)
                 .subjectName(subjectName)
-                .average(average)
+                .subjectAverage(subjectAverage)
                 .userId(user.getUserId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
