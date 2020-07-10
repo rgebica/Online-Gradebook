@@ -1,13 +1,11 @@
 package com.index.dto;
 
-import com.index.model.Subject;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
-import java.util.Map;
 
 @Builder
 @Getter

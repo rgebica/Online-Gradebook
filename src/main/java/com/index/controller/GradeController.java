@@ -3,6 +3,7 @@ package com.index.controller;
 import com.index.dto.*;
 import com.index.service.ClassService;
 import com.index.service.GradeService;
+import com.index.service.PresenceService;
 import com.index.service.SubjectService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -22,11 +23,13 @@ public class GradeController {
 
     GradeService gradeService;
     SubjectService subjectService;
+    PresenceService presenceService;
 
     @Autowired
-    public GradeController(GradeService gradeService, SubjectService subjectService) {
+    public GradeController(GradeService gradeService, SubjectService subjectService, PresenceService presenceService) {
         this.gradeService = gradeService;
         this.subjectService = subjectService;
+        this.presenceService = presenceService;
     }
 
     @PostMapping("/addGrade")
@@ -41,7 +44,7 @@ public class GradeController {
         return ResponseEntity.ok(grades);
     }
 
-    @GetMapping("/{userId}/subjects")
+    @GetMapping("/grades/{userId}/subjects")
     public ResponseEntity<List<UserSubjectsGradesDetailsDto>> getUserSubjectsWithGrades(@PathVariable long userId) {
         final List<UserSubjectsGradesDetailsDto> userSubjects = subjectService.getUserSubjectsWithGrades(userId);
         return ResponseEntity.ok(userSubjects);
@@ -51,5 +54,11 @@ public class GradeController {
     public ResponseEntity<PresenceDto> addPresence(@RequestBody AddPresenceDto addPresence) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(gradeService.addPresenceDto(addPresence));
+    }
+
+    @GetMapping("/presence/{userId}/subjects")
+    public ResponseEntity<List<UserPresenceDetailsDto>> getPresenceById(@PathVariable long userId) {
+        final List<UserPresenceDetailsDto> userSubjects = presenceService.getPresenceByUserId(userId);
+        return ResponseEntity.ok(userSubjects);
     }
 }

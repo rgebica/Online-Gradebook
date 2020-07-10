@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,4 +51,9 @@ public class GradeService {
         return presenceRepository.save(Presence.createPresence(addPresence)).dto();
     }
 
+    public List<PresenceDto> getPresenceByUserId(long userId) {
+        return presenceRepository.findAllByUserId(userId).stream()
+                .map(Presence::dto)
+                .collect(Collectors.toList());
+    }
 }
