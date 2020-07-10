@@ -57,11 +57,7 @@ public class SubjectService {
         return subjects.stream()
                 .map(subject -> {
                     List<GradeDto> grades = gradesBySubjectIds.getOrDefault(subject.getSubjectId(), Collections.emptyList());
-                    double subjectAverage = grades.stream()
-                            .mapToDouble(GradeDto::getGrade)
-                            .average()
-                            .orElse(Double.NaN);
-                    return UserSubjectsGradesDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), subjectAverage, user, grades);
+                    return UserSubjectsGradesDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), getGradesAverageBySubject(grades), user, grades);
                 }).collect(Collectors.toList());
     }
 
@@ -86,5 +82,12 @@ public class SubjectService {
                 .lastName(user.getLastName())
                 .subjects(subjects)
                 .build();
+    }
+
+    private double getGradesAverageBySubject(List<GradeDto> grades) {
+        return grades.stream()
+                .mapToDouble(GradeDto::getGrade)
+                .average()
+                .orElse(Double.NaN);
     }
 }
