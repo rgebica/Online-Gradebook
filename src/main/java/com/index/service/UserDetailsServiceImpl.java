@@ -16,7 +16,6 @@ import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 
-
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -33,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security
                 .core.userdetails.User(user.getUsername(), user.getPassword(),
                 user.isEnabled(), true, true,
-                true, getAuthorities(user.getRole().name()));
+                true, getAuthorities("USER"));
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {

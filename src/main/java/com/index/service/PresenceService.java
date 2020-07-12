@@ -64,6 +64,6 @@ public class PresenceService {
         long presencesAndAbsences = presences.stream().
                 map(PresenceDto::getPresenceId)
                 .count();
-        return (int)(getPresenceCounter(presences) * 100.0 / presencesAndAbsences + 0.5);
+        return (int) (getPresenceCounter(presences) * 100.0 / presencesAndAbsences + 0.5);
     }
 }

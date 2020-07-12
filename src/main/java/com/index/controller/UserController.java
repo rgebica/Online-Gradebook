@@ -1,6 +1,7 @@
 package com.index.controller;
 
 import com.index.dto.*;
+import com.index.service.RefreshTokenService;
 import com.index.service.UserService;
 import com.index.service.ClassService;
 import com.index.service.SubjectService;
@@ -9,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -21,11 +23,13 @@ public class UserController {
     UserService userService;
     ClassService classService;
     SubjectService subjectService;
+    RefreshTokenService refreshTokenService;
 
-    public UserController(UserService userService, ClassService classService, SubjectService subjectService) {
+    public UserController(UserService userService, ClassService classService, SubjectService subjectService, RefreshTokenService refreshTokenService) {
         this.userService = userService;
         this.classService = classService;
         this.subjectService = subjectService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/signup")
@@ -47,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{classId}")
-    public ResponseEntity<List<ClassUsersDetailsDto>> getStudenstFromClass(@PathVariable long classId) {
+    public ResponseEntity<List<ClassUsersDetailsDto>> getStudentsFromClass(@PathVariable long classId) {
         final List<ClassUsersDetailsDto> students = classService.getUsersByClassId(classId);
         return ResponseEntity.ok(students);
     }
@@ -56,6 +60,17 @@ public class UserController {
     public ResponseEntity<UserSubjectsDetailsDto> getSubjectsByUserId(@PathVariable long userId) {
         final UserSubjectsDetailsDto subjects = subjectService.getSubjectsByUserId(userId);
         return ResponseEntity.ok(subjects);
+    }
+
+    @PostMapping("/refresh/token")
+    public AuthenticationResponse refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return userService.refreshToken(refreshTokenRequest);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
     }
 }
 

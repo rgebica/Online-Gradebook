@@ -1,7 +1,6 @@
 package com.index.model;
 
 import com.index.dto.AddPresenceDto;
-import com.index.dto.GradeDto;
 import com.index.dto.PresenceDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
