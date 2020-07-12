@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
+import java.util.Random;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -36,6 +37,7 @@ public class User {
     private String firstName;
     private String lastName;
     private Long classId;
+    private String parentCode;
 
     public UserDto dto() {
         return UserDto.builder()
@@ -44,6 +46,7 @@ public class User {
                 .firstName(firstName)
                 .lastName(lastName)
                 .role(role)
+                .parentCode(parentCode)
                 .build();
     }
 }

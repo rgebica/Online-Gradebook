@@ -13,5 +13,5 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     Collection<User> findAllByClassId(long classId);
-
+    Optional<User> findByParentCode(String parentCode);
 }

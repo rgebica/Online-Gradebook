@@ -19,10 +19,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -52,15 +52,31 @@ public class UserService {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
-        user.setEnabled(false);
+        user.setFirstName(registerRequest.getFirstName());
+        user.setLastName(registerRequest.getLastName());
+        if (registerRequest.getEmail().contains("@student.pl")) {
+            user.setRole(Role.STUDENT);
+        } else {
+            user.setRole(Role.TEACHER);
+        }
 
+        if (getUserByParentCode(registerRequest.getParentCode())) {
+            user.setRole(Role.PARENT);
+        } else {
+            user.setParentCode(passwordEncoder.encode(generateParentCode()));
+        }
         userRepository.save(user);
 
         String token = generateVerificationToken(user);
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
-                user.getEmail(), "Thank you for signing up to Spring Reddit, " +
+                user.getEmail(), "Thank you for signing up to Online Gradebook , " +
                 "please click on the below url to activate your account : " +
                 "http://localhost:8080/api/auth/accountVerification/" + token));
+    }
+
+    public boolean getUserByParentCode(String parentCode) {
+        userRepository.findByParentCode(parentCode);
+        return true;
     }
 
     public User getCurrentUser() {
@@ -125,6 +141,17 @@ public class UserService {
         return userRepository.findAllByClassId(classId).stream()
                 .map(User::dto)
                 .collect(Collectors.toList());
+    }
+
+    private static String generateParentCode() {
+        Random rand=new Random();
+        String aToZ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder res=new StringBuilder();
+        for (int i = 0; i < 17; i++) {
+            int randIndex=rand.nextInt(aToZ.length());
+            res.append(aToZ.charAt(randIndex));
+        }
+        return res.toString();
     }
 }
 
