@@ -61,4 +61,10 @@ public class GradeController {
         final List<UserPresenceDetailsDto> userSubjects = presenceService.getPresenceByUserId(userId);
         return ResponseEntity.ok(userSubjects);
     }
+
+    @PostMapping("/addBehaviour")
+    public ResponseEntity<BehaviourDto> addGrade(@RequestBody AddBehaviourDto addBehaviour) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(gradeService.addBehaviour(addBehaviour));
+    }
 }

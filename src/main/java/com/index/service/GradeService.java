@@ -1,9 +1,11 @@
 package com.index.service;
 
 import com.index.dto.*;
+import com.index.model.Behaviour;
 import com.index.model.Grade;
 import com.index.model.Presence;
 import com.index.model.Subject;
+import com.index.repository.BehaviourRepository;
 import com.index.repository.GradeRepository;
 import com.index.repository.PresenceRepository;
 import com.index.repository.SubjectRepository;
@@ -24,15 +26,21 @@ public class GradeService {
     GradeRepository gradeRepository;
     SubjectRepository subjectRepository;
     PresenceRepository presenceRepository;
+    BehaviourRepository behaviourRepository;
 
-    public GradeService(GradeRepository gradeRepository, SubjectRepository subjectRepository, PresenceRepository presenceRepository) {
+    public GradeService(GradeRepository gradeRepository, SubjectRepository subjectRepository, PresenceRepository presenceRepository, BehaviourRepository behaviourRepository) {
         this.gradeRepository = gradeRepository;
         this.subjectRepository = subjectRepository;
         this.presenceRepository = presenceRepository;
+        this.behaviourRepository = behaviourRepository;
     }
 
     public GradeDto addGrade(AddGradeDto addGrade) {
         return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+    }
+
+    public BehaviourDto addBehaviour(AddBehaviourDto addBehaviour) {
+        return behaviourRepository.save(Behaviour.createBehaviour(addBehaviour)).dto();
     }
 
     public List<GradeDto> getGradesByUser(long userId) {

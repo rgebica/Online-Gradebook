@@ -1,5 +1,6 @@
 package com.index.model;
 
+import com.index.dto.StudentDto;
 import com.index.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Table(name = "User", schema = "gradebook")
-public class User {
+public class Student {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long userId;
@@ -38,8 +39,8 @@ public class User {
     private Long classId;
     private String parentCode;
 
-    public UserDto dto() {
-        return UserDto.builder()
+    public StudentDto dto() {
+        return StudentDto.builder()
                 .userId(userId)
                 .classId(classId)
                 .firstName(firstName)
