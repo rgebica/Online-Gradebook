@@ -32,5 +32,4 @@ public class UserSubjectsGradesDetailsDto {
                 .grades(grades)
                 .build();
     }
-
 }

@@ -1,10 +1,8 @@
 package com.index.service;
 
 import com.index.dto.*;
-import com.index.model.Behaviour;
-import com.index.model.Grade;
-import com.index.model.Presence;
-import com.index.model.Subject;
+import com.index.exceptions.SpringGradebookException;
+import com.index.model.*;
 import com.index.repository.BehaviourRepository;
 import com.index.repository.GradeRepository;
 import com.index.repository.PresenceRepository;
@@ -15,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,20 +26,20 @@ public class GradeService {
     SubjectRepository subjectRepository;
     PresenceRepository presenceRepository;
     BehaviourRepository behaviourRepository;
+    UserService userService;
 
-    public GradeService(GradeRepository gradeRepository, SubjectRepository subjectRepository, PresenceRepository presenceRepository, BehaviourRepository behaviourRepository) {
+    public GradeService(GradeRepository gradeRepository, SubjectRepository subjectRepository, PresenceRepository presenceRepository, BehaviourRepository behaviourRepository, UserService userService) {
         this.gradeRepository = gradeRepository;
         this.subjectRepository = subjectRepository;
         this.presenceRepository = presenceRepository;
         this.behaviourRepository = behaviourRepository;
+        this.userService = userService;
     }
 
     public GradeDto addGrade(AddGradeDto addGrade) {
+        checkIfSubjectExists(addGrade.getSubjectId());
+        checkHasAddAccess(addGrade.getUserId());
         return gradeRepository.save(Grade.createGrade(addGrade)).dto();
-    }
-
-    public BehaviourDto addBehaviour(AddBehaviourDto addBehaviour) {
-        return behaviourRepository.save(Behaviour.createBehaviour(addBehaviour)).dto();
     }
 
     public List<GradeDto> getGradesByUser(long userId) {
@@ -63,5 +62,21 @@ public class GradeService {
         return presenceRepository.findAllByUserId(userId).stream()
                 .map(Presence::dto)
                 .collect(Collectors.toList());
+    }
+
+    public List<BehaviourDto> getBehaviourByUser(long userId) {
+        return behaviourRepository.findAllByUserId(userId).stream()
+                .map(Behaviour::dto)
+                .collect(Collectors.toList());
+    }
+
+    void checkIfSubjectExists(long subjectId) {
+        subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
+    }
+
+    private void checkHasAddAccess(long userId) {
+        UserDto user = userService.getById(userId);
+        if (!user.getRole().equals(Role.TEACHER)) {
+            throw new SpringGradebookException("Has no add access");}
     }
 }

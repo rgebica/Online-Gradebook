@@ -75,7 +75,8 @@ public class UserService {
     }
 
     public boolean getUserByParentCode(String parentCode) {
-        userRepository.findByParentCode(parentCode);
+        userRepository.findByParentCode(parentCode)
+                .orElseThrow(() -> new SpringGradebookException("Wrong parent code"));
         return true;
     }
 
@@ -145,11 +146,11 @@ public class UserService {
 
     private static String generateParentCode() {
         Random rand=new Random();
-        String aToZ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String aToZ09 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder res=new StringBuilder();
         for (int i = 0; i < 17; i++) {
-            int randIndex=rand.nextInt(aToZ.length());
-            res.append(aToZ.charAt(randIndex));
+            int randIndex=rand.nextInt(aToZ09.length());
+            res.append(aToZ09.charAt(randIndex));
         }
         return res.toString();
     }

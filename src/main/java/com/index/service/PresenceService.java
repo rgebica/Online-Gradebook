@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +41,7 @@ public class PresenceService {
         return subjects.stream()
                 .map(subject -> {
                     List<PresenceDto> presences = presenceBySubjectsId.getOrDefault(subject.getSubjectId(), Collections.emptyList());
-                    return UserPresenceDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), user, getPresenceCounter(presences), getAbsenceCounter(presences), getPresencePercentage(presences));
+                    return UserPresenceDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), presences, user, getPresenceCounter(presences), getAbsenceCounter(presences), getPresencePercentage(presences));
                 }).collect(Collectors.toList());
     }
 

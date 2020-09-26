@@ -1,10 +1,7 @@
 package com.index.controller;
 
 import com.index.dto.*;
-import com.index.service.ClassService;
-import com.index.service.GradeService;
-import com.index.service.PresenceService;
-import com.index.service.SubjectService;
+import com.index.service.*;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -24,12 +22,14 @@ public class GradeController {
     GradeService gradeService;
     SubjectService subjectService;
     PresenceService presenceService;
+    BehaviourService behaviourService;
 
     @Autowired
-    public GradeController(GradeService gradeService, SubjectService subjectService, PresenceService presenceService) {
+    public GradeController(GradeService gradeService, SubjectService subjectService, PresenceService presenceService, BehaviourService behaviourService) {
         this.gradeService = gradeService;
         this.subjectService = subjectService;
         this.presenceService = presenceService;
+        this.behaviourService = behaviourService;
     }
 
     @PostMapping("/addGrade")
@@ -65,6 +65,13 @@ public class GradeController {
     @PostMapping("/addBehaviour")
     public ResponseEntity<BehaviourDto> addGrade(@RequestBody AddBehaviourDto addBehaviour) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(gradeService.addBehaviour(addBehaviour));
+                .body(behaviourService.addBehaviour(addBehaviour));
     }
+
+    @GetMapping("/behaviour/{userId}")
+    public ResponseEntity<List<UserBehaviourDetailsDto>> getUserBehaviour(@PathVariable long userId) {
+        final List<UserBehaviourDetailsDto> userBehaviours = Collections.singletonList(behaviourService.getUserBehaviours(userId));
+        return ResponseEntity.ok(userBehaviours);
+    }
+
 }

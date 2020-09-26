@@ -34,19 +34,6 @@ public class SubjectService {
         this.userRepository = userRepository;
     }
 
-    GradeDto addGrade(AddGradeDto addGrade) {
-        checkIfSubjectExists(addGrade.getSubjectId());
-        checkHasAddAccess(addGrade.getUserId());
-        return gradeService.addGrade(addGrade);
-    }
-
-    private void checkHasAddAccess(long userId) {
-        UserDto user = userService.getById(userId);
-        if (!user.getRole().equals(Role.TEACHER)) {
-            throw new SpringGradebookException("Has no add access");
-        }
-    }
-
     public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
         Map<Long, List<GradeDto>> gradesBySubjectIds = gradeService.getGradesByUser(userId).stream()
                 .collect(Collectors.groupingBy(GradeDto::getSubjectId));
@@ -59,10 +46,6 @@ public class SubjectService {
                     List<GradeDto> grades = gradesBySubjectIds.getOrDefault(subject.getSubjectId(), Collections.emptyList());
                     return UserSubjectsGradesDetailsDto.from(subject.getSubjectId(), subject.getSubjectName(), getGradesAverageBySubject(grades), user, grades);
                 }).collect(Collectors.toList());
-    }
-
-    void checkIfSubjectExists(long subjectId) {
-        subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
     }
 
     public UserSubjectsDetailsDto getSubjectsByUserId(long userId) {

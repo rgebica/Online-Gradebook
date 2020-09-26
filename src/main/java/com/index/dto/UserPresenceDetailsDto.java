@@ -17,17 +17,19 @@ public class UserPresenceDetailsDto {
     String lastName;
     long subjectId;
     String subjectName;
+    List<PresenceDto> presence;
     long presenceCounter;
     long absenceCounter;
     long presencePercentage;
 
-    public static UserPresenceDetailsDto from(long subjectId, String subjectName, UserDto user, long presenceCounter, long absenceCounter, long presencePercentage) {
+    public static UserPresenceDetailsDto from(long subjectId, String subjectName, List<PresenceDto> presence, UserDto user, long presenceCounter, long absenceCounter, long presencePercentage) {
         return UserPresenceDetailsDto.builder()
                 .userId(user.getUserId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .subjectId(subjectId)
                 .subjectName(subjectName)
+                .presence(presence)
                 .presenceCounter(presenceCounter)
                 .absenceCounter(absenceCounter)
                 .presencePercentage(presencePercentage)

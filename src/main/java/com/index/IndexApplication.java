@@ -6,15 +6,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.time.Instant;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @EnableAsync
 @Import(SwaggerConfiguration.class)
 public class IndexApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(IndexApplication.class, args);
-		System.out.println(Instant.now());
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(IndexApplication.class, args);
+    }
 }
