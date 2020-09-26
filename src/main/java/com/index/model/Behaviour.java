@@ -25,7 +25,6 @@ public class Behaviour {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long behaviourId;
-    private String behaviourName;
     private Integer grade;
     private Instant date;
     private String description;
