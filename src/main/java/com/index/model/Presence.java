@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -29,14 +32,16 @@ public class Presence {
     long userId;
     long subjectId;
     boolean presence;
-    Instant date;
+    String date;
 
     public static Presence createPresence(AddPresenceDto addPresenceDto) {
         return Presence.builder()
                 .userId(addPresenceDto.getUserId())
                 .subjectId(addPresenceDto.getSubjectId())
                 .presence(addPresenceDto.isPresence())
-                .date(Instant.now())
+                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                        .withZone(ZoneId.systemDefault())
+                        .format(Instant.now()))
                 .build();
     }
 

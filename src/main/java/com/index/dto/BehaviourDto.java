@@ -14,6 +14,6 @@ import java.time.Instant;
 public class BehaviourDto {
     private long userId;
     private int grade;
-    private Instant date;
+    private String date;
     private String description;
 }

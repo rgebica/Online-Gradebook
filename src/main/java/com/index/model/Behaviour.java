@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -26,7 +28,7 @@ public class Behaviour {
     @GeneratedValue(strategy = IDENTITY)
     private Long behaviourId;
     private Integer grade;
-    private Instant date;
+    private String date;
     private String description;
     private Long userId;
 
@@ -35,7 +37,9 @@ public class Behaviour {
                 .userId(addBehaviour.getUserId())
                 .grade(addBehaviour.getGrade())
                 .description(addBehaviour.getDescription())
-                .date(Instant.now())
+                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                        .withZone(ZoneId.systemDefault())
+                        .format(Instant.now()))
                 .build();
     }
 

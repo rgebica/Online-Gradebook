@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -51,7 +53,9 @@ public class UserService {
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setCreated(Instant.now());
+        user.setCreated(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                .withZone(ZoneId.systemDefault())
+                .format(Instant.now()));
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
         if (registerRequest.getEmail().contains("@student.pl")) {

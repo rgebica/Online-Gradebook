@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
+import java.time.Instant;
+
 @Builder
 @Getter
 @AllArgsConstructor

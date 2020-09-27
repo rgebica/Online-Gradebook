@@ -29,7 +29,7 @@ public class User {
     @Email
     @NotEmpty(message = "Email is required")
     private String email;
-    private Instant created;
+    private String created;
     private boolean enabled;
     @Enumerated(EnumType.STRING)
     private Role role = Role.STUDENT;

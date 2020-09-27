@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -23,7 +25,7 @@ public class Grade {
     @GeneratedValue(strategy = IDENTITY)
     private Long gradeId;
     private Integer grade;
-    private Instant date;
+    private String date;
     private String comment;
     private Long userId;
     private Long subjectId;
@@ -33,7 +35,9 @@ public class Grade {
                 .subjectId(addGrade.getSubjectId())
                 .userId(addGrade.getUserId())
                 .grade(addGrade.getGrade())
-                .date(Instant.now())
+                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                        .withZone(ZoneId.systemDefault())
+                        .format(Instant.now()))
                 .build();
     }
 

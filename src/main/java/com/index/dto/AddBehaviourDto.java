@@ -3,6 +3,8 @@ package com.index.dto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.Instant;
+
 @Builder
 @Getter
 @Setter

@@ -38,7 +38,7 @@ public class GradeService {
 
     public GradeDto addGrade(AddGradeDto addGrade) {
         checkIfSubjectExists(addGrade.getSubjectId());
-        checkHasAddAccess(addGrade.getUserId());
+//        checkHasAddAccess(addGrade.getUserId());
         return gradeRepository.save(Grade.createGrade(addGrade)).dto();
     }
 
@@ -77,6 +77,7 @@ public class GradeService {
     private void checkHasAddAccess(long userId) {
         UserDto user = userService.getById(userId);
         if (!user.getRole().equals(Role.TEACHER)) {
-            throw new SpringGradebookException("Has no add access");}
+            throw new SpringGradebookException("Has no add access");
+        }
     }
 }

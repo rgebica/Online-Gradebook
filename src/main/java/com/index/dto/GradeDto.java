@@ -16,6 +16,6 @@ public class GradeDto {
     private long gradeId;
     private long subjectId;
     private int grade;
-    private Instant date;
+    private String date;
     private String comment;
 }
