@@ -18,7 +18,5 @@ public class IndexApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(IndexApplication.class, args);
-        String pass = UserService.generateParentCode();
-        System.out.println(pass);
     }
 }
