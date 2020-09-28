@@ -1,6 +1,7 @@
 package com.index.service;
 
 import com.index.dto.*;
+import com.index.exception.UserNotFoundException;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.*;
 import com.index.repository.SubjectRepository;
@@ -44,7 +45,7 @@ public class UserService {
 
     public UserDto getById(long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new SpringGradebookException("No user"))
+                .orElseThrow(() -> new UserNotFoundException(userId))
                 .dto();
     }
 
