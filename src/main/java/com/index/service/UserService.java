@@ -149,13 +149,18 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    private static String generateParentCode() {
-        Random rand=new Random();
-        String aToZ09 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder res=new StringBuilder();
-        for (int i = 0; i < 17; i++) {
-            int randIndex=rand.nextInt(aToZ09.length());
-            res.append(aToZ09.charAt(randIndex));
+    public static String generateParentCode() {
+        String charsCaps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String chars = "abcdefghijklmnopqrstuwxyz";
+        String nums = "0123456789";
+        String symbols = "!@#$%^&*";
+        String parentCode = charsCaps + chars + nums + symbols;
+        Random rand = new Random();
+        StringBuilder res = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            int randIndex = rand.nextInt(parentCode.length());
+            res.append(parentCode.charAt(randIndex));
         }
         return res.toString();
     }

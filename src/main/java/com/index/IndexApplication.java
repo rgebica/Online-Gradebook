@@ -1,6 +1,7 @@
 package com.index;
 
 import com.index.config.SwaggerConfiguration;
+import com.index.service.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
@@ -17,5 +18,7 @@ public class IndexApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(IndexApplication.class, args);
+        String pass = UserService.generateParentCode();
+        System.out.println(pass);
     }
 }
