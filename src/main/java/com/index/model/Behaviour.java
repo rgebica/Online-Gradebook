@@ -45,6 +45,7 @@ public class Behaviour {
 
     public BehaviourDto dto() {
         return BehaviourDto.builder()
+                .behaviourId(behaviourId)
                 .userId(userId)
                 .grade(grade)
                 .date(date)

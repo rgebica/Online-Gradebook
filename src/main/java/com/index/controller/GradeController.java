@@ -23,13 +23,15 @@ public class GradeController {
     SubjectService subjectService;
     PresenceService presenceService;
     BehaviourService behaviourService;
+    CommentsService commentsService;
 
     @Autowired
-    public GradeController(GradeService gradeService, SubjectService subjectService, PresenceService presenceService, BehaviourService behaviourService) {
+    public GradeController(GradeService gradeService, SubjectService subjectService, PresenceService presenceService, BehaviourService behaviourService, CommentsService commentsService) {
         this.gradeService = gradeService;
         this.subjectService = subjectService;
         this.presenceService = presenceService;
         this.behaviourService = behaviourService;
+        this.commentsService = commentsService;
     }
 
     @PostMapping("/addGrade")
@@ -56,6 +58,11 @@ public class GradeController {
                 .body(gradeService.addPresenceDto(addPresence));
     }
 
+    @PostMapping("/adComment")
+    public ResponseEntity<CommentDto> addComment(@RequestBody AddCommentDto addCommentDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(commentsService.addComment(addCommentDto));
+    }
     @GetMapping("/presence/{userId}/subjects")
     public ResponseEntity<List<UserPresenceDetailsDto>> getPresenceById(@PathVariable long userId) {
         final List<UserPresenceDetailsDto> userSubjects = presenceService.getPresenceByUserId(userId);

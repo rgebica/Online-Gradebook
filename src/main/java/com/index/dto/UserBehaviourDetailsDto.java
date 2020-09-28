@@ -1,5 +1,6 @@
 package com.index.dto;
 
+import com.index.model.Behaviour;
 import io.swagger.models.auth.In;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class UserBehaviourDetailsDto {
     String lastName;
     private List<BehaviourDto> behaviours;
 
-    public static UserBehaviourDetailsDto from(UserDto user, List<BehaviourDto> behaviours) {
+    public static UserBehaviourDetailsDto from(UserDto user, Behaviour behaviour, List<BehaviourDto> behaviours) {
         return UserBehaviourDetailsDto.builder()
                 .userId(user.getUserId())
                 .firstName(user.getFirstName())
