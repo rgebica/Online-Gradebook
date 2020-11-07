@@ -1,38 +1,27 @@
 package com.index.service;
 
 import com.index.dto.*;
-import com.index.exceptions.SpringGradebookException;
-import com.index.model.Grade;
-import com.index.model.Role;
 import com.index.model.Subject;
-import com.index.model.User;
 import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
+import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SubjectService {
 
     SubjectRepository subjectRepository;
-    GradeService gradeService;
+    GradeServiceImpl gradeService;
     UserService userService;
     UserRepository userRepository;
-
-    @Autowired
-    public SubjectService(SubjectRepository subjectRepository, GradeService gradeService, UserService userService, UserRepository userRepository) {
-        this.subjectRepository = subjectRepository;
-        this.gradeService = gradeService;
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
 
     public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
         Map<Long, List<GradeDto>> gradesBySubjectIds = gradeService.getGradesByUser(userId).stream()

@@ -1,4 +1,4 @@
-package com.index.service;
+package com.index.service.serviceImpl;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

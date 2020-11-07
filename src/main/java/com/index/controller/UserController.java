@@ -3,9 +3,10 @@ package com.index.controller;
 import com.index.dto.*;
 import com.index.service.RefreshTokenService;
 import com.index.service.UserService;
-import com.index.service.ClassService;
+import com.index.service.serviceImpl.ClassServiceImpl;
 import com.index.service.SubjectService;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,19 +19,13 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/api/auth")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@AllArgsConstructor
 public class UserController {
 
     UserService userService;
-    ClassService classService;
+    ClassServiceImpl classService;
     SubjectService subjectService;
     RefreshTokenService refreshTokenService;
-
-    public UserController(UserService userService, ClassService classService, SubjectService subjectService, RefreshTokenService refreshTokenService) {
-        this.userService = userService;
-        this.classService = classService;
-        this.subjectService = subjectService;
-        this.refreshTokenService = refreshTokenService;
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {

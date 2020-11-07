@@ -1,4 +1,4 @@
-package com.index.service;
+package com.index.service.serviceImpl;
 
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.NotificationEmail;
@@ -17,13 +17,14 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public
 class MailService {
 
     JavaMailSender mailSender;
     MailContentBuilder mailContentBuilder;
 
     @Async
-    void sendMail(NotificationEmail notificationEmail) {
+    public void sendMail(NotificationEmail notificationEmail) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("gradebook@email.com");

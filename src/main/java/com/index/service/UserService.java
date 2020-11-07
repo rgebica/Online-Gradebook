@@ -8,6 +8,7 @@ import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
 import com.index.repository.VerificationTokenRepository;
 import com.index.security.JwtProvider;
+import com.index.service.serviceImpl.MailService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
