@@ -21,7 +21,7 @@ public class AdminController {
 
     AdminService adminService;
 
-    @PostMapping("/createUser")
+    @PostMapping("/users")
     public ResponseEntity<String> signup(@RequestBody CreateUserDto createUserDto) {
         adminService.createUser(createUserDto);
         return new ResponseEntity<>("User Created",

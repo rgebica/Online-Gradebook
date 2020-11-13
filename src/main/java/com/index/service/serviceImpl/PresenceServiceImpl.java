@@ -39,7 +39,8 @@ public class PresenceServiceImpl implements PresenceService {
 
     @Override
     public List<UserPresenceDetailsDto> getPresenceByUserId(long userId) {
-        Map<Long, List<PresenceDto>> presenceBySubjectsId = gradeService.getPresenceByUserId(userId).stream()
+        Map<Long, List<PresenceDto>> presenceBySubjectsId = gradeService.getPresenceByUserId(userId)
+                .stream()
                 .collect(Collectors.groupingBy(PresenceDto::getSubjectId));
         Set<Long> subjectIds = presenceBySubjectsId.keySet();
         List<Subject> subjects = subjectRepository.findAllById(subjectIds);

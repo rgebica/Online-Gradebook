@@ -1,6 +1,8 @@
 package com.index.config;
 
-import com.index.security.JwtAuthenticationFilter;
+import com.index.security.JwtAuthenticationEntryPoint;
+import com.index.security.JwtAuthorizationTokenFilter;
+import com.index.security.JwtTokenUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -9,21 +11,28 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     UserDetailsService userDetailsService;
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    JwtAuthenticationEntryPoint unauthorizedHandler;
+    JwtTokenUtil jwtTokenUtil;
+
+    private String tokenHeader = "Authorization";
+
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -33,20 +42,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable().
-                authorizeRequests()
-                .antMatchers("/api/auth/**")
-                .permitAll()
+        httpSecurity.cors()
+                .and()
+                .csrf()
+                .disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                // don't create session
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+
+                .authorizeRequests()
+                .antMatchers("/api/auth/login", "/api/auth/users").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
                         "/swagger-ui.html",
-                        "/webjars/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                        "/webjars/**").permitAll()
+                .antMatchers("/api/auth/subjects/*").permitAll()//hasRole("TEACHER")
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .headers()
+                .frameOptions()
+                .disable();
     }
 
     @Autowired

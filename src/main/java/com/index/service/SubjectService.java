@@ -7,6 +7,7 @@ import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,7 +24,9 @@ public class SubjectService {
     GradeServiceImpl gradeService;
     UserService userService;
 
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
+
         Map<Long, List<GradeDto>> gradesBySubjectIds = gradeService.getGradesByUser(userId).stream()
                 .collect(Collectors.groupingBy(GradeDto::getSubjectId));
         Set<Long> subjectIds = gradesBySubjectIds.keySet();

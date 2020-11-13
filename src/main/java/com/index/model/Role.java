@@ -1,8 +1,8 @@
 package com.index.model;
 
 public enum Role {
-    STUDENT,
-    TEACHER,
-    ADMIN,
-    PARENT
+    ROLE_STUDENT,
+    ROLE_TEACHER,
+    ROLE_ADMIN,
+    ROLE_PARENT
 }

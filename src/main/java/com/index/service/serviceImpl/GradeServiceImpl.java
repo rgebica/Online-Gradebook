@@ -34,18 +34,19 @@ public class GradeServiceImpl implements GradeService {
     public GradeDto addGrade(AddGradeDto addGrade) {
         checkIfSubjectExists(addGrade.getSubjectId());
 //        checkHasAddAccess(addGrade.getUserId());
-        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+        User user = userService.findById(addGrade.getUserId());
+        return gradeRepository.save(Grade.createGrade(addGrade, user)).dto();
     }
 
     @Override
     public List<GradeDto> getGradesByUser(long userId) {
-        return gradeRepository.findAllByUserId(userId).stream()
+        return gradeRepository.findAllByUser_UserId(userId).stream()
                 .map(Grade::dto)
                 .collect(Collectors.toList());
     }
 
     public List<SubjectDto> getSubjectsByUser(long userId) {
-        return subjectRepository.findAllByUserId(userId).stream()
+        return subjectRepository.findAllByPupils_UserId(userId).stream()
                 .map(Subject::dto)
                 .collect(Collectors.toList());
     }
@@ -68,7 +69,7 @@ public class GradeServiceImpl implements GradeService {
 
     private void checkHasAddAccess(long userId) {
         UserDto user = userService.getById(userId);
-        if (!user.getRole().equals(Role.TEACHER)) {
+        if (!user.getRole().equals(Role.ROLE_TEACHER)) {
             throw new SpringGradebookException("Has no add access");
         }
     }

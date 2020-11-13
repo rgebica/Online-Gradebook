@@ -28,7 +28,7 @@ public class UserController {
     RefreshTokenService refreshTokenService;
 
 
-    @GetMapping("accountVerification/{token}")
+    @GetMapping("account-Verification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
         userService.verifyAccount(token);
         return new ResponseEntity<>("Account Activated Successfully", OK);

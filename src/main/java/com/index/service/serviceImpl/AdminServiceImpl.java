@@ -26,15 +26,16 @@ public class AdminServiceImpl implements AdminService {
         User user = new User();
         user.setUsername(createUserDto.getUsername());
         user.setEmail(createUserDto.getEmail());
-        user.setPassword(passwordEncoder.encode(generateUserPassword()));
+        String password = generateUserPassword();
+        user.setPassword(passwordEncoder.encode(password));
         user.setFirstName(createUserDto.getFirstName());
         user.setLastName(createUserDto.getLastName());
         user.setRole(createUserDto.getRole());
 
         mailService.sendMail(new NotificationEmail("Please activate your Account",
                 user.getEmail(), "Your account has been created," + "\n\n" + " login is: " + user.getUsername() + "\n\n" +
-                "generated password is: " + (passwordEncoder.encode(user.getPassword()) + "\n\n" +
-                "you can change your password")));
+                "generated password is: " + password + "\n\n" +
+                "you can change your password"));
 
         userRepository.save(user);
     }

@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -35,6 +36,8 @@ public class User {
     private String firstName;
     private String lastName;
     private Long classId;
+    @ManyToMany(mappedBy = "pupils", fetch = FetchType.LAZY)
+    private List<Subject> subjects;
 
     public UserDto dto() {
         return UserDto.builder()

@@ -1,7 +1,6 @@
 package com.index.model;
 
 import com.index.dto.StudentDto;
-import com.index.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,7 @@ public class Student {
     private Instant created;
     private boolean enabled;
     @Enumerated(EnumType.STRING)
-    private Role role = Role.STUDENT;
+    private Role role = Role.ROLE_STUDENT;
     private String firstName;
     private String lastName;
     private Long classId;
