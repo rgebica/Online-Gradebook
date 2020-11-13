@@ -29,14 +29,12 @@ public class User {
     @Email
     @NotEmpty(message = "Email is required")
     private String email;
-    private String created;
     private boolean enabled;
     @Enumerated(EnumType.STRING)
-    private Role role = Role.STUDENT;
+    private Role role;
     private String firstName;
     private String lastName;
     private Long classId;
-    private String parentCode;
 
     public UserDto dto() {
         return UserDto.builder()
@@ -45,7 +43,6 @@ public class User {
                 .firstName(firstName)
                 .lastName(lastName)
                 .role(role)
-                .parentCode(parentCode)
                 .build();
     }
 }

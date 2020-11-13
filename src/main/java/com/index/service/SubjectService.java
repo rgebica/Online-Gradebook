@@ -3,13 +3,14 @@ package com.index.service;
 import com.index.dto.*;
 import com.index.model.Subject;
 import com.index.repository.SubjectRepository;
-import com.index.repository.UserRepository;
 import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,6 @@ public class SubjectService {
     SubjectRepository subjectRepository;
     GradeServiceImpl gradeService;
     UserService userService;
-    UserRepository userRepository;
 
     public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
         Map<Long, List<GradeDto>> gradesBySubjectIds = gradeService.getGradesByUser(userId).stream()
@@ -57,9 +57,22 @@ public class SubjectService {
     }
 
     private double getGradesAverageBySubject(List<GradeDto> grades) {
+        double average = getGradesSumWithWeights(grades) / getWeightsSum(grades);
+
+        return BigDecimal.valueOf(average)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
+    private double getGradesSumWithWeights(List<GradeDto> grades) {
         return grades.stream()
-                .mapToDouble(GradeDto::getGrade)
-                .average()
-                .orElse(Double.NaN);
+                .mapToDouble(grade -> (grade.getGrade() * grade.getGradeWeight()))
+                .sum();
+    }
+
+    private double getWeightsSum(List<GradeDto> grades) {
+        return grades.stream()
+                .mapToDouble(GradeDto::getGradeWeight)
+                .sum();
     }
 }

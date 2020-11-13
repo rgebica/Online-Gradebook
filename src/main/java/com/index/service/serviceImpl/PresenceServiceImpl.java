@@ -54,7 +54,7 @@ public class PresenceServiceImpl implements PresenceService {
 
     private long getPresenceCounter(List<PresenceDto> presences) {
         return presences.stream()
-                .filter((presence -> presence.isPresence()))
+                .filter((PresenceDto::isPresence))
                 .count();
     }
 
@@ -70,6 +70,4 @@ public class PresenceServiceImpl implements PresenceService {
                 .count();
         return (int) (getPresenceCounter(presences) * 100.0 / presencesAndAbsences + 0.5);
     }
-
-
 }

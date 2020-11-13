@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -15,8 +14,8 @@ import java.time.format.DateTimeFormatter;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
 @Table(name = "Grade", schema = "gradebook")
@@ -25,6 +24,7 @@ public class Grade {
     @GeneratedValue(strategy = IDENTITY)
     private Long gradeId;
     private Integer grade;
+    private Integer gradeWeight;
     private String date;
     private String comment;
     private Long userId;
@@ -35,6 +35,7 @@ public class Grade {
                 .subjectId(addGrade.getSubjectId())
                 .userId(addGrade.getUserId())
                 .grade(addGrade.getGrade())
+                .gradeWeight(addGrade.getGradeWeight())
                 .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                         .withZone(ZoneId.systemDefault())
                         .format(Instant.now()))
@@ -47,6 +48,7 @@ public class Grade {
                 .subjectId(subjectId)
                 .userId(userId)
                 .grade(grade)
+                .gradeWeight(gradeWeight)
                 .date(date)
                 .comment(comment)
                 .build();

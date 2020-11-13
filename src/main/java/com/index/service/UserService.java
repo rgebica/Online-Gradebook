@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
 
-    PasswordEncoder passwordEncoder;
     UserRepository userRepository;
     VerificationTokenRepository verificationTokenRepository;
     MailService mailService;
@@ -50,41 +49,6 @@ public class UserService {
                 .dto();
     }
 
-    public void signup(RegisterRequest registerRequest) {
-        User user = new User();
-        user.setUsername(registerRequest.getUsername());
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setCreated(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                .withZone(ZoneId.systemDefault())
-                .format(Instant.now()));
-        user.setFirstName(registerRequest.getFirstName());
-        user.setLastName(registerRequest.getLastName());
-        if (registerRequest.getEmail().contains("@student.pl")) {
-            user.setRole(Role.STUDENT);
-        } else {
-            user.setRole(Role.TEACHER);
-        }
-
-        if (getUserByParentCode(registerRequest.getParentCode())) {
-            user.setRole(Role.PARENT);
-        } else {
-            user.setParentCode(passwordEncoder.encode(generateParentCode()));
-        }
-        userRepository.save(user);
-
-        String token = generateVerificationToken(user);
-        mailService.sendMail(new NotificationEmail("Please Activate your Account",
-                user.getEmail(), "Thank you for signing up to Online Gradebook , " +
-                "please click on the below url to activate your account : " +
-                "http://localhost:8080/api/auth/accountVerification/" + token));
-    }
-
-    public boolean getUserByParentCode(String parentCode) {
-        userRepository.findByParentCode(parentCode)
-                .orElseThrow(() -> new SpringGradebookException("Wrong parent code"));
-        return true;
-    }
 
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
@@ -148,22 +112,6 @@ public class UserService {
         return userRepository.findAllByClassId(classId).stream()
                 .map(User::dto)
                 .collect(Collectors.toList());
-    }
-
-    public static String generateParentCode() {
-        String charsCaps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String chars = "abcdefghijklmnopqrstuwxyz";
-        String nums = "0123456789";
-        String symbols = "!@#$%^&*";
-        String parentCode = charsCaps + chars + nums + symbols;
-        Random rand = new Random();
-        StringBuilder res = new StringBuilder();
-
-        for (int i = 0; i < 10; i++) {
-            int randIndex = rand.nextInt(parentCode.length());
-            res.append(parentCode.charAt(randIndex));
-        }
-        return res.toString();
     }
 }
 

@@ -27,12 +27,6 @@ public class UserController {
     SubjectService subjectService;
     RefreshTokenService refreshTokenService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
-        userService.signup(registerRequest);
-        return new ResponseEntity<>("User Registration Successful",
-                OK);
-    }
 
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {

@@ -33,7 +33,7 @@ public class GradeServiceImpl implements GradeService {
     @Override
     public GradeDto addGrade(AddGradeDto addGrade) {
         checkIfSubjectExists(addGrade.getSubjectId());
-        checkHasAddAccess(addGrade.getUserId());
+//        checkHasAddAccess(addGrade.getUserId());
         return gradeRepository.save(Grade.createGrade(addGrade)).dto();
     }
 
