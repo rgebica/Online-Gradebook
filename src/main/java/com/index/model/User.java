@@ -43,6 +43,12 @@ public class User {
     @ManyToMany(mappedBy = "pupils", fetch = LAZY)
     private List<Subject> subjects;
 
+    @ManyToOne
+    private User parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    private List<User> children;
+
     public UserDto dto() {
         return UserDto.builder()
                 .userId(userId)
