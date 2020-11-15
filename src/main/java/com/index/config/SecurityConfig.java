@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/api/auth/login", "/api/auth/users").permitAll()
+                .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
@@ -71,7 +71,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .disable();
     }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService)

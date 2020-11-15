@@ -16,8 +16,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
+@Entity
 @Table(name = "Grade", schema = "gradebook")
 public class Grade {
     @Id
@@ -30,6 +30,7 @@ public class Grade {
     @ManyToOne
     private User user;
     private Long subjectId;
+    private String addedBy;
 
     public static Grade createGrade(AddGradeDto addGrade, User user) {
         return Grade.builder()
@@ -40,6 +41,7 @@ public class Grade {
                 .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                         .withZone(ZoneId.systemDefault())
                         .format(Instant.now()))
+                .addedBy(addGrade.getAddedBy())
                 .build();
     }
 
@@ -52,6 +54,7 @@ public class Grade {
                 .gradeWeight(gradeWeight)
                 .date(date)
                 .comment(comment)
+                .addedBy(addedBy)
                 .build();
     }
 }

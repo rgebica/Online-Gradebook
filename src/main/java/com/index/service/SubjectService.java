@@ -24,7 +24,6 @@ public class SubjectService {
     GradeServiceImpl gradeService;
     UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
     public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
 
         Map<Long, List<GradeDto>> gradesBySubjectIds = gradeService.getGradesByUser(userId).stream()
