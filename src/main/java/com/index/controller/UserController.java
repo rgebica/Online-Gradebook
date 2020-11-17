@@ -4,6 +4,7 @@ import com.index.dto.*;
 import com.index.exception.LoginCredentialsAdvice;
 import com.index.exception.LoginCredentialsException;
 import com.index.service.RefreshTokenService;
+import com.index.service.UserInformationService;
 import com.index.service.UserService;
 import com.index.service.serviceImpl.ClassServiceImpl;
 import com.index.service.SubjectService;
@@ -29,6 +30,7 @@ public class UserController {
     ClassServiceImpl classService;
     SubjectService subjectService;
     RefreshTokenService refreshTokenService;
+    UserInformationService userInformationService;
 
 
     @GetMapping("account-Verification/{token}")
@@ -63,6 +65,11 @@ public class UserController {
     public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
         return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
+    }
+
+    @GetMapping("/user-information/{userId}")
+    public UserPersonalInformation getInformation(@PathVariable long userId) {
+        return userInformationService.getUserInformation(userId);
     }
 }
 

@@ -55,6 +55,7 @@ public class User {
                 .classId(classId.getClassId())
                 .firstName(firstName)
                 .lastName(lastName)
+                .email(email)
                 .role(role)
                 .build();
     }

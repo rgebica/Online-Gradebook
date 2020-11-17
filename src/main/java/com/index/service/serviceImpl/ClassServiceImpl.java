@@ -1,6 +1,8 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
+import com.index.exception.ClassNotFoundException;
+import com.index.exception.UserNotFoundException;
 import com.index.model.Class;
 import com.index.repository.ClassRepository;
 import com.index.service.ClassService;
@@ -34,5 +36,12 @@ public class ClassServiceImpl implements ClassService {
                     List<UserDto> users = usersByClasses.getOrDefault(c.getClassId(), Collections.emptyList());
                     return ClassUsersDetailsDto.from(c.getClassId(), c.getClassName(), users);
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    public ClassDto findClassByClassId(long classId) {
+        return classRepository.findById(classId)
+                .orElseThrow(() -> new ClassNotFoundException(classId))
+                .dto();
     }
 }
