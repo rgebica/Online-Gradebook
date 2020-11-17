@@ -1,11 +1,10 @@
 package com.index.dto;
 
+import com.index.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -14,6 +13,7 @@ import java.time.Instant;
 public class AuthenticationResponse {
     private String authenticationToken;
     private String refreshToken;
-    private Instant expiresAt;
     private String username;
+    private Role role;
+    private long userId;
 }

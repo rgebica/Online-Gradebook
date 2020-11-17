@@ -1,5 +1,6 @@
 package com.index.repository;
 
+import com.index.model.Class;
 import com.index.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
