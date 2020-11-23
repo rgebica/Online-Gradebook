@@ -72,11 +72,11 @@ public class UserController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/deleteUsers/{movieIds}")
-    public ResponseEntity<Void> deleteMovies(@PathVariable String movieIds) {
-        LOGGER.info("delete users: {}", movieIds);
+    @DeleteMapping(value = "/deleteUsers/{userIds}")
+    public ResponseEntity<Void> deleteMovies(@PathVariable String userIds) {
+        LOGGER.info("delete users: {}", userIds);
 
-        userService.deleteUsersByIds(movieIds);
+        userService.deleteUsersByIds(userIds);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
