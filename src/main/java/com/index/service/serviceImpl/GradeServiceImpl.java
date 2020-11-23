@@ -7,6 +7,7 @@ import com.index.repository.BehaviourRepository;
 import com.index.repository.GradeRepository;
 import com.index.repository.PresenceRepository;
 import com.index.repository.SubjectRepository;
+import com.index.service.AuthService;
 import com.index.service.GradeService;
 import com.index.service.UserService;
 import lombok.AccessLevel;
@@ -28,31 +29,35 @@ public class GradeServiceImpl implements GradeService {
     SubjectRepository subjectRepository;
     PresenceRepository presenceRepository;
     BehaviourRepository behaviourRepository;
+    AuthService authService;
     UserService userService;
 
     @Override
     public GradeDto addGrade(AddGradeDto addGrade) {
         checkIfSubjectExists(addGrade.getSubjectId());
 //        checkHasAddAccess(addGrade.getUserId());
-        User user = userService.findById(addGrade.getUserId());
+//        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+//        User user = userService.findById(addGrade.getUserId());
+
         addGrade.setUserId(addGrade.getUserId());
         addGrade.setSubjectId(addGrade.getSubjectId());
         addGrade.setGrade(addGrade.getGrade());
         addGrade.setGradeWeight(addGrade.getGradeWeight());
         addGrade.setComment(addGrade.getComment());
         addGrade.setAddedBy(addedBy());
-        return gradeRepository.save(Grade.createGrade(addGrade, user)).dto();
+
+        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
     }
 
     @Override
     public List<GradeDto> getGradesByUser(long userId) {
-        return gradeRepository.findAllByUser_UserId(userId).stream()
+        return gradeRepository.findAllByUserId(userId).stream()
                 .map(Grade::dto)
                 .collect(Collectors.toList());
     }
 
     public List<SubjectDto> getSubjectsByUser(long userId) {
-        return subjectRepository.findAllByPupils_UserId(userId).stream()
+        return subjectRepository.findAllByUserId(userId).stream()
                 .map(Subject::dto)
                 .collect(Collectors.toList());
     }
@@ -81,8 +86,8 @@ public class GradeServiceImpl implements GradeService {
     }
 
     private String addedBy() {
-        String addedByFirstName = userService.getCurrentUser().getFirstName();
-        String addedByLastName = userService.getCurrentUser().getLastName();
+        String addedByFirstName = authService.getCurrentUser().getFirstName();
+        String addedByLastName = authService.getCurrentUser().getLastName();
         return addedByFirstName + " " + addedByLastName;
     }
 }

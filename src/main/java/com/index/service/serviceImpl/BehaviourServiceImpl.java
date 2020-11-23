@@ -5,7 +5,6 @@ import com.index.model.Behaviour;
 import com.index.repository.BehaviourRepository;
 import com.index.service.BehaviourService;
 import com.index.service.UserService;
-import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +23,7 @@ public class BehaviourServiceImpl implements BehaviourService {
 
     BehaviourRepository behaviourRepository;
     GradeServiceImpl gradeService;
+    AuthServiceImpl authService;
     UserService userService;
 
     @Override

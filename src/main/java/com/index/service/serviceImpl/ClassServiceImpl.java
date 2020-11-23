@@ -2,7 +2,6 @@ package com.index.service.serviceImpl;
 
 import com.index.dto.*;
 import com.index.exception.ClassNotFoundException;
-import com.index.exception.UserNotFoundException;
 import com.index.model.Class;
 import com.index.repository.ClassRepository;
 import com.index.service.ClassService;

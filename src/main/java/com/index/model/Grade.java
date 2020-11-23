@@ -27,15 +27,16 @@ public class Grade {
     private Integer gradeWeight;
     private String date;
     private String comment;
-    @ManyToOne
-    private User user;
+    private long userId;
+//    @ManyToOne
+//    private User user;
     private Long subjectId;
     private String addedBy;
 
-    public static Grade createGrade(AddGradeDto addGrade, User user) {
+    public static Grade createGrade(AddGradeDto addGrade) {
         return Grade.builder()
                 .subjectId(addGrade.getSubjectId())
-                .user(user)
+                .userId(addGrade.getUserId())
                 .grade(addGrade.getGrade())
                 .gradeWeight(addGrade.getGradeWeight())
                 .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -49,7 +50,7 @@ public class Grade {
         return GradeDto.builder()
                 .gradeId(gradeId)
                 .subjectId(subjectId)
-                .userId(user.getUserId())
+                .userId(userId)
                 .grade(grade)
                 .gradeWeight(gradeWeight)
                 .date(date)

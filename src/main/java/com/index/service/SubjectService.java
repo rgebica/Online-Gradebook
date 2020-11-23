@@ -2,12 +2,13 @@ package com.index.service;
 
 import com.index.dto.*;
 import com.index.model.Subject;
+import com.index.model.User;
 import com.index.repository.SubjectRepository;
+import com.index.service.serviceImpl.AuthServiceImpl;
 import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -40,7 +41,7 @@ public class SubjectService {
     }
 
     public UserSubjectsDetailsDto getSubjectsByUserId(long userId) {
-        UserDto user = userService.getById(userId);
+        User user = userService.findById(userId);
         List<Long> subjectIds = gradeService.getSubjectsByUser(userId).stream()
                 .map(SubjectDto::getSubjectId)
                 .distinct()
@@ -76,5 +77,17 @@ public class SubjectService {
         return grades.stream()
                 .mapToDouble(GradeDto::getGradeWeight)
                 .sum();
+    }
+
+    public double getFinalAverage() {
+        List<UserSubjectsGradesDetailsDto> gradesDetails = new ArrayList<>();
+        double finalAverage = gradesDetails.stream()
+                .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
+                .average()
+                .orElse(-100);
+
+        return BigDecimal.valueOf(finalAverage)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 }

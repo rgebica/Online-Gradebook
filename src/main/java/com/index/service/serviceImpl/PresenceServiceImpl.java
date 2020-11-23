@@ -10,12 +10,10 @@ import com.index.repository.PresenceRepository;
 import com.index.repository.SubjectRepository;
 import com.index.service.PresenceService;
 import com.index.service.UserService;
-import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
