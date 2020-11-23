@@ -3,10 +3,7 @@ package com.index.service.serviceImpl;
 import com.index.dto.*;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.*;
-import com.index.repository.BehaviourRepository;
-import com.index.repository.GradeRepository;
-import com.index.repository.PresenceRepository;
-import com.index.repository.SubjectRepository;
+import com.index.repository.*;
 import com.index.service.AuthService;
 import com.index.service.GradeService;
 import com.index.service.UserService;
@@ -16,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +30,7 @@ public class GradeServiceImpl implements GradeService {
     BehaviourRepository behaviourRepository;
     AuthService authService;
     UserService userService;
+    UserRepository userRepository;
 
     @Override
     public GradeDto addGrade(AddGradeDto addGrade) {
@@ -89,5 +89,15 @@ public class GradeServiceImpl implements GradeService {
         String addedByFirstName = authService.getCurrentUser().getFirstName();
         String addedByLastName = authService.getCurrentUser().getLastName();
         return addedByFirstName + " " + addedByLastName;
+    }
+
+    @Override
+    @Transactional
+    public void deleteGradesByIds(String gradeIds) {
+        String[] splitedIds = gradeIds.split(",");
+        List<Long> parsedIds = Arrays.stream(splitedIds)
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+        gradeRepository.deleteGradesByIds(parsedIds);
     }
 }

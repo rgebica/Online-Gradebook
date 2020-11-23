@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Collection<User> findAllByChildrenIdsIn(List<Long> childrenIds);
     @Modifying
     @Query("DELETE FROM User u WHERE u.userId IN ?1")
-    void deleteAllByIds(List<Long> movieIds);
+    void deleteUsersByIds(List<Long> userIds);
 }
 

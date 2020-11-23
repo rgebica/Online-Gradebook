@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         List<Long> parsedUserIds = Arrays.stream(splitedIds)
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
-        userRepository.deleteAllByIds(parsedUserIds);
+        userRepository.deleteUsersByIds(parsedUserIds);
     }
 
     @Override
