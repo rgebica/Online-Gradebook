@@ -7,12 +7,12 @@ import com.index.service.serviceImpl.ClassServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
-
+import org.slf4j.Logger;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -30,43 +30,54 @@ public class UserController {
     ParentService parentService;
     UserService userService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+    @CrossOrigin
     @GetMapping("/users/{classId}")
     public ResponseEntity<List<ClassUsersDetailsDto>> getStudentsFromClass(@PathVariable long classId) {
         final List<ClassUsersDetailsDto> students = classService.getUsersByClassId(classId);
         return ResponseEntity.ok(students);
     }
 
+    @CrossOrigin
     @GetMapping("/subjects/{userId}")
     public ResponseEntity<UserSubjectsDetailsDto> getSubjectsByUserId(@PathVariable long userId) {
         final UserSubjectsDetailsDto subjects = subjectService.getSubjectsByUserId(userId);
         return ResponseEntity.ok(subjects);
     }
 
+    @CrossOrigin
     @GetMapping("/user-information/{userId}")
     public UserPersonalInformationDto getInformation(@PathVariable long userId) {
         return userInformationService.getUserInformation(userId);
     }
 
+    @CrossOrigin
     @GetMapping("/user-results/{userId}")
     public UserResultsDto getUserResults(@PathVariable long userId) {
         return userResultsService.getUserResults(userId);
     }
 
+    @CrossOrigin
     @GetMapping("/parent-children/{userId}")
     public ParentChildrenDto getParentInformation(@PathVariable long userId) {
         return parentService.getParentPersonalInformation(userId);
     }
 
+    @CrossOrigin
     @PostMapping("/users")
     public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDto) {
         userService.createUser(createUserDto);
         return new ResponseEntity<>("User Created", OK);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
-    public void deleteUser(@PathVariable Long id){
-        userService.deleteUserById(id);
+    @CrossOrigin
+    @DeleteMapping(value = "/deleteUsers/{movieIds}")
+    public ResponseEntity<Void> deleteMovies(@PathVariable String movieIds) {
+        LOGGER.info("delete users: {}", movieIds);
+
+        userService.deleteUsersByIds(movieIds);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

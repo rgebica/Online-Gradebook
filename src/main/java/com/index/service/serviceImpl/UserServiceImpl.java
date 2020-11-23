@@ -13,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -74,9 +76,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        userOptional.ifPresent(userRepository::delete);
+    @Transactional
+    public void deleteUsersByIds(String movieIds) {
+        String[] splitedIds = movieIds.split(",");
+        List<Long> parsedUserIds = Arrays.stream(splitedIds)
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+        userRepository.deleteAllByIds(parsedUserIds);
     }
 
     @Override
@@ -98,5 +104,4 @@ public class UserServiceImpl implements UserService {
                 .map(User::dto)
                 .collect(Collectors.toList());
     }
-
 }
