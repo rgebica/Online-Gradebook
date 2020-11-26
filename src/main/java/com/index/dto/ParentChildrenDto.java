@@ -19,9 +19,9 @@ public class ParentChildrenDto {
     private String email;
     private String className;
     private Role role;
-    private List<UserDto> children;
+    private List<ChildrenDto> children;
 
-    public static ParentChildrenDto from(UserDto userDto, List<UserDto> children) {
+    public static ParentChildrenDto from(UserDto userDto, List<ChildrenDto> children) {
         return ParentChildrenDto.builder()
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())

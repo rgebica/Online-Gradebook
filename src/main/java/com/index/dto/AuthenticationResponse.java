@@ -18,5 +18,5 @@ public class AuthenticationResponse {
     private String username;
     private Role role;
     private long userId;
-    private List<Long> childrenIds;
+    private String childrenIds;
 }

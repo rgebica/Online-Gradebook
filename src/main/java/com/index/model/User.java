@@ -1,34 +1,24 @@
 package com.index.model;
 
+import com.index.dto.ChildrenDto;
 import com.index.dto.UserDto;
-import com.vladmihalcea.hibernate.type.array.ListArrayType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-
-import java.util.List;
-
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "User", schema = "gradebook")
-@TypeDef(
-        name = "list-array",
-        typeClass = ListArrayType.class
-)
 public class User {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -49,12 +39,8 @@ public class User {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "classId")
     private Class classId;
-    @Type(type = "list-array")
-    @Column(
-            name = "children_ids",
-            columnDefinition = "bigint[]"
-    )
-    private List<Long> childrenIds;
+    private String childrenIds;
+
 //    @ManyToMany(mappedBy = "pupils", fetch = LAZY)
 //    private List<Subject> subjects;
 //    @ManyToOne
@@ -71,6 +57,17 @@ public class User {
                 .lastName(lastName)
                 .email(email)
                 .role(role)
+                .childrenIds(childrenIds)
+                .build();
+    }
+
+    public ChildrenDto childrenDto() {
+        return ChildrenDto.builder()
+                .userId(userId)
+                .className(classId.getClassName())
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
                 .build();
     }
 }

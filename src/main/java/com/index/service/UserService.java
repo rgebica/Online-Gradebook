@@ -18,4 +18,5 @@ public interface UserService {
     User findById(long userId);
 
     List<UserDto> findUsersByClass(long classId);
+
 }

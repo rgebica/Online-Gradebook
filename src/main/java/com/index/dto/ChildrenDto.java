@@ -2,19 +2,18 @@ package com.index.dto;
 
 import com.index.model.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto {
-    public Role role;
-    private String email;
-    private String username;
+@Builder
+public class ChildrenDto {
+    private Long userId;
+    private String className;
     private String firstName;
     private String lastName;
-    private String childrenIds;
+    private String email;
 }

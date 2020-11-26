@@ -1,6 +1,8 @@
 package com.index.controller;
 
 import com.index.dto.*;
+import com.index.model.User;
+import com.index.repository.UserRepository;
 import com.index.service.*;
 import com.index.service.serviceImpl.AuthServiceImpl;
 import com.index.service.serviceImpl.ClassServiceImpl;
@@ -10,9 +12,14 @@ import lombok.experimental.FieldDefaults;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
+
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -29,6 +36,8 @@ public class UserController {
     UserResultsService userResultsService;
     ParentService parentService;
     UserService userService;
+    UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
@@ -78,6 +87,24 @@ public class UserController {
 
         userService.deleteUsersByIds(userIds);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<User> updateUserBasicInfo(@PathVariable long userId, @RequestBody User user) {
+        Optional<User> userData = userRepository.findById(userId);
+
+        if (userData.isPresent()) {
+            User _user = userData.get();
+            _user.setUsername(user.getUsername());
+            _user.setEnabled(user.isEnabled());
+            _user.setRole(user.getRole());
+            _user.setChildrenIds(user.getChildrenIds());
+            _user.setEmail(user.getEmail());
+
+            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
 

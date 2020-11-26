@@ -9,9 +9,12 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toCollection;
+
 
 @Service
 @AllArgsConstructor
@@ -24,10 +27,14 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public ParentChildrenDto getParentPersonalInformation(long userId) {
         User user = userService.findById(userId);
-        List<Long> childrenIds = user.getChildrenIds();
-        List<UserDto> children = userRepository.findAllByChildrenIdsIn(childrenIds).stream()
-                .map(User::dto)
+        String[] childrenIds = user.getChildrenIds().split(",");
+        List<Long> parsedChildrenIds = Arrays.stream(childrenIds)
+                .map(Long::parseLong)
                 .collect(Collectors.toList());
+
+        List<ChildrenDto> children = userRepository.findAllById(parsedChildrenIds).stream()
+                .map(User::childrenDto)
+                .collect(toCollection(ArrayList::new));
 
         return ParentChildrenDto.builder()
                 .firstName(user.getFirstName())
@@ -36,11 +43,5 @@ public class ParentServiceImpl implements ParentService {
                 .role(user.getRole())
                 .children(children)
                 .build();
-    }
-
-    public List<UserDto> findChildrenByUserId(List<Long> childrenIds) {
-        return userRepository.findAllByChildrenIdsIn(childrenIds).stream()
-                .map(User::dto)
-                .collect(Collectors.toList());
     }
 }

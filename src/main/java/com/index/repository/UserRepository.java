@@ -17,10 +17,8 @@ import java.util.Set;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
-    Collection<User> findAllByClassId(long classId);
-    Collection<User> findAllByChildrenIdsIn(List<Long> childrenIds);
+    List<User> findAllByClassId(long classId);
     @Modifying
     @Query("DELETE FROM User u WHERE u.userId IN ?1")
     void deleteUsersByIds(List<Long> userIds);
 }
-
