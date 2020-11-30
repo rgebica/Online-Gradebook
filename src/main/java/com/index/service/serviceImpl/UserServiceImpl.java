@@ -1,8 +1,8 @@
 package com.index.service.serviceImpl;
 
-import com.index.dto.CreateUserDto;
-import com.index.dto.UserDto;
+import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
+import com.index.exceptions.SpringGradebookException;
 import com.index.model.NotificationEmail;
 import com.index.model.User;
 import com.index.repository.UserRepository;
@@ -103,6 +103,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllByClassId(classId).stream()
                 .map(User::dto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public StudentDto getAllStudents() {
+        List<UserDto> findAllStudents = userRepository.findAllStudents().stream()
+                .map(User::dto)
+                .collect(Collectors.toList());
+
+        return StudentDto.builder()
+                .students(findAllStudents)
+                .build();
     }
 
 }

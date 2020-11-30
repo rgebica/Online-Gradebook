@@ -90,21 +90,24 @@ public class UserController {
     }
 
     @PutMapping("/users/{userId}")
-    public ResponseEntity<User> updateUserBasicInfo(@PathVariable long userId, @RequestBody User user) {
+    public ResponseEntity<User> updateUserBasicInfo(@PathVariable long userId, @RequestBody UserPersonalInformationDto user) {
         Optional<User> userData = userRepository.findById(userId);
 
         if (userData.isPresent()) {
             User _user = userData.get();
             _user.setUsername(user.getUsername());
-            _user.setEnabled(user.isEnabled());
             _user.setRole(user.getRole());
-            _user.setChildrenIds(user.getChildrenIds());
             _user.setEmail(user.getEmail());
 
             return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<StudentDto> getStudents() {
+        return new ResponseEntity<>(userService.getAllStudents(), HttpStatus.OK);
     }
 }
 
