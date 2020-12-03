@@ -4,10 +4,15 @@ import com.index.dto.AddPresenceDto;
 import com.index.dto.PresenceDto;
 import com.index.dto.UserDto;
 import com.index.dto.UserPresenceDetailsDto;
+import com.index.exceptions.SpringGradebookException;
 import com.index.model.Presence;
+import com.index.model.Role;
 import com.index.model.Subject;
+import com.index.model.User;
 import com.index.repository.PresenceRepository;
 import com.index.repository.SubjectRepository;
+import com.index.service.AuthService;
+import com.index.service.DateService;
 import com.index.service.PresenceService;
 import com.index.service.UserService;
 import lombok.AccessLevel;
@@ -26,13 +31,26 @@ import java.util.stream.Collectors;
 public class PresenceServiceImpl implements PresenceService {
 
     SubjectRepository subjectRepository;
+    PresenceRepository presenceRepository;
     GradeServiceImpl gradeService;
     UserService userService;
-    PresenceRepository presenceRepository;
+    AuthService authService;
 
     @Override
-    public PresenceDto addPresenceDto(AddPresenceDto addPresence) {
-        return presenceRepository.save(Presence.createPresence(addPresence)).dto();
+    public void addPresenceDto(AddPresenceDto addPresence) {
+        Presence presence = new Presence();
+
+        checkHasAddAccess();
+        checkIfSubjectExists(addPresence.getSubjectId());
+        checkAddGradeToStudent(addPresence.getUserId());
+
+        presence.setUserId(addPresence.getUserId());
+        presence.setSubjectId(addPresence.getSubjectId());
+        presence.setPresence(addPresence.isPresence());
+        presence.setDate(DateService.getFormattedDate());
+        presence.setAddedBy(addedBy());
+
+        presenceRepository.save(presence);
     }
 
     @Override
@@ -68,5 +86,27 @@ public class PresenceServiceImpl implements PresenceService {
                 map(PresenceDto::getPresenceId)
                 .count();
         return (int) (getPresenceCounter(presences) * 100.0 / presencesAndAbsences + 0.5);
+    }
+
+    void checkIfSubjectExists(long subjectId) {
+        subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
+    }
+
+    void checkHasAddAccess() {
+        User user = authService.getCurrentUser();
+        if (!user.getRole().equals(Role.ROLE_TEACHER)) {
+            throw new SpringGradebookException("Has no add access");
+        }
+    }
+
+    void checkAddGradeToStudent(long userId) {
+        User user = userService.findById(userId);
+        if (!user.getRole().equals(Role.ROLE_STUDENT)) {
+            throw new SpringGradebookException("Bad userId");
+        }
+    }
+
+    long addedBy() {
+        return authService.getCurrentUser().getUserId();
     }
 }

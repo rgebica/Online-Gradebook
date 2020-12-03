@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 @RequestMapping("api/auth")
 @Slf4j
@@ -21,10 +23,11 @@ public class UserPresenceController {
 
     PresenceServiceImpl presenceService;
 
-    @PostMapping("/addPresence")
-    public ResponseEntity<PresenceDto> addPresence(@RequestBody AddPresenceDto addPresence) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(presenceService.addPresenceDto(addPresence));
+    @CrossOrigin
+    @PostMapping("/presences")
+    public ResponseEntity<String> addGrade(@RequestBody AddPresenceDto addPresenceDto) {
+        presenceService.addPresenceDto(addPresenceDto);
+        return new ResponseEntity<>("Presence Added", OK);
     }
 
     @GetMapping("/presence/{userId}/subjects")

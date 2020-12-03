@@ -28,22 +28,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Presence {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    long presenceId;
-    long userId;
-    long subjectId;
-    boolean presence;
-    String date;
-
-    public static Presence createPresence(AddPresenceDto addPresenceDto) {
-        return Presence.builder()
-                .userId(addPresenceDto.getUserId())
-                .subjectId(addPresenceDto.getSubjectId())
-                .presence(addPresenceDto.isPresence())
-                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                        .withZone(ZoneId.systemDefault())
-                        .format(Instant.now()))
-                .build();
-    }
+    private long presenceId;
+    private long userId;
+    private long subjectId;
+    private boolean presence;
+    private String date;
+    private long addedBy;
 
     public PresenceDto dto() {
         return PresenceDto.builder()
