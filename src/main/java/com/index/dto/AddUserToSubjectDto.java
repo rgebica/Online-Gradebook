@@ -9,6 +9,5 @@ import lombok.*;
 @Getter
 @Setter
 public class AddUserToSubjectDto {
-    private long userId;
-    private long subjectId;
+    private String subjectIds;
 }

@@ -40,7 +40,6 @@ public class Subject {
         return SubjectDto.builder()
                 .subjectId(subjectId)
                 .subjectName(subjectName)
-//                .users(getUsers())
                 .build();
     }
 }

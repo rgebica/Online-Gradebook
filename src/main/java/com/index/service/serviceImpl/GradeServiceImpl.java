@@ -56,11 +56,11 @@ public class GradeServiceImpl implements GradeService {
                 .collect(Collectors.toList());
     }
 
-    public List<SubjectDto> getSubjectsByUser(long userId) {
-        return subjectRepository.findAllByUserId(userId).stream()
-                .map(Subject::dto)
-                .collect(Collectors.toList());
-    }
+//    public List<SubjectDto> getSubjectsByUser(long userId) {
+//        return subjectRepository.findAllByUserId(userId).stream()
+//                .map(Subject::dto)
+//                .collect(Collectors.toList());
+//    }
 
     public List<PresenceDto> getPresenceByUserId(long userId) {
         return presenceRepository.findAllByUserId(userId).stream()

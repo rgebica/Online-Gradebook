@@ -28,8 +28,8 @@ public class SubjectController {
 
     @CrossOrigin
     @PostMapping("/user-subjects")
-    public ResponseEntity<String> addUserToSubject(@RequestBody AddUserToSubjectDto addUserToSubjectDto) {
-        subjectService.addUserToSubject(addUserToSubjectDto);
+    public ResponseEntity<String> addUserToSubject(@RequestBody AddUserToSubjectDto addUserToSubjectDto, long userId) {
+        subjectService.addUserToSubject(addUserToSubjectDto, userId);
         return new ResponseEntity<>("User added to subject", OK);
     }
 }

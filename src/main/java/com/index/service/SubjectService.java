@@ -18,6 +18,8 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toCollection;
+
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -34,15 +36,20 @@ public class SubjectService {
         subjectRepository.save(subject);
     }
 
-    public void addUserToSubject(AddUserToSubjectDto addUserToSubjectDto) {
-        Subject subject = findById(addUserToSubjectDto.getSubjectId());
-//        subject.setUserId(addUserToSubjectDto.getUserId());
-        checkIfUserExist(addUserToSubjectDto.getUserId());
-        subjectRepository.save(subject);
+    public void addUserToSubject(AddUserToSubjectDto addUserToSubjectDto, long userId) {
+        String[] subjectIds = addUserToSubjectDto.getSubjectIds().split(",");
+        List<Long> parsedSubjectIds = Arrays.stream(subjectIds)
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+
+        List<Subject> subjects = subjectRepository.findAllById(parsedSubjectIds);
+
+        User user = userService.findById(userId);
+        user.setSubjects(subjects);
+        userRepository.save(user);
     }
 
     public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
-
         Map<Long, List<GradeDto>> gradesBySubjectIds = gradeService.getGradesByUser(userId).stream()
                 .collect(Collectors.groupingBy(GradeDto::getSubjectId));
         Set<Long> subjectIds = gradesBySubjectIds.keySet();
@@ -58,12 +65,7 @@ public class SubjectService {
 
     public UserSubjectsDetailsDto getSubjectsByUserId(long userId) {
         User user = userService.findById(userId);
-        List<Long> subjectIds = gradeService.getSubjectsByUser(userId).stream()
-                .map(SubjectDto::getSubjectId)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-        List<SubjectDto> subjects = subjectRepository.findAllById(subjectIds).stream()
+        List<SubjectDto> subjects = user.getSubjects().stream()
                 .map(Subject::dto)
                 .collect(Collectors.toList());
 

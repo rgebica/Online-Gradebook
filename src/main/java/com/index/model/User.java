@@ -78,25 +78,25 @@ public class User {
                 .build();
     }
 
-    UserSubjectsDetailsDto toUserSubjectsDetailsDto() {
-        return UserSubjectsDetailsDto.builder()
-                .firstName(firstName)
-                .lastName(lastName)
-                .userId(userId)
-                .subjects(mapSubjects(subjects))
-                .build();
-    }
-
-    private List<SubjectDto> mapSubjects(List<Subject> subjects) {
-        return subjects.stream()
-                .map(this::mapSubject)
-                .collect(Collectors.toList());
-    }
-
-    private SubjectDto mapSubject(Subject s) {
-        return SubjectDto.builder()
-                .subjectId(s.getSubjectId())
-                .build();
-    }
+//    UserSubjectsDetailsDto toUserSubjectsDetailsDto() {
+//        return UserSubjectsDetailsDto.builder()
+//                .firstName(firstName)
+//                .lastName(lastName)
+//                .userId(userId)
+//                .subjects(mapSubjects(subjects))
+//                .build();
+//    }
+//
+//    private List<SubjectDto> mapSubjects(List<Subject> subjects) {
+//        return subjects.stream()
+//                .map(this::mapSubject)
+//                .collect(Collectors.toList());
+//    }
+//
+//    private SubjectDto mapSubject(Subject s) {
+//        return SubjectDto.builder()
+//                .subjectId(s.getSubjectId())
+//                .build();
+//    }
 
 }
