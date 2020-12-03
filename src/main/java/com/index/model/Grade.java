@@ -30,21 +30,8 @@ public class Grade {
     private long userId;
 //    @ManyToOne
 //    private User user;
-    private Long subjectId;
-    private String addedBy;
-
-    public static Grade createGrade(AddGradeDto addGrade) {
-        return Grade.builder()
-                .subjectId(addGrade.getSubjectId())
-                .userId(addGrade.getUserId())
-                .grade(addGrade.getGrade())
-                .gradeWeight(addGrade.getGradeWeight())
-                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                        .withZone(ZoneId.systemDefault())
-                        .format(Instant.now()))
-                .addedBy(addGrade.getAddedBy())
-                .build();
-    }
+    private long subjectId;
+    private Long addedBy;
 
     public GradeDto dto() {
         return GradeDto.builder()

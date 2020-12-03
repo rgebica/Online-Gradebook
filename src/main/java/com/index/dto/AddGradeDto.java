@@ -11,5 +11,4 @@ public class AddGradeDto {
     Integer grade;
     Integer gradeWeight;
     String comment;
-    String addedBy;
 }

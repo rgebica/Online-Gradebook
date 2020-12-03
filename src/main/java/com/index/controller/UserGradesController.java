@@ -1,6 +1,7 @@
 package com.index.controller;
 
 import com.index.dto.AddGradeDto;
+import com.index.dto.CreateUserDto;
 import com.index.dto.GradeDto;
 import com.index.dto.UserSubjectsGradesDetailsDto;
 import com.index.service.GradeService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 @RequestMapping("api/auth")
 @Slf4j
@@ -29,12 +32,14 @@ public class UserGradesController {
     GradeService gradeService;
     SubjectService subjectService;
 
-    @PostMapping("/addGrade")
-    public ResponseEntity<GradeDto> addGrade(@RequestBody AddGradeDto addGradeDto) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(gradeService.addGrade(addGradeDto));
+    @CrossOrigin
+    @PostMapping("/grades")
+    public ResponseEntity<String> addGrade(@RequestBody AddGradeDto addGradeDto) {
+        gradeService.addGrade(addGradeDto);
+        return new ResponseEntity<>("Grade Added", OK);
     }
 
+    @CrossOrigin
     @GetMapping("/userGrades/{userId}")
     public ResponseEntity<List<GradeDto>> getAllGrades(@PathVariable long userId) {
         final List<GradeDto> grades = gradeService.getGradesByUser(userId);

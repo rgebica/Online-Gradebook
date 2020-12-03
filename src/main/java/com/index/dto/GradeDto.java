@@ -17,5 +17,5 @@ public class GradeDto {
     private int gradeWeight;
     private String date;
     private String comment;
-    private String addedBy;
+    private long addedBy;
 }

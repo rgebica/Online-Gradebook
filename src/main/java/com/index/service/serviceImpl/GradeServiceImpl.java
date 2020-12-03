@@ -30,23 +30,23 @@ public class GradeServiceImpl implements GradeService {
     BehaviourRepository behaviourRepository;
     AuthService authService;
     UserService userService;
-    UserRepository userRepository;
 
     @Override
-    public GradeDto addGrade(AddGradeDto addGrade) {
+    public void addGrade(AddGradeDto addGrade) {
+        Grade grade = new Grade();
         checkIfSubjectExists(addGrade.getSubjectId());
-//        checkHasAddAccess(addGrade.getUserId());
+        checkHasAddAccess();
+        checkAddGradeToStudent(addGrade.getUserId());
 //        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
 //        User user = userService.findById(addGrade.getUserId());
+        grade.setUserId(addGrade.getUserId());
+        grade.setSubjectId(addGrade.getSubjectId());
+        grade.setGrade(addGrade.getGrade());
+        grade.setGradeWeight(addGrade.getGradeWeight());
+        grade.setComment(addGrade.getComment());
+        grade.setAddedBy(addedBy());
 
-        addGrade.setUserId(addGrade.getUserId());
-        addGrade.setSubjectId(addGrade.getSubjectId());
-        addGrade.setGrade(addGrade.getGrade());
-        addGrade.setGradeWeight(addGrade.getGradeWeight());
-        addGrade.setComment(addGrade.getComment());
-        addGrade.setAddedBy(addedBy());
-
-        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+        gradeRepository.save(grade);
     }
 
     @Override
@@ -78,17 +78,22 @@ public class GradeServiceImpl implements GradeService {
         subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
     }
 
-    private void checkHasAddAccess(long userId) {
-        UserDto user = userService.getById(userId);
+    private void checkHasAddAccess() {
+        User user = authService.getCurrentUser();
         if (!user.getRole().equals(Role.ROLE_TEACHER)) {
             throw new SpringGradebookException("Has no add access");
         }
     }
 
-    private String addedBy() {
-        String addedByFirstName = authService.getCurrentUser().getFirstName();
-        String addedByLastName = authService.getCurrentUser().getLastName();
-        return addedByFirstName + " " + addedByLastName;
+    private void checkAddGradeToStudent(long userId) {
+        User user = userService.findById(userId);
+        if(!user.getRole().equals(Role.ROLE_STUDENT)) {
+            throw new SpringGradebookException("Bad userId");
+        }
+    }
+
+    private long addedBy() {
+        return authService.getCurrentUser().getUserId();
     }
 
     @Override
