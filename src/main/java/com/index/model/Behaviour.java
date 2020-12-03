@@ -30,18 +30,9 @@ public class Behaviour {
     private Integer grade;
     private String date;
     private String description;
-    private Long userId;
+    private long userId;
+    private long addedBy;
 
-    public static Behaviour createBehaviour(AddBehaviourDto addBehaviour) {
-        return Behaviour.builder()
-                .userId(addBehaviour.getUserId())
-                .grade(addBehaviour.getGrade())
-                .description(addBehaviour.getDescription())
-                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                        .withZone(ZoneId.systemDefault())
-                        .format(Instant.now()))
-                .build();
-    }
 
     public BehaviourDto dto() {
         return BehaviourDto.builder()

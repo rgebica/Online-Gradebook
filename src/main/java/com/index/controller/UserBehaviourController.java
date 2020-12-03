@@ -2,6 +2,7 @@ package com.index.controller;
 
 import com.index.dto.AddBehaviourDto;
 import com.index.dto.BehaviourDto;
+import com.index.dto.CreateUserDto;
 import com.index.dto.UserBehaviourDetailsDto;
 import com.index.service.BehaviourService;
 import lombok.AccessLevel;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 @RequestMapping("/api/auth")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -22,10 +25,11 @@ public class UserBehaviourController {
 
     BehaviourService behaviourService;
 
-    @PostMapping("/addBehaviour")
-    public ResponseEntity<BehaviourDto> addGrade(@RequestBody AddBehaviourDto addBehaviour) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(behaviourService.addBehaviour(addBehaviour));
+    @CrossOrigin
+    @PostMapping("/behaviour")
+    public ResponseEntity<String> createBehaviour(@RequestBody AddBehaviourDto addBehaviourDto) {
+        behaviourService.addBehaviour(addBehaviourDto);
+        return new ResponseEntity<>("Behaviour Added", OK);
     }
 
     @GetMapping("/behaviour/{userId}")

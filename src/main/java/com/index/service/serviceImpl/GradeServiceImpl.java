@@ -5,6 +5,7 @@ import com.index.exceptions.SpringGradebookException;
 import com.index.model.*;
 import com.index.repository.*;
 import com.index.service.AuthService;
+import com.index.service.DateService;
 import com.index.service.GradeService;
 import com.index.service.UserService;
 import lombok.AccessLevel;
@@ -45,6 +46,7 @@ public class GradeServiceImpl implements GradeService {
         grade.setGradeWeight(addGrade.getGradeWeight());
         grade.setComment(addGrade.getComment());
         grade.setAddedBy(addedBy());
+        grade.setDate(DateService.getFormattedDate());
 
         gradeRepository.save(grade);
     }
@@ -78,21 +80,21 @@ public class GradeServiceImpl implements GradeService {
         subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
     }
 
-    private void checkHasAddAccess() {
+    void checkHasAddAccess() {
         User user = authService.getCurrentUser();
         if (!user.getRole().equals(Role.ROLE_TEACHER)) {
             throw new SpringGradebookException("Has no add access");
         }
     }
 
-    private void checkAddGradeToStudent(long userId) {
+    void checkAddGradeToStudent(long userId) {
         User user = userService.findById(userId);
-        if(!user.getRole().equals(Role.ROLE_STUDENT)) {
+        if (!user.getRole().equals(Role.ROLE_STUDENT)) {
             throw new SpringGradebookException("Bad userId");
         }
     }
 
-    private long addedBy() {
+    long addedBy() {
         return authService.getCurrentUser().getUserId();
     }
 

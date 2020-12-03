@@ -1,9 +1,14 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
+import com.index.exceptions.SpringGradebookException;
 import com.index.model.Behaviour;
+import com.index.model.Role;
+import com.index.model.User;
 import com.index.repository.BehaviourRepository;
+import com.index.repository.SubjectRepository;
 import com.index.service.BehaviourService;
+import com.index.service.DateService;
 import com.index.service.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,10 +30,20 @@ public class BehaviourServiceImpl implements BehaviourService {
     GradeServiceImpl gradeService;
     AuthServiceImpl authService;
     UserService userService;
+    SubjectRepository subjectRepository;
 
     @Override
-    public BehaviourDto addBehaviour(AddBehaviourDto addBehaviour) {
-        return behaviourRepository.save(Behaviour.createBehaviour(addBehaviour)).dto();
+    public void addBehaviour(AddBehaviourDto addBehaviour) {
+        Behaviour behaviour = new Behaviour();
+        checkHasAddAccess();
+
+        checkAddGradeToStudent(addBehaviour.getUserId());
+        behaviour.setUserId(addBehaviour.getUserId());
+        behaviour.setGrade(addBehaviour.getGrade());
+        behaviour.setDate(DateService.getFormattedDate());
+        behaviour.setAddedBy(addedBy());
+
+        behaviourRepository.save(behaviour);
     }
 
     @Override
@@ -42,6 +57,24 @@ public class BehaviourServiceImpl implements BehaviourService {
                 .lastName(user.getLastName())
                 .behaviours(behavioursByUserId)
                 .build();
+    }
+
+    void checkHasAddAccess() {
+        User user = authService.getCurrentUser();
+        if (!user.getRole().equals(Role.ROLE_TEACHER)) {
+            throw new SpringGradebookException("Has no add access");
+        }
+    }
+
+    void checkAddGradeToStudent(long userId) {
+        User user = userService.findById(userId);
+        if (!user.getRole().equals(Role.ROLE_STUDENT)) {
+            throw new SpringGradebookException("Bad userId");
+        }
+    }
+
+    long addedBy() {
+        return authService.getCurrentUser().getUserId();
     }
 }
 
