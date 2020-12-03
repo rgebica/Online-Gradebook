@@ -1,9 +1,11 @@
 package com.index.service;
 
 import com.index.dto.*;
+import com.index.exception.UserNotFoundException;
 import com.index.model.Subject;
 import com.index.model.User;
 import com.index.repository.SubjectRepository;
+import com.index.repository.UserRepository;
 import com.index.service.serviceImpl.AuthServiceImpl;
 import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
@@ -24,6 +26,20 @@ public class SubjectService {
     SubjectRepository subjectRepository;
     GradeServiceImpl gradeService;
     UserService userService;
+    UserRepository userRepository;
+
+    public void createSubject(CreateSubjectDto createSubjectDto) {
+        Subject subject = new Subject();
+        subject.setSubjectName(createSubjectDto.getSubjectName());
+        subjectRepository.save(subject);
+    }
+
+    public void addUserToSubject(AddUserToSubjectDto addUserToSubjectDto) {
+        Subject subject = findById(addUserToSubjectDto.getSubjectId());
+//        subject.setUserId(addUserToSubjectDto.getUserId());
+        checkIfUserExist(addUserToSubjectDto.getUserId());
+        subjectRepository.save(subject);
+    }
 
     public List<UserSubjectsGradesDetailsDto> getUserSubjectsWithGrades(long userId) {
 
@@ -89,5 +105,15 @@ public class SubjectService {
         return BigDecimal.valueOf(finalAverage)
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
+    }
+
+    public Subject findById(long subjectId) {
+        return subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new UserNotFoundException(subjectId));
+    }
+
+    public boolean checkIfUserExist(long userId) {
+        userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        return true;
     }
 }

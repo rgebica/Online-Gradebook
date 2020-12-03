@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +23,8 @@ public class Subject {
     private Long subjectId;
     @Column(name = "name")
     private String subjectName;
-    private long userId;
+    @ManyToMany(mappedBy = "subjects")
+    private List<User> users = new ArrayList<>();
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
 //    @JoinTable(
 //            name = "pupils_subjects",
@@ -36,7 +40,7 @@ public class Subject {
         return SubjectDto.builder()
                 .subjectId(subjectId)
                 .subjectName(subjectName)
-                .userId(userId)
+//                .users(getUsers())
                 .build();
     }
 }

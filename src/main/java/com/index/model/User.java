@@ -1,7 +1,9 @@
 package com.index.model;
 
 import com.index.dto.ChildrenDto;
+import com.index.dto.SubjectDto;
 import com.index.dto.UserDto;
+import com.index.dto.UserSubjectsDetailsDto;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -9,6 +11,12 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -40,14 +48,13 @@ public class User {
     @JoinColumn(name = "classId")
     private Class classId;
     private String childrenIds;
-
-//    @ManyToMany(mappedBy = "pupils", fetch = LAZY)
-//    private List<Subject> subjects;
-//    @ManyToOne
-//    private User parent;
-//
-//    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-//    private List<User> children;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "User_Subject",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "subject_id") }
+    )
+    List<Subject> subjects = new ArrayList<>();
 
     public UserDto dto() {
         return UserDto.builder()
@@ -70,4 +77,26 @@ public class User {
                 .email(email)
                 .build();
     }
+
+    UserSubjectsDetailsDto toUserSubjectsDetailsDto() {
+        return UserSubjectsDetailsDto.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .userId(userId)
+                .subjects(mapSubjects(subjects))
+                .build();
+    }
+
+    private List<SubjectDto> mapSubjects(List<Subject> subjects) {
+        return subjects.stream()
+                .map(this::mapSubject)
+                .collect(Collectors.toList());
+    }
+
+    private SubjectDto mapSubject(Subject s) {
+        return SubjectDto.builder()
+                .subjectId(s.getSubjectId())
+                .build();
+    }
+
 }
