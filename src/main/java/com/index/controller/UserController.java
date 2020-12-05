@@ -23,21 +23,18 @@ import org.slf4j.Logger;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 public class UserController {
 
-    AuthServiceImpl authService;
     ClassServiceImpl classService;
     SubjectService subjectService;
-    RefreshTokenService refreshTokenService;
     UserInformationService userInformationService;
     UserResultsService userResultsService;
     ParentService parentService;
     UserService userService;
     UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 

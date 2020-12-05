@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 public class SubjectController {
@@ -27,7 +27,7 @@ public class SubjectController {
     }
 
     @CrossOrigin
-    @PostMapping("/user-subjects")
+    @PostMapping("/user-Subjects")
     public ResponseEntity<String> addUserToSubject(@RequestBody AddUserToSubjectDto addUserToSubjectDto, long userId) {
         subjectService.addUserToSubject(addUserToSubjectDto, userId);
         return new ResponseEntity<>("User added to subject", OK);

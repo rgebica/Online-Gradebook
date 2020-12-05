@@ -1,7 +1,6 @@
 package com.index.controller;
 
 import com.index.dto.AddGradeDto;
-import com.index.dto.CreateUserDto;
 import com.index.dto.GradeDto;
 import com.index.dto.UserSubjectsGradesDetailsDto;
 import com.index.service.GradeService;
@@ -21,7 +20,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("api/")
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor

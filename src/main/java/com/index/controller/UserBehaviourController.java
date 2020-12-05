@@ -1,24 +1,20 @@
 package com.index.controller;
 
 import com.index.dto.AddBehaviourDto;
-import com.index.dto.BehaviourDto;
-import com.index.dto.CreateUserDto;
 import com.index.dto.UserBehaviourDetailsDto;
 import com.index.service.BehaviourService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 public class UserBehaviourController {
