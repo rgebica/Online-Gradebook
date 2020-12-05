@@ -40,4 +40,21 @@ class MailService {
             throw new SpringGradebookException("Exception occurred when sending mail to " + notificationEmail.getRecipient(), e);
         }
     }
-}
+
+        public void sendResponse(NotificationEmail notificationEmail){
+            MimeMessagePreparator responsePreparator = mimeMessage -> {
+                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+                messageHelper.setFrom("gradebook@email.com");
+                messageHelper.setTo(notificationEmail.getRecipient());
+                messageHelper.setSubject(notificationEmail.getSubject());
+                messageHelper.setText(notificationEmail.getBody());
+            };
+            try {
+                mailSender.send(responsePreparator);
+                log.info("Activation email sent!!");
+            } catch (MailException e) {
+                log.error("Exception occurred when sending mail", e);
+                throw new SpringGradebookException("Exception occurred when sending mail to " + notificationEmail.getRecipient(), e);
+            }
+        }
+    }

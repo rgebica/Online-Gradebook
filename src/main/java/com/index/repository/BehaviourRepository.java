@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface BehaviourRepository extends JpaRepository<Behaviour, Long> {
     List<Behaviour> findAllByUserId(long userId);
+    Behaviour findById(long behaviourId);
 }

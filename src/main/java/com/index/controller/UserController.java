@@ -109,5 +109,12 @@ public class UserController {
     public ResponseEntity<StudentDto> getStudents() {
         return new ResponseEntity<>(userService.getAllStudents(), HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @PostMapping("/add-Response")
+    public ResponseEntity<String> addResponse(@RequestBody CreateBehaviourResponse createBehaviourResponse) {
+        parentService.createResponseToBehaviour(createBehaviourResponse);
+        return new ResponseEntity<>("Response sent", OK);
+    }
 }
 

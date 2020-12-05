@@ -23,7 +23,6 @@ import static org.springframework.http.HttpStatus.OK;
 @AllArgsConstructor
 public class AuthController {
 
-    UserService userService;
     AuthService authService;
     RefreshTokenService refreshTokenService;
 
@@ -48,7 +47,4 @@ public class AuthController {
         refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
         return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
     }
-
-
-
 }
