@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -68,14 +69,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
                         "/swagger-ui.html",
                         "/webjars/**").permitAll()
-                .antMatchers("/api/auth/subjects/*").permitAll()//hasRole("TEACHER")
+//                .antMatchers(HttpMethod.POST,"/api/subjects").hasRole("ADMIN")
+//                .antMatchers("/api/user-Subjects").hasRole("ADMIN")
+//                .antMatchers("/api/behaviour").hasAnyRole("TEACHER", "ADMIN")
+//                .antMatchers("/api/behaviour/*").hasAnyRole("TEACHER, STUDENT, PARENT, ADMIN")
+//                .antMatchers("/api/add-Response").hasAnyRole("PARENT", "ADMIN")
+//                .antMatchers("/api/deleteUsers/*").hasRole("ADMIN")
+//                .antMatchers("/api/parent-children/*").hasAnyRole("PARENT", "ADMIN")
+//                .antMatchers("/api/students").hasAnyRole("PARENT", "ADMIN", "TEACHER")
+//                .antMatchers("/api/subjects/*").hasAnyRole("TEACHER, STUDENT, PARENT, ADMIN")
+//                .antMatchers("/api/user-information/*").hasAnyRole("TEACHER, STUDENT, PARENT, ADMIN")
+//                .antMatchers("/api/user-results/*").hasAnyRole("TEACHER, STUDENT, PARENT, ADMIN")
+//                .antMatchers(HttpMethod.POST,"/api/users").hasAnyRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE,"/api/deleteUsers/*").hasAnyRole("ADMIN")
+//                .antMatchers(HttpMethod.POST,"/api/grades").hasAnyRole("TEACHER, ADMIN")
+//                .antMatchers(HttpMethod.GET,"/api/grades/*/subjects").hasAnyRole("TEACHER, PARENT, ADMIN, STUDENT")
+//                .antMatchers(HttpMethod.GET,"/api/userGrades/").hasAnyRole("TEACHER, PARENT, ADMIN")
+//                .antMatchers(HttpMethod.GET,"/api/auth/presence/*/subjects").hasAnyRole("TEACHER, PARENT, ADMIN, STUDENT")
+//                .antMatchers(HttpMethod.POST,"/api/auth/presences").hasAnyRole("TEACHER, ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader), UsernamePasswordAuthenticationFilter.class);
