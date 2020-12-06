@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
@@ -97,14 +97,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.POST,"/api/auth/presences").hasAnyRole("TEACHER, ADMIN")
                 .antMatchers("/error").permitAll()
                 .antMatchers("/error/**").permitAll()
-                .antMatchers("/your Urls that dosen't need security/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity
-                .headers()
-                .frameOptions()
-                .disable();
+                .antMatchers("/your Urls that dosen't need security/**").permitAll();
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilterBefore(new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader), UsernamePasswordAuthenticationFilter.class);
     }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
