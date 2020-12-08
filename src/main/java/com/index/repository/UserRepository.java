@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -26,5 +27,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("DELETE FROM User u WHERE u.userId IN ?1")
     void deleteUsersByIds(List<Long> userIds);
-
 }

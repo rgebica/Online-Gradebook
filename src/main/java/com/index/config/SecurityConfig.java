@@ -14,7 +14,6 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -68,14 +67,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
                         "/swagger-ui.html",
-                        "/webjars/**").permitAll();
+                        "/webjars/**").permitAll()
 //                .antMatchers(HttpMethod.POST,"/api/subjects").hasRole("ADMIN")
 //                .antMatchers("/api/user-Subjects").hasRole("ADMIN")
 //                .antMatchers("/api/behaviour").hasAnyRole("TEACHER", "ADMIN")
@@ -94,12 +94,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET,"/api/userGrades/").hasAnyRole("TEACHER, PARENT, ADMIN")
 //                .antMatchers(HttpMethod.GET,"/api/auth/presence/*/subjects").hasAnyRole("TEACHER, PARENT, ADMIN, STUDENT")
 //                .antMatchers(HttpMethod.POST,"/api/auth/presences").hasAnyRole("TEACHER, ADMIN")
-//                .antMatchers("/error").permitAll()
-//                .antMatchers("/error/**").permitAll()
-//                .antMatchers("/your Urls that dosen't need security/**").permitAll();
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilterBefore(new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader), UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .headers()
+                .frameOptions()
+                .disable();
     }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -110,14 +111,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    public void configure(WebSecurity webSecurity) throws Exception
-    {
-        webSecurity
-                .ignoring()
-                // All of Spring Security will ignore the requests
-                .antMatchers("/error/**");
     }
 }

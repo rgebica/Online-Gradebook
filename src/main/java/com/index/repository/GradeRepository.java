@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface GradeRepository extends JpaRepository<Grade, Long> {
     List<Grade> findAllByUserId(long userId);
+
     @Modifying
     @Query("DELETE FROM Grade g WHERE g.gradeId IN ?1")
     void deleteGradesByIds(List<Long> gradeIds);
+
 }

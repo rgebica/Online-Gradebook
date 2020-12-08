@@ -2,8 +2,10 @@ package com.index.service;
 
 import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
+import com.index.model.Grade;
 import com.index.model.Subject;
 import com.index.model.User;
+import com.index.repository.GradeRepository;
 import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
 import com.index.service.serviceImpl.AuthServiceImpl;
@@ -29,6 +31,7 @@ public class SubjectService {
     GradeServiceImpl gradeService;
     UserService userService;
     UserRepository userRepository;
+    GradeRepository gradeRepository;
 
     public void createSubject(CreateSubjectDto createSubjectDto) {
         Subject subject = new Subject();
@@ -74,6 +77,19 @@ public class SubjectService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .subjects(subjects)
+                .build();
+    }
+
+    public UsersSubjectGradesDetailsDto getUsersWithGradesBySubject(long subjectId) {
+        Subject subject = findById(subjectId);
+        List<UserDto> users = subject.getUsers().stream()
+                .map(User::dto)
+                .collect(Collectors.toList());
+
+        return UsersSubjectGradesDetailsDto.builder()
+                .subjectName(subject.getSubjectName())
+                .users(users)
+//                .grades(grades)
                 .build();
     }
 

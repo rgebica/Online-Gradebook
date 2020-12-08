@@ -40,9 +40,9 @@ public class PresenceServiceImpl implements PresenceService {
     public void addPresenceDto(AddPresenceDto addPresence) {
         Presence presence = new Presence();
 
-        checkHasAddAccess();
-        checkIfSubjectExists(addPresence.getSubjectId());
-        checkAddGradeToStudent(addPresence.getUserId());
+//        checkHasAddAccess();
+//        checkIfSubjectExists(addPresence.getSubjectId());
+//        checkAddGradeToStudent(addPresence.getUserId());
 
         presence.setUserId(addPresence.getUserId());
         presence.setSubjectId(addPresence.getSubjectId());

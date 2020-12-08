@@ -32,6 +32,8 @@ public class Grade {
 //    private User user;
     private long subjectId;
     private Long addedBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public GradeDto dto() {
         return GradeDto.builder()

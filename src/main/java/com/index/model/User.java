@@ -56,6 +56,13 @@ public class User {
     )
     List<Subject> subjects = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Grade> grades = new ArrayList<>();
+
     public UserDto dto() {
         return UserDto.builder()
                 .userId(userId)

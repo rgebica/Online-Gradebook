@@ -84,7 +84,7 @@ public class ParentServiceImpl implements ParentService {
                 createBehaviourResponse.getResponseContent());
 
         // Send mail
-        checkHasAddAccess();
+//        checkHasAddAccess();
         mailSender.send(mailMessage);
     }
 

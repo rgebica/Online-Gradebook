@@ -1,8 +1,6 @@
 package com.index.controller;
 
-import com.index.dto.AddGradeDto;
-import com.index.dto.GradeDto;
-import com.index.dto.UserSubjectsGradesDetailsDto;
+import com.index.dto.*;
 import com.index.service.GradeService;
 import com.index.service.SubjectService;
 import lombok.AccessLevel;
@@ -58,5 +56,11 @@ public class UserGradesController {
 
         gradeService.deleteGradesByIds(gradeIds);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/{subjectId}/users")
+    public ResponseEntity<UsersSubjectGradesDetailsDto> getAllUsersWithGrades(@PathVariable long subjectId) {
+        return new ResponseEntity<>(subjectService.getUsersWithGradesBySubject(subjectId), HttpStatus.OK);
     }
 }

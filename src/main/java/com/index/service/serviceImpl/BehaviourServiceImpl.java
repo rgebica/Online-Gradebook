@@ -35,7 +35,7 @@ public class BehaviourServiceImpl implements BehaviourService {
     @Override
     public void addBehaviour(AddBehaviourDto addBehaviour) {
         Behaviour behaviour = new Behaviour();
-        checkHasAddAccess();
+//        checkHasAddAccess();
 
         checkAddGradeToStudent(addBehaviour.getUserId());
         behaviour.setUserId(addBehaviour.getUserId());
