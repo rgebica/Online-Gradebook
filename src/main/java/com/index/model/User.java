@@ -1,9 +1,6 @@
 package com.index.model;
 
-import com.index.dto.ChildrenDto;
-import com.index.dto.SubjectDto;
-import com.index.dto.UserDto;
-import com.index.dto.UserSubjectsDetailsDto;
+import com.index.dto.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -56,11 +53,11 @@ public class User {
     )
     List<Subject> subjects = new ArrayList<>();
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "User_Subject_Grade",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "grade_id"))
+    @MapKeyJoinColumn(name = "subject_id")
     private List<Grade> grades = new ArrayList<>();
 
     public UserDto dto() {
@@ -82,6 +79,15 @@ public class User {
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
+                .build();
+    }
+
+    public UserSubjectDto userSubjectDto() {
+        return UserSubjectDto.builder()
+                .userId(userId)
+                .firstName(firstName)
+                .lastName(lastName)
+                .grades(grades)
                 .build();
     }
 

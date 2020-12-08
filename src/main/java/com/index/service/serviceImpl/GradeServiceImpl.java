@@ -39,7 +39,7 @@ public class GradeServiceImpl implements GradeService {
 //        checkHasAddAccess();
 //        checkAddGradeToStudent(addGrade.getUserId());
 //        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
-//        User user = userService.findById(addGrade.getUserId());
+//       User user = userService.findById(addGrade.getUserId());
         grade.setUserId(addGrade.getUserId());
         grade.setSubjectId(addGrade.getSubjectId());
         grade.setGrade(addGrade.getGrade());

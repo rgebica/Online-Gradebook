@@ -17,10 +17,10 @@ import java.util.List;
 public class UsersSubjectGradesDetailsDto {
 
     String subjectName;
-    List<UserDto> users;
+    List<UserSubjectDto> users;
 //    List<Grade> grades;
 
-    public static UsersSubjectGradesDetailsDto from(String subjectName, List<UserDto> users) {
+    public static UsersSubjectGradesDetailsDto from(String subjectName, List<UserSubjectDto> users) {
         return UsersSubjectGradesDetailsDto.builder()
                 .subjectName(subjectName)
                 .users(users)

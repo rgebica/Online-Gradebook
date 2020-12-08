@@ -82,14 +82,15 @@ public class SubjectService {
 
     public UsersSubjectGradesDetailsDto getUsersWithGradesBySubject(long subjectId) {
         Subject subject = findById(subjectId);
-        List<UserDto> users = subject.getUsers().stream()
-                .map(User::dto)
+
+        List<UserSubjectDto> users = subject.getUsers().stream()
+                .map(User::userSubjectDto)
                 .collect(Collectors.toList());
 
         return UsersSubjectGradesDetailsDto.builder()
                 .subjectName(subject.getSubjectName())
                 .users(users)
-//                .grades(grades)
+//                .grades(user.getGrades())
                 .build();
     }
 
