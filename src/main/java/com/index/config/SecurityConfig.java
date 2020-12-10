@@ -67,9 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
+                .antMatchers("https://gradebook-online-server.herokuapp.com/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
