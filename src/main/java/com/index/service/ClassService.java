@@ -1,5 +1,6 @@
 package com.index.service;
 
+import com.index.dto.AddClassDto;
 import com.index.dto.AddUsersToClassDto;
 import com.index.dto.ClassDto;
 import com.index.dto.ClassUsersDetailsDto;
@@ -11,6 +12,8 @@ public interface ClassService {
     List<ClassUsersDetailsDto> getUsersByClassId(long classId);
 
     void addUserToClass(AddUsersToClassDto addUsersToClassDto);
+
+    void addClass(AddClassDto addClassDto);
 
     ClassDto findClassByClassId(long classId);
 }

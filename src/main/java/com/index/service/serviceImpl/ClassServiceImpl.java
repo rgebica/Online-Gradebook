@@ -49,6 +49,13 @@ public class ClassServiceImpl implements ClassService {
         userRepository.save(user);
     }
 
+    @Override
+    public void addClass(AddClassDto addClassDto) {
+        Class _class = new Class();
+        _class.setClassName(addClassDto.getClassName());
+        classRepository.save(_class);
+    }
+
     public Class findClassById(long classId) {
         return classRepository.findById(classId)
                 .orElseThrow(() -> new SpringGradebookException("Class not found"));

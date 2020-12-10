@@ -122,5 +122,12 @@ public class UserController {
         classService.addUserToClass(addUsersToClassDto);
         return new ResponseEntity<>("Response sent", OK);
     }
+
+    @CrossOrigin
+    @PostMapping("/add-Class")
+    public ResponseEntity<String> addClass(@RequestBody AddClassDto addClassDto) {
+        classService.addClass(addClassDto);
+        return new ResponseEntity<>("Response sent", OK);
+    }
 }
 
