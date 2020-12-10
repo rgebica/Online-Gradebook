@@ -23,7 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "User", schema = "gradebook")
+@Table(name = "user", schema = "gradebook")
 public class User {
     @Id
     @GeneratedValue(strategy = IDENTITY)

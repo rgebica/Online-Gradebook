@@ -22,7 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "Behaviour", schema = "gradebook")
+@Table(name = "behaviour", schema = "gradebook")
 public class Behaviour {
     @Id
     @GeneratedValue(strategy = IDENTITY)

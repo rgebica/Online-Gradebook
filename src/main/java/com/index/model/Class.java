@@ -13,7 +13,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Class", schema = "gradebook")
+@Table(name = "class", schema = "gradebook")
 public class Class {
     @Id
     @GeneratedValue(strategy = IDENTITY)

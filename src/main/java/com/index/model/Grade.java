@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Grade", schema = "gradebook")
+@Table(name = "grade", schema = "gradebook")
 public class Grade {
     @Id
     @GeneratedValue(strategy = IDENTITY)

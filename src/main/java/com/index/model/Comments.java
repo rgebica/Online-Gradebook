@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Table(name = "Comments", schema="gradebook")
+@Table(name = "comments", schema="gradebook")
 @Entity
 @Builder
 @AllArgsConstructor
