@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping("/")
+@RequestMapping(value = "")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 public class StartController {
