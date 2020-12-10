@@ -3,20 +3,13 @@ package com.index.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.index.dto.*;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @AllArgsConstructor
@@ -24,11 +17,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "user", schema = "gradebook")
+@Table(name = "_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Long userId;
     @NotBlank(message = "Username is required")
     private String username;
