@@ -1,5 +1,6 @@
 package com.index.service;
 
+import com.index.dto.AddUsersToClassDto;
 import com.index.dto.CreateUserDto;
 import com.index.dto.StudentDto;
 import com.index.dto.UserDto;
@@ -21,4 +22,5 @@ public interface UserService {
     List<UserDto> findUsersByClass(long classId);
 
     StudentDto getAllStudents();
+
 }

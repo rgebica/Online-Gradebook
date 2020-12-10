@@ -2,8 +2,11 @@ package com.index.service.serviceImpl;
 
 import com.index.dto.*;
 import com.index.exception.ClassNotFoundException;
+import com.index.exceptions.SpringGradebookException;
 import com.index.model.Class;
+import com.index.model.User;
 import com.index.repository.ClassRepository;
+import com.index.repository.UserRepository;
 import com.index.service.ClassService;
 import com.index.service.UserService;
 import lombok.AccessLevel;
@@ -23,6 +26,7 @@ public class ClassServiceImpl implements ClassService {
 
     ClassRepository classRepository;
     UserService userService;
+    UserRepository userRepository;
 
     @Override
     public List<ClassUsersDetailsDto> getUsersByClassId(long classId) {
@@ -35,6 +39,19 @@ public class ClassServiceImpl implements ClassService {
                     List<UserDto> users = usersByClasses.getOrDefault(c.getClassId(), Collections.emptyList());
                     return ClassUsersDetailsDto.from(c.getClassId(), c.getClassName(), users);
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addUserToClass(AddUsersToClassDto addUsersToClassDto) {
+        User user = userService.findById(addUsersToClassDto.getUserId());
+        Class _class = findClassById(addUsersToClassDto.getClassId());
+        user.setClassId(_class);
+        userRepository.save(user);
+    }
+
+    public Class findClassById(long classId) {
+        return classRepository.findById(classId)
+                .orElseThrow(() -> new SpringGradebookException("Class not found"));
     }
 
     @Override

@@ -115,5 +115,12 @@ public class UserController {
         parentService.createResponseToBehaviour(createBehaviourResponse);
         return new ResponseEntity<>("Response sent", OK);
     }
+
+    @CrossOrigin
+    @PostMapping("/add-User-To-Class")
+    public ResponseEntity<String> addUserToClass(@RequestBody AddUsersToClassDto addUsersToClassDto) {
+        classService.addUserToClass(addUsersToClassDto);
+        return new ResponseEntity<>("Response sent", OK);
+    }
 }
 

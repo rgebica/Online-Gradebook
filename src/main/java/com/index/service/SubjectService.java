@@ -39,7 +39,7 @@ public class SubjectService {
         subjectRepository.save(subject);
     }
 
-    public void addUserToSubject(AddUserToSubjectDto addUserToSubjectDto, long userId) {
+    public void addUserToSubject(AddUserToSubjectDto addUserToSubjectDto) {
         String[] subjectIds = addUserToSubjectDto.getSubjectIds().split(",");
         List<Long> parsedSubjectIds = Arrays.stream(subjectIds)
                 .map(Long::parseLong)
@@ -47,7 +47,7 @@ public class SubjectService {
 
         List<Subject> subjects = subjectRepository.findAllById(parsedSubjectIds);
 
-        User user = userService.findById(userId);
+        User user = userService.findById(addUserToSubjectDto.getUserId());
         user.setSubjects(subjects);
         userRepository.save(user);
     }

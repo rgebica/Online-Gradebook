@@ -3,8 +3,10 @@ package com.index.service.serviceImpl;
 import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
 import com.index.exceptions.SpringGradebookException;
+import com.index.model.Class;
 import com.index.model.NotificationEmail;
 import com.index.model.User;
+import com.index.repository.ClassRepository;
 import com.index.repository.UserRepository;
 import com.index.service.DateService;
 import com.index.service.UserService;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
     AuthServiceImpl authService;
     MailService mailService;
     DateService dateService;
+    ClassRepository classRepository;
 
     @Override
     public void createUser(CreateUserDto createUserDto) {
@@ -117,5 +119,4 @@ public class UserServiceImpl implements UserService {
                 .students(findAllStudents)
                 .build();
     }
-
 }
