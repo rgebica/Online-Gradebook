@@ -5,8 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

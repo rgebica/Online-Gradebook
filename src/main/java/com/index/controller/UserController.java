@@ -120,14 +120,14 @@ public class UserController {
     @PostMapping("/add-User-To-Class")
     public ResponseEntity<String> addUserToClass(@RequestBody AddUsersToClassDto addUsersToClassDto) {
         classService.addUserToClass(addUsersToClassDto);
-        return new ResponseEntity<>("Response sent", OK);
+        return new ResponseEntity<>("User added", OK);
     }
 
     @CrossOrigin
     @PostMapping("/add-Class")
     public ResponseEntity<String> addClass(@RequestBody AddClassDto addClassDto) {
         classService.addClass(addClassDto);
-        return new ResponseEntity<>("Response sent", OK);
+        return new ResponseEntity<>("Class created", OK);
     }
 }
 
