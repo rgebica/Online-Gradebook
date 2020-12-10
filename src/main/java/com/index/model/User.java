@@ -1,5 +1,6 @@
 package com.index.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.index.dto.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -51,6 +52,7 @@ public class User {
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "subject_id") }
     )
+    @JsonIgnore
     List<Subject> subjects = new ArrayList<>();
 
     @OneToMany(cascade = { CascadeType.ALL })
@@ -58,6 +60,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "grade_id"))
     @MapKeyJoinColumn(name = "subject_id")
+    @JsonIgnore
     private List<Grade> grades = new ArrayList<>();
 
     public UserDto dto() {

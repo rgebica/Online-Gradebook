@@ -1,5 +1,6 @@
 package com.index.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.index.dto.AddGradeDto;
 import com.index.dto.GradeDto;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class Grade {
     private long subjectId;
     private Long addedBy;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
     public GradeDto dto() {

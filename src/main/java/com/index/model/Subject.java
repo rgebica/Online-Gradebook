@@ -1,5 +1,6 @@
 package com.index.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.index.dto.SubjectDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Subject {
     @Column(name = "name")
     private String subjectName;
     @ManyToMany(mappedBy = "subjects")
+    @JsonIgnore
     private List<User> users = new ArrayList<>();
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
 //    @JoinTable(
