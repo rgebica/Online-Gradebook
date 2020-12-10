@@ -8,10 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -27,7 +24,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "presence", schema = "gradebook")
 public class Presence {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long presenceId;
     private long userId;
     private long subjectId;

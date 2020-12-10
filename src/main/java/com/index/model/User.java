@@ -26,7 +26,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "user", schema = "gradebook")
 public class User {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Long userId;
     @NotBlank(message = "Username is required")

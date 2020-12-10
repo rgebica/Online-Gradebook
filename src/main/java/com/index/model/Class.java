@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "class", schema = "gradebook")
 public class Class {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long classId;
     private String className;
 
