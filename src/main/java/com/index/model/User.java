@@ -47,14 +47,14 @@ public class User {
     private String childrenIds;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
-            name = "User_Subject",
+            name = "usersubject",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "subject_id") }
     )
     List<Subject> subjects = new ArrayList<>();
 
     @OneToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "User_Subject_Grade",
+    @JoinTable(name = "usersubjectgrade",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "grade_id"))
     @MapKeyJoinColumn(name = "subject_id")
