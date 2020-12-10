@@ -68,7 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .antMatcher("https://gradebook-online-server.herokuapp.com/**")
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/v2/api-docs",
@@ -95,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET,"/api/userGrades/").hasAnyRole("TEACHER, PARENT, ADMIN")
 //                .antMatchers(HttpMethod.GET,"/api/auth/presence/*/subjects").hasAnyRole("TEACHER, PARENT, ADMIN, STUDENT")
 //                .antMatchers(HttpMethod.POST,"/api/auth/presences").hasAnyRole("TEACHER, ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader), UsernamePasswordAuthenticationFilter.class);
         httpSecurity
@@ -107,11 +106,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers("https://gradebook-online-server.herokuapp.com/**");
     }
 
     @Bean
