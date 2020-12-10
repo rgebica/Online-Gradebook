@@ -29,6 +29,7 @@ public class UserPresenceController {
         return new ResponseEntity<>("Presence Added", OK);
     }
 
+    @CrossOrigin
     @GetMapping("/presence/{userId}/subjects")
     public ResponseEntity<List<UserPresenceDetailsDto>> getPresenceById(@PathVariable long userId) {
         final List<UserPresenceDetailsDto> userSubjects = presenceService.getPresenceByUserId(userId);

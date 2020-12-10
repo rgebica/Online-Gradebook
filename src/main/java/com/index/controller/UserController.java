@@ -86,6 +86,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PutMapping("/users/{userId}")
     public ResponseEntity<User> updateUserBasicInfo(@PathVariable long userId, @RequestBody UserPersonalInformationDto user) {
         Optional<User> userData = userRepository.findById(userId);
@@ -102,6 +103,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/students")
     public ResponseEntity<StudentDto> getStudents() {
         return new ResponseEntity<>(userService.getAllStudents(), HttpStatus.OK);

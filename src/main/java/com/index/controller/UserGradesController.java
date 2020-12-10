@@ -43,6 +43,7 @@ public class UserGradesController {
         return ResponseEntity.ok(grades);
     }
 
+    @CrossOrigin
     @GetMapping("/grades/{userId}/subjects")
     public ResponseEntity<List<UserSubjectsGradesDetailsDto>> getUserSubjectsWithGrades(@PathVariable long userId) {
         final List<UserSubjectsGradesDetailsDto> userSubjects = subjectService.getUserSubjectsWithGrades(userId);

@@ -197,5 +197,6 @@
 				<version>3.0.3</version>
 			</plugin>
 		</plugins>
+		<finalName>spring-boot-gradebook</finalName>
 	</build>
 </project>

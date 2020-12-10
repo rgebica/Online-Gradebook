@@ -28,6 +28,7 @@ public class UserBehaviourController {
         return new ResponseEntity<>("Behaviour Added", OK);
     }
 
+    @CrossOrigin
     @GetMapping("/behaviour/{userId}")
     public ResponseEntity<List<UserBehaviourDetailsDto>> getUserBehaviour(@PathVariable long userId) {
         final List<UserBehaviourDetailsDto> userBehaviours = Collections.singletonList(behaviourService.getUserBehaviours(userId));
