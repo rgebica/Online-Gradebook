@@ -25,7 +25,6 @@ public class Subject {
     @Column(name = "name")
     private String subjectName;
     @ManyToMany(mappedBy = "subjects")
-    @JsonIgnore
     private List<User> users = new ArrayList<>();
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
 //    @JoinTable(

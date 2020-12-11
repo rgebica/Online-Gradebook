@@ -2,9 +2,7 @@ package com.index.service.serviceImpl;
 
 import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
-import com.index.exceptions.SpringGradebookException;
-import com.index.model.Class;
-import com.index.model.NotificationEmail;
+import com.index.dto.NotificationEmail;
 import com.index.model.User;
 import com.index.repository.ClassRepository;
 import com.index.repository.UserRepository;

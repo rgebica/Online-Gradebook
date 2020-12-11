@@ -1,7 +1,7 @@
 package com.index.service.serviceImpl;
 
 import com.index.exceptions.SpringGradebookException;
-import com.index.model.NotificationEmail;
+import com.index.dto.NotificationEmail;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;

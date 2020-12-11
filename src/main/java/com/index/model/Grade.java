@@ -34,7 +34,6 @@ public class Grade {
     private long subjectId;
     private Long addedBy;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     private User user;
 
     public GradeDto dto() {
