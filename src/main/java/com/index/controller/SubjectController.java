@@ -1,8 +1,6 @@
 package com.index.controller;
 
-import com.index.dto.AddUserToSubjectDto;
-import com.index.dto.CreateSubjectDto;
-import com.index.dto.SubjectDto;
+import com.index.dto.*;
 import com.index.service.SubjectService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,5 +38,18 @@ public class SubjectController {
     @GetMapping("/all-Subjects")
     public List<SubjectDto> getSubjects() {
         return subjectService.getAllSubjects();
+    }
+
+    @CrossOrigin
+    @GetMapping("/all-Subjects-Students/{subjectId}")
+    public List<UserDto> getSubjectUsers(@PathVariable long subjectId) {
+        return subjectService.getUsersBySubjectId(subjectId);
+    }
+
+    @CrossOrigin
+    @GetMapping("/subjects/{userId}")
+    public ResponseEntity<UserSubjectsDetailsDto> getSubjectsByUserId(@PathVariable long userId) {
+        final UserSubjectsDetailsDto subjects = subjectService.getSubjectsByUserId(userId);
+        return ResponseEntity.ok(subjects);
     }
 }

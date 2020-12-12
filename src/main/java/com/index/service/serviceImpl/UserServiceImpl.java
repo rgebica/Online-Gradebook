@@ -3,6 +3,7 @@ package com.index.service.serviceImpl;
 import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
 import com.index.dto.NotificationEmail;
+import com.index.exceptions.SpringGradebookException;
 import com.index.model.User;
 import com.index.repository.ClassRepository;
 import com.index.repository.UserRepository;
@@ -17,7 +18,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -100,6 +104,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
+
     @Override
     public List<UserDto> findUsersByClass(long classId) {
         return userRepository.findAllByClassId(classId).stream()
@@ -107,9 +112,18 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+
+    Function<User, User> throwingIdentity = p -> {
+        if (p == null) {
+            throw new SpringGradebookException("User have no class");
+        }
+        return p;
+    };
+
     @Override
     public StudentDto getAllStudents() {
         List<UserDto> findAllStudents = userRepository.findAllStudents().stream()
+                .peek(p -> {if (p.getClassId() == null) throw new SpringGradebookException("User have no class"); })
                 .map(User::dto)
                 .collect(Collectors.toList());
 

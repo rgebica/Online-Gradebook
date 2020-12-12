@@ -1,12 +1,10 @@
 package com.index.controller;
 
 import com.index.dto.AuthenticationResponse;
-import com.index.dto.CreateUserDto;
 import com.index.dto.LoginRequest;
 import com.index.dto.RefreshTokenRequest;
 import com.index.service.AuthService;
 import com.index.service.RefreshTokenService;
-import com.index.service.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;

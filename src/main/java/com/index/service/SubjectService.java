@@ -3,6 +3,7 @@ package com.index.service;
 import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
 import com.index.model.Grade;
+import com.index.model.Role;
 import com.index.model.Subject;
 import com.index.model.User;
 import com.index.repository.GradeRepository;
@@ -131,17 +132,18 @@ public class SubjectService {
                 .sum();
     }
 
-    public double getFinalAverage() {
-        List<UserSubjectsGradesDetailsDto> gradesDetails = new ArrayList<>();
-        double finalAverage = gradesDetails.stream()
+    public double getFinalAverage(long userId) {
+        User user = userService.findById(userId);
+        List<UserSubjectsGradesDetailsDto> grades = getUserSubjectsWithGrades(user.getUserId());
+
+        double finalAverage = grades.stream()
                 .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
                 .average()
-                .orElse(-100);
+                .orElse(Double.NaN);
 
-        return BigDecimal.valueOf(finalAverage)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
+        return Math.round(finalAverage * 100.0) / 100.0;
     }
+
 
     public Subject findById(long subjectId) {
         return subjectRepository.findById(subjectId)
@@ -162,6 +164,14 @@ public class SubjectService {
     public List<GradeDto> getGradesByUserId(long userId) {
         return gradeRepository.findAllByUserId(userId).stream()
                 .map(Grade::dto)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDto> getUsersBySubjectId(long subjectId) {
+        Subject subject = findById(subjectId);
+        return subject.getUsers().stream()
+                .filter(user -> user.getRole().equals(Role.ROLE_STUDENT))
+                .map(User::dto)
                 .collect(Collectors.toList());
     }
 }

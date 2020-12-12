@@ -38,20 +38,6 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @CrossOrigin
-    @GetMapping("/users/{classId}")
-    public ResponseEntity<List<ClassUsersDetailsDto>> getStudentsFromClass(@PathVariable long classId) {
-        final List<ClassUsersDetailsDto> students = classService.getUsersByClassId(classId);
-        return ResponseEntity.ok(students);
-    }
-
-    @CrossOrigin
-    @GetMapping("/subjects/{userId}")
-    public ResponseEntity<UserSubjectsDetailsDto> getSubjectsByUserId(@PathVariable long userId) {
-        final UserSubjectsDetailsDto subjects = subjectService.getSubjectsByUserId(userId);
-        return ResponseEntity.ok(subjects);
-    }
-
-    @CrossOrigin
     @GetMapping("/user-information/{userId}")
     public UserPersonalInformationDto getInformation(@PathVariable long userId) {
         return userInformationService.getUserInformation(userId);
@@ -107,27 +93,6 @@ public class UserController {
     public ResponseEntity<List<StudentDto>> getStudents() {
         final List<StudentDto> students = Collections.singletonList(userService.getAllStudents());
         return ResponseEntity.ok(students);
-    }
-
-    @CrossOrigin
-    @PostMapping("/add-Response")
-    public ResponseEntity<String> addResponse(@RequestBody CreateBehaviourResponse createBehaviourResponse) {
-        parentService.createResponseToBehaviour(createBehaviourResponse);
-        return new ResponseEntity<>("Response sent", OK);
-    }
-
-    @CrossOrigin
-    @PostMapping("/add-User-To-Class")
-    public ResponseEntity<String> addUserToClass(@RequestBody AddUsersToClassDto addUsersToClassDto) {
-        classService.addUserToClass(addUsersToClassDto);
-        return new ResponseEntity<>("User added to class", OK);
-    }
-
-    @CrossOrigin
-    @PostMapping("/add-Class")
-    public ResponseEntity<String> addClass(@RequestBody AddClassDto addClassDto) {
-        classService.addClass(addClassDto);
-        return new ResponseEntity<>("Class created", OK);
     }
 }
 

@@ -25,7 +25,7 @@ public class UserResultsService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .className(classDto.getClassName())
-                .finalSubjectsAverage(subjectService.getFinalAverage())
+                .finalSubjectsAverage(subjectService.getFinalAverage(userId))
                 .build();
     }
 }
