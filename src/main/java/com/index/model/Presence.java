@@ -2,10 +2,7 @@ package com.index.model;
 
 import com.index.dto.AddPresenceDto;
 import com.index.dto.PresenceDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -16,7 +13,8 @@ import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

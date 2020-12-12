@@ -80,26 +80,43 @@ public class SubjectService {
                 .build();
     }
 
-    public UsersSubjectGradesDetailsDto getUsersWithGradesBySubject(long subjectId) {
+    public List<UsersSubjectGradesDetailsDto> getUsersWithGradesBySubject(long subjectId) {
         Subject subject = findById(subjectId);
 
-        List<UserSubjectDto> users = subject.getUsers().stream()
-                .map(User::userSubjectDto)
+        List<UserDto> users = subject.getUsers().stream()
+                .map(User::dto)
                 .collect(Collectors.toList());
 
-        return UsersSubjectGradesDetailsDto.builder()
-                .subjectName(subject.getSubjectName())
-                .users(users)
-//                .grades(user.getGrades())
-                .build();
+        return users.stream()
+                .map(user -> {
+                    List<GradeDto> grades = gradeRepository.findAllByUserIdAndSubjectId(user.getUserId(), subject.getSubjectId())
+                            .stream()
+                            .map(Grade::dto)
+                            .collect(Collectors.toList());
+
+                    return UsersSubjectGradesDetailsDto.builder()
+                            .subjectName(subject.getSubjectName())
+                            .firstName(user.getFirstName())
+                            .lastName(user.getLastName())
+                            .subjectAverage(getGradesAverageBySubject(grades))
+                            .grades(grades)
+                            .build();
+                }).collect(Collectors.toList());
     }
 
-    private double getGradesAverageBySubject(List<GradeDto> grades) {
-        double average = getGradesSumWithWeights(grades) / getWeightsSum(grades);
+//    User user = userService.findById(userId);
+//    String[] childrenIds = user.getChildrenIds().split(",");
+//    List<Long> parsedChildrenIds = Arrays.stream(childrenIds)
+//            .map(Long::parseLong)
+//            .collect(Collectors.toList());
+//
+//    List<ChildrenDto> children = userRepository.findAllById(parsedChildrenIds).stream()
+//            .map(User::childrenDto)
+//            .collect(toCollection(ArrayList::new));
 
-        return BigDecimal.valueOf(average)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
+    private double getGradesAverageBySubject(List<GradeDto> grades) {
+        double averageRoundedOff =  getGradesSumWithWeights(grades) / getWeightsSum(grades);
+        return Math.round(averageRoundedOff * 100.0) / 100.0;
     }
 
     private double getGradesSumWithWeights(List<GradeDto> grades) {
@@ -139,6 +156,12 @@ public class SubjectService {
     public List<SubjectDto> getAllSubjects() {
         return subjectRepository.findAll().stream()
                 .map(Subject::dto)
+                .collect(Collectors.toList());
+    }
+
+    public List<GradeDto> getGradesByUserId(long userId) {
+        return gradeRepository.findAllByUserId(userId).stream()
+                .map(Grade::dto)
                 .collect(Collectors.toList());
     }
 }

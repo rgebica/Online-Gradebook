@@ -17,14 +17,18 @@ import java.util.List;
 public class UsersSubjectGradesDetailsDto {
 
     String subjectName;
-    List<UserSubjectDto> users;
-//    List<Grade> grades;
+    String firstName;
+    String lastName;
+    List<GradeDto> grades;
+    double subjectAverage;
 
-    public static UsersSubjectGradesDetailsDto from(String subjectName, List<UserSubjectDto> users) {
+    public static UsersSubjectGradesDetailsDto from(String subjectName, String firstName, String lastName, double subjectAverage, List<GradeDto> grades) {
         return UsersSubjectGradesDetailsDto.builder()
                 .subjectName(subjectName)
-                .users(users)
-//                .grades(grades)
+                .firstName(firstName)
+                .lastName(lastName)
+                .subjectAverage(subjectAverage)
+                .grades(grades)
                 .build();
     }
 }

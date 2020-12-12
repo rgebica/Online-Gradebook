@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class UserSubjectDto {
-    private Long userId;
+    private long userId;
     private String firstName;
     private String lastName;
     private List<Grade> grades;

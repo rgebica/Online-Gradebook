@@ -61,7 +61,8 @@ public class UserGradesController {
 
     @CrossOrigin
     @GetMapping("/{subjectId}/users")
-    public ResponseEntity<UsersSubjectGradesDetailsDto> getAllUsersWithGrades(@PathVariable long subjectId) {
-        return new ResponseEntity<>(subjectService.getUsersWithGradesBySubject(subjectId), HttpStatus.OK);
+    public ResponseEntity<List<UsersSubjectGradesDetailsDto>> getUsersGradesBySubject(@PathVariable long subjectId) {
+        final List<UsersSubjectGradesDetailsDto> userSubjects = subjectService.getUsersWithGradesBySubject(subjectId);
+        return ResponseEntity.ok(userSubjects);
     }
 }

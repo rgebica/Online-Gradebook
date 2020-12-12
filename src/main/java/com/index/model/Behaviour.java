@@ -2,14 +2,12 @@ package com.index.model;
 
 import com.index.dto.AddBehaviourDto;
 import com.index.dto.BehaviourDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -18,7 +16,7 @@ import javax.persistence.*;
 public class Behaviour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long behaviourId;
+    private long behaviourId;
     private Integer grade;
     private String date;
     private String description;

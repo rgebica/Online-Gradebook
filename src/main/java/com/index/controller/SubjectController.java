@@ -2,12 +2,15 @@ package com.index.controller;
 
 import com.index.dto.AddUserToSubjectDto;
 import com.index.dto.CreateSubjectDto;
+import com.index.dto.SubjectDto;
 import com.index.service.SubjectService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -35,8 +38,7 @@ public class SubjectController {
 
     @CrossOrigin
     @GetMapping("/all-Subjects")
-    public ResponseEntity<String> getStudents() {
-        subjectService.getAllSubjects();
-        return new ResponseEntity<>("All subjects", OK);
+    public List<SubjectDto> getSubjects() {
+        return subjectService.getAllSubjects();
     }
 }

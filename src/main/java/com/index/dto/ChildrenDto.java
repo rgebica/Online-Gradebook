@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ChildrenDto {
-    private Long userId;
+    private long userId;
     private String className;
     private String firstName;
     private String lastName;

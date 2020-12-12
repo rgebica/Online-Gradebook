@@ -4,7 +4,6 @@ import com.index.dto.*;
 import com.index.model.User;
 import com.index.repository.UserRepository;
 import com.index.service.*;
-import com.index.service.serviceImpl.AuthServiceImpl;
 import com.index.service.serviceImpl.ClassServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,9 +11,9 @@ import lombok.experimental.FieldDefaults;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,9 +104,9 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping("/students")
-    public ResponseEntity<String> getStudents() {
-        userService.getAllStudents();
-        return new ResponseEntity<>("All students", OK);
+    public ResponseEntity<List<StudentDto>> getStudents() {
+        final List<StudentDto> students = Collections.singletonList(userService.getAllStudents());
+        return ResponseEntity.ok(students);
     }
 
     @CrossOrigin
@@ -121,7 +120,7 @@ public class UserController {
     @PostMapping("/add-User-To-Class")
     public ResponseEntity<String> addUserToClass(@RequestBody AddUsersToClassDto addUsersToClassDto) {
         classService.addUserToClass(addUsersToClassDto);
-        return new ResponseEntity<>("User added", OK);
+        return new ResponseEntity<>("User added to class", OK);
     }
 
     @CrossOrigin

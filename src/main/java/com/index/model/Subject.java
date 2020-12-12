@@ -2,9 +2,7 @@ package com.index.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.index.dto.SubjectDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -21,7 +20,7 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subjectId")
-    private Long subjectId;
+    private long subjectId;
     @Column(name = "name")
     private String subjectName;
     @ManyToMany(mappedBy = "subjects")

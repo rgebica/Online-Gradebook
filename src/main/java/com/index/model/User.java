@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -21,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private long userId;
     @NotBlank(message = "Username is required")
     private String username;
     @NotBlank(message = "Password is required")

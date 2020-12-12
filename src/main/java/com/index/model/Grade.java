@@ -3,10 +3,8 @@ package com.index.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.index.dto.AddGradeDto;
 import com.index.dto.GradeDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -14,7 +12,8 @@ import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,7 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gradeId;
+    private long gradeId;
     private Integer grade;
     private Integer gradeWeight;
     private String date;

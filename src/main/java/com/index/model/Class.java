@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -15,7 +14,7 @@ import javax.persistence.*;
 public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long classId;
+    private long classId;
     private String className;
 
     public ClassDto dto() {
