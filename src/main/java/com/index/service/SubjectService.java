@@ -135,4 +135,10 @@ public class SubjectService {
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         return true;
     }
+
+    public List<SubjectDto> getAllSubjects() {
+        return subjectRepository.findAll().stream()
+                .map(Subject::dto)
+                .collect(Collectors.toList());
+    }
 }

@@ -32,4 +32,11 @@ public class SubjectController {
         subjectService.addUserToSubject(addUserToSubjectDto);
         return new ResponseEntity<>("User added to subject", OK);
     }
+
+    @CrossOrigin
+    @GetMapping("/all-Subjects")
+    public ResponseEntity<String> getStudents() {
+        subjectService.getAllSubjects();
+        return new ResponseEntity<>("All subjects", OK);
+    }
 }
