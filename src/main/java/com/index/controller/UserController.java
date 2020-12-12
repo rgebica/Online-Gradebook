@@ -105,8 +105,9 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping("/students")
-    public ResponseEntity<StudentDto> getStudents() {
-        return new ResponseEntity<>(userService.getAllStudents(), HttpStatus.OK);
+    public ResponseEntity<String> getStudents() {
+        userService.getAllStudents();
+        return new ResponseEntity<>("All students", OK);
     }
 
     @CrossOrigin
