@@ -109,4 +109,14 @@ public class GradeServiceImpl implements GradeService {
                 .collect(Collectors.toList());
         gradeRepository.deleteGradesByIds(parsedIds);
     }
+
+    @Override
+    public void editGrade(EditGradeDto editGradeDto, long gradeId) {
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(() -> new SpringGradebookException("Grade does not exist"));
+        grade.setSubjectId(editGradeDto.getSubjectId());
+        grade.setGrade(editGradeDto.getGrade());
+        grade.setComment(editGradeDto.getComment());
+        grade.setUserId(editGradeDto.getUserId());
+        gradeRepository.save(grade);
+    }
 }

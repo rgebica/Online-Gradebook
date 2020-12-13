@@ -28,8 +28,6 @@ public class Grade {
     private String date;
     private String comment;
     private long userId;
-//    @ManyToOne
-//    private User user;
     private long subjectId;
     private Long addedBy;
     @ManyToOne(fetch = FetchType.LAZY)

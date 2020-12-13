@@ -1,6 +1,8 @@
 package com.index.controller;
 
 import com.index.dto.AddBehaviourDto;
+import com.index.dto.EditBehaviourDto;
+import com.index.dto.EditPasswordDto;
 import com.index.dto.UserBehaviourDetailsDto;
 import com.index.service.BehaviourService;
 import lombok.AccessLevel;
@@ -33,5 +35,12 @@ public class UserBehaviourController {
     public ResponseEntity<List<UserBehaviourDetailsDto>> getUserBehaviour(@PathVariable long userId) {
         final List<UserBehaviourDetailsDto> userBehaviours = Collections.singletonList(behaviourService.getUserBehaviours(userId));
         return ResponseEntity.ok(userBehaviours);
+    }
+
+    @CrossOrigin
+    @PutMapping("/editBehaviour/{behaviourId}")
+    public ResponseEntity<String> editBehaviour(@RequestBody EditBehaviourDto editBehaviourDto, @PathVariable long behaviourId) {
+        behaviourService.editBehaviour(editBehaviourDto, behaviourId);
+        return new ResponseEntity<>("Behaviour edited", OK);
     }
 }

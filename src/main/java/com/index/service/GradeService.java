@@ -1,6 +1,7 @@
 package com.index.service;
 
 import com.index.dto.AddGradeDto;
+import com.index.dto.EditGradeDto;
 import com.index.dto.GradeDto;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface GradeService {
     List<GradeDto> getGradesByUser(long userId);
 
     void deleteGradesByIds(String gradeIds);
+
+    void editGrade(EditGradeDto editGradeDto, long gradeId);
 }

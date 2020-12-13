@@ -72,20 +72,10 @@ public class UserController {
     }
 
     @CrossOrigin
-    @PutMapping("/users/{userId}")
-    public ResponseEntity<User> updateUserBasicInfo(@PathVariable long userId, @RequestBody UserPersonalInformationDto user) {
-        Optional<User> userData = userRepository.findById(userId);
-
-        if (userData.isPresent()) {
-            User _user = userData.get();
-            _user.setUsername(user.getUsername());
-            _user.setRole(user.getRole());
-            _user.setEmail(user.getEmail());
-
-            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @PutMapping("/editBasicInfo/{userId}")
+    public ResponseEntity<String> editBasicInfo(@RequestBody UserEditInfoDto userEditInfoDto, @PathVariable long userId) {
+        userService.editBasicInfo(userEditInfoDto, userId);
+        return new ResponseEntity<>("User password edited", OK);
     }
 
     @CrossOrigin
@@ -93,6 +83,13 @@ public class UserController {
     public ResponseEntity<List<StudentDto>> getStudents() {
         final List<StudentDto> students = Collections.singletonList(userService.getAllStudents());
         return ResponseEntity.ok(students);
+    }
+
+    @CrossOrigin
+    @PutMapping("/editPassword/{userId}")
+    public ResponseEntity<String> editPassword(@RequestBody EditPasswordDto editPasswordDto, @PathVariable long userId) {
+        userService.editPassword(editPasswordDto, userId);
+        return new ResponseEntity<>("User password edited", OK);
     }
 }
 

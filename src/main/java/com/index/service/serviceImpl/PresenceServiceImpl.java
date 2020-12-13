@@ -1,9 +1,7 @@
 package com.index.service.serviceImpl;
 
-import com.index.dto.AddPresenceDto;
-import com.index.dto.PresenceDto;
-import com.index.dto.UserDto;
-import com.index.dto.UserPresenceDetailsDto;
+import com.index.dto.*;
+import com.index.exception.UserNotFoundException;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.Presence;
 import com.index.model.Role;
@@ -19,6 +17,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -121,5 +120,15 @@ public class PresenceServiceImpl implements PresenceService {
                 .orElse(Double.NaN);
 
         return (long) countedPresences;
+    }
+
+    @Override
+    public void editPresence(EditPresenceDto editPresenceDto, long presenceId) {
+        Presence presence = presenceRepository.findById(presenceId).
+                orElseThrow(() -> new SpringGradebookException("Presence does not exist"));
+        presence.setSubjectId(editPresenceDto.getSubjectId());
+        presence.setPresence(editPresenceDto.isPresence());
+        presence.setUserId(editPresenceDto.getUserId());
+        presenceRepository.save(presence);
     }
 }

@@ -35,4 +35,11 @@ public class UserPresenceController {
         final List<UserPresenceDetailsDto> userSubjects = presenceService.getPresenceByUserId(userId);
         return ResponseEntity.ok(userSubjects);
     }
+
+    @CrossOrigin
+    @PutMapping("/editPresence/{presenceId}")
+    public ResponseEntity<String> editPassword(@RequestBody EditPresenceDto editPresenceDto, @PathVariable long presenceId) {
+        presenceService.editPresence(editPresenceDto, presenceId);
+        return new ResponseEntity<>("Presence edited", OK);
+    }
 }

@@ -2,10 +2,7 @@ package com.index.service.serviceImpl;
 
 import com.index.dto.*;
 import com.index.exceptions.SpringGradebookException;
-import com.index.model.Behaviour;
-import com.index.model.BehaviourName;
-import com.index.model.Role;
-import com.index.model.User;
+import com.index.model.*;
 import com.index.repository.BehaviourRepository;
 import com.index.repository.SubjectRepository;
 import com.index.service.BehaviourService;
@@ -122,5 +119,15 @@ public class BehaviourServiceImpl implements BehaviourService {
         }
         return null;
     }
+
+    @Override
+    public void editBehaviour(EditBehaviourDto editBehaviourDto, long behaviourId) {
+        Behaviour behaviour = behaviourRepository.findById(behaviourId);
+        behaviour.setGrade(editBehaviourDto.getGrade());
+        behaviour.setUserId(editBehaviourDto.getUserId());
+        behaviour.setDescription(editBehaviourDto.getDescription());
+        behaviourRepository.save(behaviour);
+    }
+
 }
 

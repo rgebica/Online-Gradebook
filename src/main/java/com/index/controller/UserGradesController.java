@@ -1,6 +1,8 @@
 package com.index.controller;
 
 import com.index.dto.*;
+import com.index.model.Grade;
+import com.index.repository.GradeRepository;
 import com.index.service.GradeService;
 import com.index.service.SubjectService;
 import lombok.AccessLevel;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -28,6 +31,7 @@ public class UserGradesController {
 
     GradeService gradeService;
     SubjectService subjectService;
+    GradeRepository gradeRepository;
 
     @CrossOrigin
     @PostMapping("/grades")
@@ -64,5 +68,12 @@ public class UserGradesController {
     public ResponseEntity<List<UsersSubjectGradesDetailsDto>> getUsersGradesBySubject(@PathVariable long subjectId) {
         final List<UsersSubjectGradesDetailsDto> userSubjects = subjectService.getUsersWithGradesBySubject(subjectId);
         return ResponseEntity.ok(userSubjects);
+    }
+
+    @CrossOrigin
+    @PutMapping("/editGrade/{gradeId}")
+    public ResponseEntity<String> editGrade(@RequestBody EditGradeDto editGradeDto, @PathVariable long gradeId) {
+        gradeService.editGrade(editGradeDto, gradeId);
+        return new ResponseEntity<>("Grade edited", OK);
     }
 }
