@@ -20,7 +20,7 @@ public class ParentController {
 
     @CrossOrigin
     @PostMapping("/add-Response")
-    public ResponseEntity<String> addResponse(@RequestBody CreateBehaviourResponse createBehaviourResponse) {
+    public ResponseEntity<String> addResponseToBehaviour(@RequestBody CreateBehaviourResponse createBehaviourResponse) {
         parentService.createResponseToBehaviour(createBehaviourResponse);
         return new ResponseEntity<>("Response sent", OK);
     }

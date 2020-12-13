@@ -41,7 +41,7 @@ public class UserGradesController {
     }
 
     @CrossOrigin
-    @GetMapping("/userGrades/{userId}")
+    @GetMapping("/user-Grades/{userId}")
     public ResponseEntity<List<GradeDto>> getAllGrades(@PathVariable long userId) {
         final List<GradeDto> grades = gradeService.getGradesByUser(userId);
         return ResponseEntity.ok(grades);
@@ -55,8 +55,8 @@ public class UserGradesController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/deleteUsers/{gradeIds}")
-    public ResponseEntity<Void> deleteMovies(@PathVariable String gradeIds) {
+    @DeleteMapping(value = "/grades/{gradeIds}")
+    public ResponseEntity<Void> deleteGrades(@PathVariable String gradeIds) {
         LOGGER.info("delete grades: {}", gradeIds);
 
         gradeService.deleteGradesByIds(gradeIds);
@@ -71,7 +71,7 @@ public class UserGradesController {
     }
 
     @CrossOrigin
-    @PutMapping("/editGrade/{gradeId}")
+    @PutMapping("/grades/{gradeId}")
     public ResponseEntity<String> editGrade(@RequestBody EditGradeDto editGradeDto, @PathVariable long gradeId) {
         gradeService.editGrade(editGradeDto, gradeId);
         return new ResponseEntity<>("Grade edited", OK);

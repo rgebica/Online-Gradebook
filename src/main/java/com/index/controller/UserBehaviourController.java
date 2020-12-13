@@ -24,21 +24,21 @@ public class UserBehaviourController {
     BehaviourService behaviourService;
 
     @CrossOrigin
-    @PostMapping("/behaviour")
+    @PostMapping("/behaviours")
     public ResponseEntity<String> createBehaviour(@RequestBody AddBehaviourDto addBehaviourDto) {
         behaviourService.addBehaviour(addBehaviourDto);
         return new ResponseEntity<>("Behaviour Added", OK);
     }
 
     @CrossOrigin
-    @GetMapping("/behaviour/{userId}")
+    @GetMapping("/behaviours/{userId}")
     public ResponseEntity<List<UserBehaviourDetailsDto>> getUserBehaviour(@PathVariable long userId) {
         final List<UserBehaviourDetailsDto> userBehaviours = Collections.singletonList(behaviourService.getUserBehaviours(userId));
         return ResponseEntity.ok(userBehaviours);
     }
 
     @CrossOrigin
-    @PutMapping("/editBehaviour/{behaviourId}")
+    @PutMapping("/behaviours/{behaviourId}")
     public ResponseEntity<String> editBehaviour(@RequestBody EditBehaviourDto editBehaviourDto, @PathVariable long behaviourId) {
         behaviourService.editBehaviour(editBehaviourDto, behaviourId);
         return new ResponseEntity<>("Behaviour edited", OK);

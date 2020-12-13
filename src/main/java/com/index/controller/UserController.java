@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/deleteUsers/{userIds}")
+    @DeleteMapping(value = "/users/{userIds}")
     public ResponseEntity<Void> deleteMovies(@PathVariable String userIds) {
         LOGGER.info("delete users: {}", userIds);
 
@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @PutMapping("/editBasicInfo/{userId}")
+    @PutMapping("/edit-Info/{userId}")
     public ResponseEntity<String> editBasicInfo(@RequestBody UserEditInfoDto userEditInfoDto, @PathVariable long userId) {
         userService.editBasicInfo(userEditInfoDto, userId);
         return new ResponseEntity<>("User password edited", OK);
@@ -86,7 +86,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @PutMapping("/editPassword/{userId}")
+    @PutMapping("/edit-Password/{userId}")
     public ResponseEntity<String> editPassword(@RequestBody EditPasswordDto editPasswordDto, @PathVariable long userId) {
         userService.editPassword(editPasswordDto, userId);
         return new ResponseEntity<>("User password edited", OK);

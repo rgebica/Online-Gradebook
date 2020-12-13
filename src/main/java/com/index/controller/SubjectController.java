@@ -36,12 +36,12 @@ public class SubjectController {
 
     @CrossOrigin
     @GetMapping("/all-Subjects")
-    public List<SubjectDto> getSubjects() {
+    public List<SubjectDto> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
 
     @CrossOrigin
-    @GetMapping("/all-Subjects-Students/{subjectId}")
+    @GetMapping("/all-Subject-Students/{subjectId}")
     public List<UserDto> getSubjectUsers(@PathVariable long subjectId) {
         return subjectService.getUsersBySubjectId(subjectId);
     }
