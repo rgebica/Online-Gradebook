@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
                 "Generated password: " + password + "\n\n" +
                 "You should change your password." + "\n\n" +
                 "If your personal information are right open link and active you account:" + "\n" + ("http://localhost:8080/api/auth/account-Verification/" + token) + "\n\n" +
+                "https://gradebook-server-online.herokuapp.com/auth/account-Verification/" + token + "\n\n" +
                 "If something is bad with your data contact with admin: "));
 
     }
