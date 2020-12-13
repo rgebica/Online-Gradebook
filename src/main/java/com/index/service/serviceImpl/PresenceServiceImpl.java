@@ -109,4 +109,17 @@ public class PresenceServiceImpl implements PresenceService {
     long addedBy() {
         return authService.getCurrentUser().getUserId();
     }
+
+    @Override
+    public long getFinalPresencePercentage(long userId) {
+        User user = userService.findById(userId);
+        List<UserPresenceDetailsDto> presences = getPresenceByUserId(user.getUserId());
+
+        double countedPresences = presences.stream()
+                .mapToDouble(UserPresenceDetailsDto::getPresencePercentage)
+                .average()
+                .orElse(Double.NaN);
+
+        return (long) countedPresences;
+    }
 }

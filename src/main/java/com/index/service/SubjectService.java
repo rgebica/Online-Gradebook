@@ -9,19 +9,14 @@ import com.index.model.User;
 import com.index.repository.GradeRepository;
 import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
-import com.index.service.serviceImpl.AuthServiceImpl;
 import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toCollection;
 
 @Service
 @AllArgsConstructor
@@ -105,18 +100,8 @@ public class SubjectService {
                 }).collect(Collectors.toList());
     }
 
-//    User user = userService.findById(userId);
-//    String[] childrenIds = user.getChildrenIds().split(",");
-//    List<Long> parsedChildrenIds = Arrays.stream(childrenIds)
-//            .map(Long::parseLong)
-//            .collect(Collectors.toList());
-//
-//    List<ChildrenDto> children = userRepository.findAllById(parsedChildrenIds).stream()
-//            .map(User::childrenDto)
-//            .collect(toCollection(ArrayList::new));
-
     private double getGradesAverageBySubject(List<GradeDto> grades) {
-        double averageRoundedOff =  getGradesSumWithWeights(grades) / getWeightsSum(grades);
+        double averageRoundedOff = getGradesSumWithWeights(grades) / getWeightsSum(grades);
         return Math.round(averageRoundedOff * 100.0) / 100.0;
     }
 

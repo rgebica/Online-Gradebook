@@ -10,4 +10,5 @@ public interface PresenceService {
 
     List<UserPresenceDetailsDto> getPresenceByUserId(long userId);
 
+    long getFinalPresencePercentage(long userId);
 }

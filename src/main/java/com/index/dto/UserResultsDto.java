@@ -1,5 +1,6 @@
 package com.index.dto;
 
+import com.index.model.BehaviourName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +17,9 @@ public class UserResultsDto {
     private double finalSubjectsAverage;
     private double finalSubjectsPresence;
     private double finalBehaviour;
+    private BehaviourName finalBehaviourName;
 
-    public static UserResultsDto from(UserDto userDto, ClassDto classDto, double finalSubjectsPresence, double finalSubjectsAverage, double finalBehaviour) {
+    public static UserResultsDto from(UserDto userDto, ClassDto classDto, double finalSubjectsPresence, double finalSubjectsAverage, double finalBehaviour, BehaviourName finalBehaviourName) {
         return UserResultsDto.builder()
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
@@ -25,6 +27,7 @@ public class UserResultsDto {
                 .finalSubjectsAverage(finalSubjectsAverage)
                 .finalSubjectsPresence(finalSubjectsPresence)
                 .finalBehaviour(finalBehaviour)
+                .finalBehaviourName(finalBehaviourName)
                 .build();
     }
 }

@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserResultsService {
 
-    AuthServiceImpl authService;
+    PresenceService presenceService;
     ClassService classService;
     SubjectService subjectService;
     UserService userService;
+    BehaviourService behaviourService;
 
     public UserResultsDto getUserResults(long userId) {
         UserDto user = userService.getById(userId);
@@ -26,6 +27,9 @@ public class UserResultsService {
                 .lastName(user.getLastName())
                 .className(classDto.getClassName())
                 .finalSubjectsAverage(subjectService.getFinalAverage(userId))
+                .finalSubjectsPresence(presenceService.getFinalPresencePercentage(userId))
+                .finalBehaviour(behaviourService.getFinalBehaviourAverage(userId))
+                .finalBehaviourName(behaviourService.getFinalBehaviourName(userId))
                 .build();
     }
 }
