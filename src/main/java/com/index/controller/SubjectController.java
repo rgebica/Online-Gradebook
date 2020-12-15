@@ -21,27 +21,27 @@ public class SubjectController {
     SubjectService subjectService;
 
     @CrossOrigin
-    @PostMapping("/subjects")
+    @PostMapping("/create-subject")
     public ResponseEntity<String> createSubject(@RequestBody CreateSubjectDto createSubjectDto) {
         subjectService.createSubject(createSubjectDto);
         return new ResponseEntity<>("Subject Created", OK);
     }
 
     @CrossOrigin
-    @PostMapping("/user-Subjects")
+    @PostMapping("/user-subjects")
     public ResponseEntity<String> addUserToSubject(@RequestBody AddUserToSubjectDto addUserToSubjectDto) {
         subjectService.addUserToSubject(addUserToSubjectDto);
-        return new ResponseEntity<>("User added to subject", OK);
+        return new ResponseEntity<>("Subjects added to user", OK);
     }
 
     @CrossOrigin
-    @GetMapping("/all-Subjects")
+    @GetMapping("/subjects")
     public List<SubjectDto> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
 
     @CrossOrigin
-    @GetMapping("/all-Subject-Students/{subjectId}")
+    @GetMapping("/student-subjects/{subjectId}")
     public List<UserDto> getSubjectUsers(@PathVariable long subjectId) {
         return subjectService.getUsersBySubjectId(subjectId);
     }

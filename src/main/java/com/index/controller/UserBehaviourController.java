@@ -24,7 +24,7 @@ public class UserBehaviourController {
     BehaviourService behaviourService;
 
     @CrossOrigin
-    @PostMapping("/behaviours")
+    @PostMapping("/add-behaviour")
     public ResponseEntity<String> createBehaviour(@RequestBody AddBehaviourDto addBehaviourDto) {
         behaviourService.addBehaviour(addBehaviourDto);
         return new ResponseEntity<>("Behaviour Added", OK);

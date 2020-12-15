@@ -23,14 +23,14 @@ public class ClassController {
     ClassService classService;
 
     @CrossOrigin
-    @PostMapping("/add-User-To-Class")
+    @PostMapping("/add-user-to-class")
     public ResponseEntity<String> addUserToClass(@RequestBody AddUsersToClassDto addUsersToClassDto) {
         classService.addUserToClass(addUsersToClassDto);
         return new ResponseEntity<>("User added to class", OK);
     }
 
     @CrossOrigin
-    @PostMapping("/add-Class")
+    @PostMapping("/create-class")
     public ResponseEntity<String> addClass(@RequestBody AddClassDto addClassDto) {
         classService.addClass(addClassDto);
         return new ResponseEntity<>("Class created", OK);

@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -31,17 +30,16 @@ public class UserGradesController {
 
     GradeService gradeService;
     SubjectService subjectService;
-    GradeRepository gradeRepository;
 
     @CrossOrigin
-    @PostMapping("/grades")
+    @PostMapping("/add-grade")
     public ResponseEntity<String> addGrade(@RequestBody AddGradeDto addGradeDto) {
         gradeService.addGrade(addGradeDto);
         return new ResponseEntity<>("Grade Added", OK);
     }
 
     @CrossOrigin
-    @GetMapping("/user-Grades/{userId}")
+    @GetMapping("/user-grades/{userId}")
     public ResponseEntity<List<GradeDto>> getAllGrades(@PathVariable long userId) {
         final List<GradeDto> grades = gradeService.getGradesByUser(userId);
         return ResponseEntity.ok(grades);
@@ -55,7 +53,7 @@ public class UserGradesController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/grades/{gradeIds}")
+    @DeleteMapping("/delete-grades/{gradeIds}")
     public ResponseEntity<Void> deleteGrades(@PathVariable String gradeIds) {
         LOGGER.info("delete grades: {}", gradeIds);
 

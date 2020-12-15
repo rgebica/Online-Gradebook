@@ -25,7 +25,7 @@ public class AuthController {
     RefreshTokenService refreshTokenService;
 
     @CrossOrigin
-    @GetMapping("account-Verification/{token}")
+    @GetMapping("account-verification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
         authService.verifyAccount(token);
         return new ResponseEntity<>("Account Activated Successfully", OK);

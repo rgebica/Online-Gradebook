@@ -27,13 +27,10 @@ import static org.springframework.http.HttpStatus.OK;
 @AllArgsConstructor
 public class UserController {
 
-    ClassServiceImpl classService;
-    SubjectService subjectService;
     UserInformationService userInformationService;
     UserResultsService userResultsService;
     ParentService parentService;
     UserService userService;
-    UserRepository userRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
@@ -63,7 +60,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/users/{userIds}")
+    @DeleteMapping("/delete-users/{userIds}")
     public ResponseEntity<Void> deleteMovies(@PathVariable String userIds) {
         LOGGER.info("delete users: {}", userIds);
 
@@ -72,7 +69,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @PutMapping("/edit-Info/{userId}")
+    @PutMapping("/edit-info/{userId}")
     public ResponseEntity<String> editBasicInfo(@RequestBody UserEditInfoDto userEditInfoDto, @PathVariable long userId) {
         userService.editBasicInfo(userEditInfoDto, userId);
         return new ResponseEntity<>("User password edited", OK);
@@ -86,7 +83,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @PutMapping("/edit-Password/{userId}")
+    @PutMapping("/edit-password/{userId}")
     public ResponseEntity<String> editPassword(@RequestBody EditPasswordDto editPasswordDto, @PathVariable long userId) {
         userService.editPassword(editPasswordDto, userId);
         return new ResponseEntity<>("User password edited", OK);

@@ -23,7 +23,7 @@ public class UserPresenceController {
     PresenceServiceImpl presenceService;
 
     @CrossOrigin
-    @PostMapping("/presences")
+    @PostMapping("/add-presence")
     public ResponseEntity<String> addGrade(@RequestBody AddPresenceDto addPresenceDto) {
         presenceService.addPresenceDto(addPresenceDto);
         return new ResponseEntity<>("Presence Added", OK);
