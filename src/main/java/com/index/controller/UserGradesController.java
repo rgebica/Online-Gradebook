@@ -53,7 +53,7 @@ public class UserGradesController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/delete-grades/{gradeIds}")
+    @DeleteMapping("/add-grade/{gradeIds}")
     public ResponseEntity<Void> deleteGrades(@PathVariable String gradeIds) {
         LOGGER.info("delete grades: {}", gradeIds);
 

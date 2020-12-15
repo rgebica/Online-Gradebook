@@ -1,10 +1,7 @@
 package com.index.controller;
 
 import com.index.dto.*;
-import com.index.model.User;
-import com.index.repository.UserRepository;
 import com.index.service.*;
-import com.index.service.serviceImpl.ClassServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 

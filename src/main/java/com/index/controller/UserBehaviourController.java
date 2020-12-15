@@ -31,14 +31,14 @@ public class UserBehaviourController {
     }
 
     @CrossOrigin
-    @GetMapping("/behaviours/{userId}")
+    @GetMapping("/user-behaviours/{userId}")
     public ResponseEntity<List<UserBehaviourDetailsDto>> getUserBehaviour(@PathVariable long userId) {
         final List<UserBehaviourDetailsDto> userBehaviours = Collections.singletonList(behaviourService.getUserBehaviours(userId));
         return ResponseEntity.ok(userBehaviours);
     }
 
     @CrossOrigin
-    @PutMapping("/behaviours/{behaviourId}")
+    @PutMapping("/behaviour/{behaviourId}")
     public ResponseEntity<String> editBehaviour(@RequestBody EditBehaviourDto editBehaviourDto, @PathVariable long behaviourId) {
         behaviourService.editBehaviour(editBehaviourDto, behaviourId);
         return new ResponseEntity<>("Behaviour edited", OK);
