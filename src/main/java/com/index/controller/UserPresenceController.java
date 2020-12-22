@@ -14,7 +14,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("api/")
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
@@ -38,7 +38,7 @@ public class UserPresenceController {
 
     @CrossOrigin
     @PutMapping("/presence/{presenceId}")
-    public ResponseEntity<String> editPassword(@RequestBody EditPresenceDto editPresenceDto, @PathVariable long presenceId) {
+    public ResponseEntity<String> editPresence(@RequestBody EditPresenceDto editPresenceDto, @PathVariable long presenceId) {
         presenceService.editPresence(editPresenceDto, presenceId);
         return new ResponseEntity<>("Presence edited", OK);
     }

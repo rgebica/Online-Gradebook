@@ -34,9 +34,6 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     AuthServiceImpl authService;
     MailService mailService;
-    DateService dateService;
-    ClassRepository classRepository;
-    EntityManager entityManager;
 
     @Override
     public void createUser(CreateUserDto createUserDto) {
@@ -62,8 +59,8 @@ public class UserServiceImpl implements UserService {
                 "\n\n" + "Login: " + user.getUsername() + "\n" +
                 "Generated password: " + password + "\n\n" +
                 "You should change your password." + "\n\n" +
-                "If your personal information are right open link and active you account:" + "\n" + ("http://localhost:8080/api/auth/account-Verification/" + token) + "\n\n" +
-                "https://gradebook-server-online.herokuapp.com/auth/account-Verification/" + token + "\n\n" +
+                "If your personal information are right open link and active you account:" + "\n" + ("http://localhost:8080/api/auth/account-verification/" + token) + "\n\n" +
+                "https://gradebook-server-online.herokuapp.com/auth/account-verification/" + token + "\n\n" +
                 "If something is bad with your data contact with admin: "));
 
     }
@@ -86,8 +83,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUsersByIds(String movieIds) {
-        String[] splitedIds = movieIds.split(",");
+    public void deleteUsersByIds(String userIds) {
+        String[] splitedIds = userIds.split(",");
         List<Long> parsedUserIds = Arrays.stream(splitedIds)
                 .map(Long::parseLong)
                 .collect(Collectors.toList());

@@ -31,7 +31,7 @@ public class ClassController {
 
     @CrossOrigin
     @PostMapping("/create-class")
-    public ResponseEntity<String> addClass(@RequestBody AddClassDto addClassDto) {
+    public ResponseEntity<String> createClass(@RequestBody AddClassDto addClassDto) {
         classService.addClass(addClassDto);
         return new ResponseEntity<>("Class created", OK);
     }
