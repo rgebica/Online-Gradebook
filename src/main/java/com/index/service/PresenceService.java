@@ -2,6 +2,7 @@ package com.index.service;
 
 import com.index.dto.AddPresenceDto;
 import com.index.dto.EditPresenceDto;
+import com.index.dto.PresenceDto;
 import com.index.dto.UserPresenceDetailsDto;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface PresenceService {
     long getFinalPresencePercentage(long userId);
 
     void editPresence(EditPresenceDto editPresenceDto, long presenceId);
+
+    PresenceDto getPresenceById(long presenceId);
 }

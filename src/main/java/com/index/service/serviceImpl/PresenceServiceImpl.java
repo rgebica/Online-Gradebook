@@ -47,6 +47,7 @@ public class PresenceServiceImpl implements PresenceService {
         presence.setSubjectId(addPresence.getSubjectId());
         presence.setPresence(addPresence.isPresence());
         presence.setDate(DateService.getFormattedDate());
+        presence.setStatus(addPresence.getStatus());
         presence.setAddedBy(addedBy());
 
         presenceRepository.save(presence);
@@ -126,9 +127,14 @@ public class PresenceServiceImpl implements PresenceService {
     public void editPresence(EditPresenceDto editPresenceDto, long presenceId) {
         Presence presence = presenceRepository.findById(presenceId).
                 orElseThrow(() -> new SpringGradebookException("Presence does not exist"));
-        presence.setSubjectId(editPresenceDto.getSubjectId());
         presence.setPresence(editPresenceDto.isPresence());
-        presence.setUserId(editPresenceDto.getUserId());
+        presence.setStatus(editPresenceDto.getStatus());
         presenceRepository.save(presence);
+    }
+
+    @Override
+    public PresenceDto getPresenceById(long presenceId) {
+        return presenceRepository.findById(presenceId)
+                .map(Presence::dto).orElseThrow(() -> new SpringGradebookException("Presence does not exist"));
     }
 }

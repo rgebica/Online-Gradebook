@@ -17,4 +17,5 @@ public class PresenceDto {
     private long subjectId;
     private boolean presence;
     private String date;
+    private String status;
 }

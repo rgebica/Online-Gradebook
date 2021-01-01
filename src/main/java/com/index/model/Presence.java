@@ -29,6 +29,7 @@ public class Presence {
     private boolean presence;
     private String date;
     private long addedBy;
+    private String status;
 
     public PresenceDto dto() {
         return PresenceDto.builder()
@@ -37,6 +38,7 @@ public class Presence {
                 .userId(userId)
                 .presence(presence)
                 .date(date)
+                .status(status)
                 .build();
     }
 }

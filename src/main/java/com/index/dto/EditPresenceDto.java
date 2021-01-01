@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EditPresenceDto {
-    long userId;
-    long subjectId;
     boolean presence;
+    String status;
 }

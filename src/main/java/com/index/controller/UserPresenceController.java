@@ -42,4 +42,9 @@ public class UserPresenceController {
         presenceService.editPresence(editPresenceDto, presenceId);
         return new ResponseEntity<>("Presence edited", OK);
     }
+    @CrossOrigin
+    @GetMapping("/presence/{presenceId}")
+    public PresenceDto getPresence(@PathVariable long presenceId) {
+        return presenceService.getPresenceById(presenceId);
+    }
 }

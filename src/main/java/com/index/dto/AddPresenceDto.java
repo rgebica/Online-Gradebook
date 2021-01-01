@@ -16,4 +16,5 @@ public class AddPresenceDto {
     long userId;
     long subjectId;
     boolean presence;
+    String status;
 }
