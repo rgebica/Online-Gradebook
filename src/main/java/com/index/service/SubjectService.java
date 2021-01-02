@@ -2,11 +2,10 @@ package com.index.service;
 
 import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
-import com.index.model.Grade;
-import com.index.model.Role;
-import com.index.model.Subject;
-import com.index.model.User;
+import com.index.exceptions.SpringGradebookException;
+import com.index.model.*;
 import com.index.repository.GradeRepository;
+import com.index.repository.SemesterGradeRepository;
 import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
 import com.index.service.serviceImpl.GradeServiceImpl;
@@ -28,6 +27,7 @@ public class SubjectService {
     UserService userService;
     UserRepository userRepository;
     GradeRepository gradeRepository;
+    SemesterGradeRepository semesterGradeRepository;
 
     public void createSubject(CreateSubjectDto createSubjectDto) {
         Subject subject = new Subject();
@@ -158,5 +158,39 @@ public class SubjectService {
                 .filter(user -> user.getRole().equals(Role.ROLE_STUDENT))
                 .map(User::dto)
                 .collect(Collectors.toList());
+    }
+
+    public List<StudentYearsAverageDto> getUsersWithAveragesBySubject(long subjectId) {
+        Subject subject = findById(subjectId);
+
+        List<UserDto> users = subject.getUsers().stream()
+                .map(User::dto)
+                .collect(Collectors.toList());
+
+        return users.stream()
+                .map(user -> {
+                    List<GradeDto> grades = gradeRepository.findAllByUserIdAndSubjectId(user.getUserId(), subject.getSubjectId())
+                            .stream()
+                            .map(Grade::dto)
+                            .collect(Collectors.toList());
+
+                    double currentAverage = getGradesAverageBySubject(grades);
+
+                    double lastSubjectAverage = semesterGradeRepository.findByUserIdAndSubjectId(user.getUserId(), subjectId)
+                            .map(SemesterGrade::getSubjectAverage)
+                            .orElseThrow(() -> new SpringGradebookException("Grade does not exist"));
+
+                    double yearsAverage = ((currentAverage + lastSubjectAverage) / 2);
+
+                    return StudentYearsAverageDto.builder()
+                            .subjectName(subject.getSubjectName())
+                            .subjectId(subjectId)
+                            .firstName(user.getFirstName())
+                            .lastName(user.getLastName())
+                            .currentAverage(currentAverage)
+                            .semesterAverage(lastSubjectAverage)
+                            .yearsAverage(yearsAverage)
+                            .build();
+                }).collect(Collectors.toList());
     }
 }

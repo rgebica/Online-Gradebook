@@ -74,4 +74,18 @@ public class UserGradesController {
         gradeService.editGrade(editGradeDto, gradeId);
         return new ResponseEntity<>("Grade edited", OK);
     }
+
+    @CrossOrigin
+    @PostMapping("/add-final-grade")
+    public ResponseEntity<String> addFinalGrade(@RequestBody AddFinalGradeDto addFinalGradeDto) {
+        gradeService.addSemesterGrade(addFinalGradeDto);
+        return new ResponseEntity<>("Grade Added", OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/{subjectId}/averages")
+    public ResponseEntity<List<StudentYearsAverageDto>> getStudentsWithAverages(@PathVariable long subjectId) {
+        final List<StudentYearsAverageDto> userAverages = subjectService.getUsersWithAveragesBySubject(subjectId);
+        return ResponseEntity.ok(userAverages);
+    }
 }

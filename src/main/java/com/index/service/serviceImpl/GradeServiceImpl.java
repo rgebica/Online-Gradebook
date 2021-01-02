@@ -32,6 +32,7 @@ public class GradeServiceImpl implements GradeService {
     BehaviourRepository behaviourRepository;
     AuthService authService;
     UserService userService;
+    SemesterGradeRepository semesterGradeRepository;
 
     @Override
     public void addGrade(AddGradeDto addGrade) {
@@ -118,5 +119,21 @@ public class GradeServiceImpl implements GradeService {
         grade.setComment(editGradeDto.getComment());
         grade.setUserId(editGradeDto.getUserId());
         gradeRepository.save(grade);
+    }
+
+    @Override
+    public void addSemesterGrade(AddFinalGradeDto addFinalGradeDto) {
+        SemesterGrade semesterGrade = new SemesterGrade();
+        checkIfSubjectExists(addFinalGradeDto.getSubjectId());
+//        checkHasAddAccess();
+//        checkAddGradeToStudent(addGrade.getUserId());
+//        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+        semesterGrade.setUserId(addFinalGradeDto.getUserId());
+        semesterGrade.setSubjectId(addFinalGradeDto.getSubjectId());
+        semesterGrade.setFinalGrade(addFinalGradeDto.getFinalGrade());
+        semesterGrade.setSemester(addFinalGradeDto.getSemester());
+        semesterGrade.setSubjectAverage(addFinalGradeDto.getSubjectAverage());
+
+        semesterGradeRepository.save(semesterGrade);
     }
 }
