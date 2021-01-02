@@ -47,4 +47,10 @@ public class UserPresenceController {
     public PresenceDto getPresence(@PathVariable long presenceId) {
         return presenceService.getPresenceById(presenceId);
     }
+    @CrossOrigin
+    @GetMapping("/{subjectId}/presences")
+    public ResponseEntity<List<UserPresencesBySubjectDto>> getUsersPresencesBySubject(@PathVariable long subjectId) {
+        final List<UserPresencesBySubjectDto> userSubjects = presenceService.getUserPresencesBySubjects(subjectId);
+        return ResponseEntity.ok(userSubjects);
+    }
 }

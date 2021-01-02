@@ -1,23 +1,15 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
-import com.index.exception.UserNotFoundException;
 import com.index.exceptions.SpringGradebookException;
-import com.index.model.Presence;
-import com.index.model.Role;
-import com.index.model.Subject;
-import com.index.model.User;
+import com.index.model.*;
 import com.index.repository.PresenceRepository;
 import com.index.repository.SubjectRepository;
-import com.index.service.AuthService;
-import com.index.service.DateService;
-import com.index.service.PresenceService;
-import com.index.service.UserService;
+import com.index.service.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,6 +22,7 @@ import java.util.stream.Collectors;
 public class PresenceServiceImpl implements PresenceService {
 
     SubjectRepository subjectRepository;
+    SubjectService subjectService;
     PresenceRepository presenceRepository;
     GradeServiceImpl gradeService;
     UserService userService;
@@ -136,5 +129,32 @@ public class PresenceServiceImpl implements PresenceService {
     public PresenceDto getPresenceById(long presenceId) {
         return presenceRepository.findById(presenceId)
                 .map(Presence::dto).orElseThrow(() -> new SpringGradebookException("Presence does not exist"));
+    }
+
+    @Override
+    public List<UserPresencesBySubjectDto> getUserPresencesBySubjects(long subjectId) {
+        Subject subject = subjectService.findById(subjectId);
+
+        List<UserDto> users = subject.getUsers().stream()
+                .map(User::dto)
+                .collect(Collectors.toList());
+
+        return users.stream()
+                .map(user -> {
+                    List<PresenceDto> presenceDtos = presenceRepository.findAllByUserIdAndSubjectId(user.getUserId(), subject.getSubjectId())
+                            .stream()
+                            .map(Presence::dto)
+                            .collect(Collectors.toList());
+
+                    return UserPresencesBySubjectDto.builder()
+                            .subjectName(subject.getSubjectName())
+                            .firstName(user.getFirstName())
+                            .lastName(user.getLastName())
+                            .presences(presenceDtos)
+                            .presenceCounter(getPresenceCounter(presenceDtos))
+                            .absenceCounter(getAbsenceCounter(presenceDtos))
+                            .presencePercentage(getPresencePercentage(presenceDtos))
+                            .build();
+                }).collect(Collectors.toList());
     }
 }

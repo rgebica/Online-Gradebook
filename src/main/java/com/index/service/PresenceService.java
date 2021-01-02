@@ -1,9 +1,6 @@
 package com.index.service;
 
-import com.index.dto.AddPresenceDto;
-import com.index.dto.EditPresenceDto;
-import com.index.dto.PresenceDto;
-import com.index.dto.UserPresenceDetailsDto;
+import com.index.dto.*;
 
 import java.util.List;
 
@@ -17,4 +14,6 @@ public interface PresenceService {
     void editPresence(EditPresenceDto editPresenceDto, long presenceId);
 
     PresenceDto getPresenceById(long presenceId);
+
+    List<UserPresencesBySubjectDto> getUserPresencesBySubjects(long subjectId);
 }
