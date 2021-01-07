@@ -1,6 +1,5 @@
 package com.index.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.index.dto.*;
 import lombok.*;
 import javax.persistence.*;

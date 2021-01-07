@@ -73,8 +73,8 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping("/students")
-    public ResponseEntity<List<StudentDto>> getStudents() {
-        final List<StudentDto> students = Collections.singletonList(userService.getAllStudents());
+    public ResponseEntity<List<StudentsDto>> getStudents() {
+        final List<StudentsDto> students = Collections.singletonList(userService.getAllStudents());
         return ResponseEntity.ok(students);
     }
 
@@ -83,6 +83,26 @@ public class UserController {
     public ResponseEntity<String> editPassword(@RequestBody EditPasswordDto editPasswordDto, @PathVariable long userId) {
         userService.editPassword(editPasswordDto, userId);
         return new ResponseEntity<>("User password edited", OK);
+    }
+    @CrossOrigin
+    @GetMapping("/all-users")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        final List<UserDto> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @CrossOrigin
+    @GetMapping("/all-teachers")
+    public ResponseEntity<List<UserDto>> getAllTeachers() {
+        final List<UserDto> teachers = userService.getAllTeachers();
+        return ResponseEntity.ok(teachers);
+    }
+
+    @CrossOrigin
+    @GetMapping("/all-parents")
+    public ResponseEntity<List<UserDto>> getAllParents() {
+        final List<UserDto> parents = userService.getAllParents();
+        return ResponseEntity.ok(parents);
     }
 }
 

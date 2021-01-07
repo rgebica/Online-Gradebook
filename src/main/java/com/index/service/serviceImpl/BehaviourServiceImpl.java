@@ -37,10 +37,10 @@ public class BehaviourServiceImpl implements BehaviourService {
     public void addBehaviour(AddBehaviourDto addBehaviour) {
         Behaviour behaviour = new Behaviour();
 //        checkHasAddAccess();
-
-        checkAddGradeToStudent(addBehaviour.getUserId());
+//        checkAddGradeToStudent(addBehaviour.getUserId());
         behaviour.setUserId(addBehaviour.getUserId());
         behaviour.setGrade(addBehaviour.getGrade());
+        behaviour.setDescription(addBehaviour.getDescription());
         behaviour.setDate(DateService.getFormattedDate());
         behaviour.setAddedBy(addedBy());
 

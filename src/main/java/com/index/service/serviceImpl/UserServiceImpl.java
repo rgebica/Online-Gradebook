@@ -4,6 +4,7 @@ import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
 import com.index.dto.NotificationEmail;
 import com.index.exceptions.SpringGradebookException;
+import com.index.model.Class;
 import com.index.model.Grade;
 import com.index.model.User;
 import com.index.repository.ClassRepository;
@@ -13,6 +14,7 @@ import com.index.service.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,8 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     AuthServiceImpl authService;
     MailService mailService;
+    ClassRepository classRepository;
+    Class _classNone = new Class(99, "None");
 
     @Override
     public void createUser(CreateUserDto createUserDto) {
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
                 "Generated password: " + password + "\n\n" +
                 "You should change your password." + "\n\n" +
                 "If your personal information are right open link and active you account:" + "\n" + ("http://localhost:8080/api/auth/account-verification/" + token) + "\n\n" +
-                "https://gradebook-server-online.herokuapp.com/auth/account-verification/" + token + "\n\n" +
+                "https://gradebook-server-online.herokuapp.com/api/auth/account-verification/" + token + "\n\n" +
                 "If something is bad with your data contact with admin: "));
 
     }
@@ -104,7 +108,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
-
     @Override
     public List<UserDto> findUsersByClass(long classId) {
         return userRepository.findAllByClassId(classId).stream()
@@ -112,18 +115,53 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    public Class findClass (long userId) {
+        return userRepository.findByClassId(userId);
+    }
+
     @Override
-    public StudentDto getAllStudents() {
+    public StudentsDto getAllStudents() {
         List<UserDto> findAllStudents = userRepository.findAllStudents().stream()
                 .peek(p -> {
-                    if (p.getClassId() == null) throw new SpringGradebookException("User have no class");
+                    if (p.getClassId() == null) {p.setClassId(_classNone);}
                 })
                 .map(User::dto)
                 .collect(Collectors.toList());
 
-        return StudentDto.builder()
+        return StudentsDto.builder()
                 .students(findAllStudents)
                 .build();
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream()
+                .peek(p -> {
+                    if (p.getClassId() == null) {p.setClassId(_classNone);}
+                })
+                .map(User::dto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getAllTeachers() {
+        return userRepository.findAllTeachers().stream()
+                .filter(user -> user.getRole().equals("ROLE_TEACHER"))
+                .peek(p -> {
+                    if (p.getClassId() == null) {p.setClassId(_classNone);}
+                })
+                .map(User::dto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getAllParents() {
+        return userRepository.findAllParents().stream()
+                .peek(p -> {
+                    if (p.getClassId() == null) {p.setClassId(_classNone);}
+                })
+                .map(User::dto)
+                .collect(Collectors.toList());
     }
 
     @Override

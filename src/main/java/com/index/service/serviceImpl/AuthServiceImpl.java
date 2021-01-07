@@ -51,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
 
     private void fetchUserAndEnable(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new SpringGradebookException("User not found with name - " + username));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User name not found - " + username));
         user.setEnabled(true);
         userRepository.save(user);
     }

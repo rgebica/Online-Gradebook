@@ -2,6 +2,7 @@ package com.index.controller;
 
 import com.index.dto.AddClassDto;
 import com.index.dto.AddUsersToClassDto;
+import com.index.dto.ClassDto;
 import com.index.dto.ClassUsersDetailsDto;
 import com.index.service.ClassService;
 import lombok.AccessLevel;
@@ -41,5 +42,12 @@ public class ClassController {
     public ResponseEntity<List<ClassUsersDetailsDto>> getStudentsFromClass(@PathVariable long classId) {
         final List<ClassUsersDetailsDto> students = classService.getUsersByClassId(classId);
         return ResponseEntity.ok(students);
+    }
+
+    @CrossOrigin
+    @GetMapping("/classes")
+    public ResponseEntity<List<ClassDto>> getAllClasses() {
+        final List<ClassDto> classes = classService.getAllClasses();
+        return ResponseEntity.ok(classes);
     }
 }

@@ -8,11 +8,9 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 public class DateService {
-
     public static String getFormattedDate() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault())
                 .format(Instant.now());
     }
-
 }

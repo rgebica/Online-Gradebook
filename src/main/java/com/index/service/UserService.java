@@ -16,7 +16,13 @@ public interface UserService {
 
     List<UserDto> findUsersByClass(long classId);
 
-    StudentDto getAllStudents();
+    StudentsDto getAllStudents();
+
+    List<UserDto> getAllUsers();
+
+    List<UserDto> getAllTeachers();
+
+    List<UserDto> getAllParents();
 
     void editPassword(EditPasswordDto editPasswordDto, long userId);
 

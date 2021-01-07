@@ -168,18 +168,18 @@ public class SubjectService {
         semesterGradeRepository.save(semesterGrade);
     }
 
-    public double getGradesAverageBySubject(List<GradeDto> grades) {
+     double getGradesAverageBySubject(List<GradeDto> grades) {
         double averageRoundedOff = getGradesSumWithWeights(grades) / getWeightsSum(grades);
         return Math.round(averageRoundedOff * 100.0) / 100.0;
     }
 
-    public double getGradesSumWithWeights(List<GradeDto> grades) {
+     double getGradesSumWithWeights(List<GradeDto> grades) {
         return grades.stream()
                 .mapToDouble(grade -> (grade.getGrade() * grade.getGradeWeight()))
                 .sum();
     }
 
-    public double getWeightsSum(List<GradeDto> grades) {
+     double getWeightsSum(List<GradeDto> grades) {
         return grades.stream()
                 .mapToDouble(GradeDto::getGradeWeight)
                 .sum();
@@ -200,11 +200,10 @@ public class SubjectService {
     private double getChosenSubjectAverage(long userId, long subjectId) {
         User user = userService.findById(userId);
         List<UserSubjectsGradesDetailsDto> grades = getUserSubjectsWithGrades(user.getUserId());
-        double subjectAverage = grades.stream()
+        return grades.stream()
                 .filter(userSubjectsGradesDetailsDto -> userSubjectsGradesDetailsDto.getSubjectId() == subjectId)
                 .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
                 .sum();
-        return subjectAverage;
     }
     public List<SemesterResultsDto> getSemesterResults(long userId, String semester) {
         Map<Long, List<SemesterGradeDto>> gradesBySubjectIds = gradeService.getSemesterGrades(userId).stream()

@@ -18,4 +18,5 @@ public class UserDto {
     private String email;
     private Role role;
     private String childrenIds;
+    private String className;
 }

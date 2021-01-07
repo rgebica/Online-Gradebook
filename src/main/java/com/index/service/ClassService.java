@@ -15,6 +15,8 @@ public interface ClassService {
 
     void addClass(AddClassDto addClassDto);
 
+    List<ClassDto> getAllClasses();
+
     ClassDto findClassByClassId(long classId);
 }
 
