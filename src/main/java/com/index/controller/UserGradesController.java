@@ -81,4 +81,11 @@ public class UserGradesController {
         subjectService.addSemesterGrade(addFinalGradeDto);
         return new ResponseEntity<>("Grade Added", OK);
     }
+
+    @CrossOrigin
+    @GetMapping("/semester-grades/{userId}/subjects")
+    public ResponseEntity<List<SemesterResultsDto>> getUserSemesterGrades(@PathVariable long userId, String semester) {
+        final List<SemesterResultsDto> userGrades = subjectService.getSemesterResults(userId, semester);
+        return ResponseEntity.ok(userGrades);
+    }
 }

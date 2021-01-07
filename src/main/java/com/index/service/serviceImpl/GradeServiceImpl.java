@@ -27,6 +27,7 @@ public class GradeServiceImpl implements GradeService {
     SubjectRepository subjectRepository;
     PresenceRepository presenceRepository;
     BehaviourRepository behaviourRepository;
+    SemesterGradeRepository semesterGradeRepository;
     AuthService authService;
     UserService userService;
 
@@ -54,6 +55,13 @@ public class GradeServiceImpl implements GradeService {
     public List<GradeDto> getGradesByUser(long userId) {
         return gradeRepository.findAllByUserId(userId).stream()
                 .map(Grade::dto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SemesterGradeDto> getSemesterGrades(long userId) {
+        return semesterGradeRepository.findAllByUserId(userId).stream()
+                .map(SemesterGrade::dto)
                 .collect(Collectors.toList());
     }
 

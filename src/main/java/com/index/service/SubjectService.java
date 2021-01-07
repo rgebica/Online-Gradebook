@@ -2,13 +2,11 @@ package com.index.service;
 
 import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
-import com.index.exceptions.SpringGradebookException;
 import com.index.model.*;
 import com.index.repository.GradeRepository;
 import com.index.repository.SemesterGradeRepository;
 import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
-import com.index.service.serviceImpl.GradeServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -103,7 +101,7 @@ public class SubjectService {
                             .mapToInt(SemesterGradeDto::getFinalGrade)
                             .sum();
 
-                    double yearAverage = ((semesterSubjectAverage + getGradesAverageBySubject(grades)) / 2);
+                    double yearAverage = Math.round(((semesterSubjectAverage + getGradesAverageBySubject(grades)) / 2) * 100.0) / 100.0;
 
                     int finalGrade = semesterGrades.stream()
                             .filter(semesterGradeDto -> semesterGradeDto.getSemester().equals("Semestr 2"))
@@ -207,5 +205,21 @@ public class SubjectService {
                 .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
                 .sum();
         return subjectAverage;
+    }
+    public List<SemesterResultsDto> getSemesterResults(long userId, String semester) {
+        Map<Long, List<SemesterGradeDto>> gradesBySubjectIds = gradeService.getSemesterGrades(userId).stream()
+                .collect(Collectors.groupingBy(SemesterGradeDto::getSubjectId));
+        Set<Long> subjectIds = gradesBySubjectIds.keySet();
+        List<Subject> subjects = subjectRepository.findAllById(subjectIds);
+        UserDto user = userService.getById(userId);
+
+        return subjects.stream()
+                .map(subject -> {
+                    List<SemesterGradeDto> grades = gradesBySubjectIds.getOrDefault(subject.getSubjectId(), Collections.emptyList()).stream()
+                            .filter(semesterGradeDto -> semesterGradeDto.getSemester().equals(semester))
+                            .collect(Collectors.toList());
+                    return SemesterResultsDto.from(subject.getSubjectId(), userId, subject.getSubjectName(), user,
+                            grades);
+                }).collect(Collectors.toList());
     }
 }
