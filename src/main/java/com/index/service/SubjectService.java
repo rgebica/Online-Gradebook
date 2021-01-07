@@ -218,8 +218,13 @@ public class SubjectService {
                     List<SemesterGradeDto> grades = gradesBySubjectIds.getOrDefault(subject.getSubjectId(), Collections.emptyList()).stream()
                             .filter(semesterGradeDto -> semesterGradeDto.getSemester().equals(semester))
                             .collect(Collectors.toList());
-                    return SemesterResultsDto.from(subject.getSubjectId(), userId, subject.getSubjectName(), user,
-                            grades);
+                    double semesterAverage = grades.stream()
+                            .mapToDouble(SemesterGradeDto::getFinalGrade)
+                            .average()
+                            .orElse(Double.NaN);
+                    double convertedSemesterAverage = Math.round(semesterAverage * 100.0) / 100.0;
+                    return SemesterResultsDto.from(subject.getSubjectId(), userId, subject.getSubjectName(), user, semester,
+                            convertedSemesterAverage, grades);
                 }).collect(Collectors.toList());
     }
 }
