@@ -78,14 +78,7 @@ public class UserGradesController {
     @CrossOrigin
     @PostMapping("/add-final-grade")
     public ResponseEntity<String> addFinalGrade(@RequestBody AddFinalGradeDto addFinalGradeDto) {
-        gradeService.addSemesterGrade(addFinalGradeDto);
+        subjectService.addSemesterGrade(addFinalGradeDto);
         return new ResponseEntity<>("Grade Added", OK);
-    }
-
-    @CrossOrigin
-    @GetMapping("/{subjectId}/averages")
-    public ResponseEntity<List<StudentYearsAverageDto>> getStudentsWithAverages(@PathVariable long subjectId) {
-        final List<StudentYearsAverageDto> userAverages = subjectService.getUsersWithAveragesBySubject(subjectId);
-        return ResponseEntity.ok(userAverages);
     }
 }

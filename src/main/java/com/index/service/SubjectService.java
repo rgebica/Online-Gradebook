@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class SubjectService {
 
     SubjectRepository subjectRepository;
-    GradeServiceImpl gradeService;
+    GradeService gradeService;
     UserService userService;
     UserRepository userRepository;
     GradeRepository gradeRepository;
@@ -85,50 +85,44 @@ public class SubjectService {
 
         return users.stream()
                 .map(user -> {
-                    List<GradeDto> grades = gradeRepository.findAllByUserIdAndSubjectId(user.getUserId(), subject.getSubjectId())
-                            .stream()
+                    List<GradeDto> grades = gradeRepository.findAllByUserIdAndSubjectId(user.getUserId(), subject.getSubjectId()).stream()
                             .map(Grade::dto)
                             .collect(Collectors.toList());
+
+                    List<SemesterGradeDto> semesterGrades = semesterGradeRepository.findAllByUserIdAndSubjectId(user.getUserId(), subject.getSubjectId()).stream()
+                            .map(SemesterGrade::dto)
+                            .collect(Collectors.toList());
+
+                    double semesterSubjectAverage = semesterGrades.stream()
+                            .filter(semesterGradeDto -> semesterGradeDto.getSemester().equals("Semestr 1"))
+                            .mapToDouble(SemesterGradeDto::getSubjectAverage)
+                            .sum();
+
+                    int semesterGrade = semesterGrades.stream()
+                            .filter(semesterGradeDto -> semesterGradeDto.getSemester().equals("Semestr 1"))
+                            .mapToInt(SemesterGradeDto::getFinalGrade)
+                            .sum();
+
+                    double yearAverage = ((semesterSubjectAverage + getGradesAverageBySubject(grades)) / 2);
+
+                    int finalGrade = semesterGrades.stream()
+                            .filter(semesterGradeDto -> semesterGradeDto.getSemester().equals("Semestr 2"))
+                            .mapToInt(SemesterGradeDto::getFinalGrade)
+                            .sum();
 
                     return UsersSubjectGradesDetailsDto.builder()
                             .subjectName(subject.getSubjectName())
                             .firstName(user.getFirstName())
                             .lastName(user.getLastName())
                             .subjectAverage(getGradesAverageBySubject(grades))
+                            .semesterSubjectAverage(semesterSubjectAverage)
+                            .yearAverage(yearAverage)
+                            .semesterGrade(semesterGrade)
+                            .finalGrade(finalGrade)
                             .grades(grades)
                             .build();
                 }).collect(Collectors.toList());
     }
-
-    private double getGradesAverageBySubject(List<GradeDto> grades) {
-        double averageRoundedOff = getGradesSumWithWeights(grades) / getWeightsSum(grades);
-        return Math.round(averageRoundedOff * 100.0) / 100.0;
-    }
-
-    private double getGradesSumWithWeights(List<GradeDto> grades) {
-        return grades.stream()
-                .mapToDouble(grade -> (grade.getGrade() * grade.getGradeWeight()))
-                .sum();
-    }
-
-    private double getWeightsSum(List<GradeDto> grades) {
-        return grades.stream()
-                .mapToDouble(GradeDto::getGradeWeight)
-                .sum();
-    }
-
-    public double getFinalAverage(long userId) {
-        User user = userService.findById(userId);
-        List<UserSubjectsGradesDetailsDto> grades = getUserSubjectsWithGrades(user.getUserId());
-
-        double finalAverage = grades.stream()
-                .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
-                .average()
-                .orElse(Double.NaN);
-
-        return Math.round(finalAverage * 100.0) / 100.0;
-    }
-
 
     public Subject findById(long subjectId) {
         return subjectRepository.findById(subjectId)
@@ -160,37 +154,58 @@ public class SubjectService {
                 .collect(Collectors.toList());
     }
 
-    public List<StudentYearsAverageDto> getUsersWithAveragesBySubject(long subjectId) {
-        Subject subject = findById(subjectId);
+    public void addSemesterGrade(AddFinalGradeDto addFinalGradeDto) {
+        SemesterGrade semesterGrade = new SemesterGrade();
+        List<GradeDto> grades = gradeService.getGradesByUser(addFinalGradeDto.getUserId());
+//        checkIfSubjectExists(addFinalGradeDto.getSubjectId());
+//        checkHasAddAccess();
+//        checkAddGradeToStudent(addGrade.getUserId());
+//        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+        semesterGrade.setUserId(addFinalGradeDto.getUserId());
+        semesterGrade.setSubjectId(addFinalGradeDto.getSubjectId());
+        semesterGrade.setFinalGrade(addFinalGradeDto.getFinalGrade());
+        semesterGrade.setSemester(addFinalGradeDto.getSemester());
+        semesterGrade.setSubjectAverage(getChosenSubjectAverage(addFinalGradeDto.getUserId(), addFinalGradeDto.getSubjectId()));
 
-        List<UserDto> users = subject.getUsers().stream()
-                .map(User::dto)
-                .collect(Collectors.toList());
+        semesterGradeRepository.save(semesterGrade);
+    }
 
-        return users.stream()
-                .map(user -> {
-                    List<GradeDto> grades = gradeRepository.findAllByUserIdAndSubjectId(user.getUserId(), subject.getSubjectId())
-                            .stream()
-                            .map(Grade::dto)
-                            .collect(Collectors.toList());
+    public double getGradesAverageBySubject(List<GradeDto> grades) {
+        double averageRoundedOff = getGradesSumWithWeights(grades) / getWeightsSum(grades);
+        return Math.round(averageRoundedOff * 100.0) / 100.0;
+    }
 
-                    double currentAverage = getGradesAverageBySubject(grades);
+    public double getGradesSumWithWeights(List<GradeDto> grades) {
+        return grades.stream()
+                .mapToDouble(grade -> (grade.getGrade() * grade.getGradeWeight()))
+                .sum();
+    }
 
-                    double lastSubjectAverage = semesterGradeRepository.findByUserIdAndSubjectId(user.getUserId(), subjectId)
-                            .map(SemesterGrade::getSubjectAverage)
-                            .orElseThrow(() -> new SpringGradebookException("Grade does not exist"));
+    public double getWeightsSum(List<GradeDto> grades) {
+        return grades.stream()
+                .mapToDouble(GradeDto::getGradeWeight)
+                .sum();
+    }
 
-                    double yearsAverage = ((currentAverage + lastSubjectAverage) / 2);
+    public double getFinalAverage(long userId) {
+        User user = userService.findById(userId);
+        List<UserSubjectsGradesDetailsDto> grades = getUserSubjectsWithGrades(user.getUserId());
 
-                    return StudentYearsAverageDto.builder()
-                            .subjectName(subject.getSubjectName())
-                            .subjectId(subjectId)
-                            .firstName(user.getFirstName())
-                            .lastName(user.getLastName())
-                            .currentAverage(currentAverage)
-                            .semesterAverage(lastSubjectAverage)
-                            .yearsAverage(yearsAverage)
-                            .build();
-                }).collect(Collectors.toList());
+        double finalAverage = grades.stream()
+                .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
+                .average()
+                .orElse(Double.NaN);
+
+        return Math.round(finalAverage * 100.0) / 100.0;
+    }
+
+    private double getChosenSubjectAverage(long userId, long subjectId) {
+        User user = userService.findById(userId);
+        List<UserSubjectsGradesDetailsDto> grades = getUserSubjectsWithGrades(user.getUserId());
+        double subjectAverage = grades.stream()
+                .filter(userSubjectsGradesDetailsDto -> userSubjectsGradesDetailsDto.getSubjectId() == subjectId)
+                .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
+                .sum();
+        return subjectAverage;
     }
 }

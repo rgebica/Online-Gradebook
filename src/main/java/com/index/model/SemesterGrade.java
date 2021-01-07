@@ -1,6 +1,6 @@
 package com.index.model;
 
-import com.index.dto.GradeDto;
+import com.index.dto.SemesterGradeDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,4 +22,14 @@ public class SemesterGrade {
     private long userId;
     private long subjectId;
 
+    public SemesterGradeDto dto() {
+        return SemesterGradeDto.builder()
+                .gradeId(gradeId)
+                .subjectId(subjectId)
+                .userId(userId)
+                .finalGrade(finalGrade)
+                .semester(semester)
+                .subjectAverage(subjectAverage)
+                .build();
+    }
 }

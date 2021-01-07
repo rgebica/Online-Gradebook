@@ -9,7 +9,6 @@ import lombok.*;
 @Getter
 @Setter
 public class AddFinalGradeDto {
-    private double subjectAverage;
     private Integer finalGrade;
     private String semester;
     private long userId;
