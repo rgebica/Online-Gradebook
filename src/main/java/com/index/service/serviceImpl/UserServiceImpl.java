@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(createUserDto.getLastName());
         user.setRole(createUserDto.getRole());
         user.setChildrenIds(createUserDto.getChildrenIds());
+        user.setClassId(createUserDto.getClassId());
 
         userRepository.save(user);
 

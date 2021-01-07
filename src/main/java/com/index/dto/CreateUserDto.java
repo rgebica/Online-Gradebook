@@ -17,4 +17,5 @@ public class CreateUserDto {
     private String firstName;
     private String lastName;
     private String childrenIds;
+    private long classId;
 }
