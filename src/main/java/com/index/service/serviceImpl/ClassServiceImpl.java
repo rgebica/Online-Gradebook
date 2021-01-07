@@ -44,8 +44,7 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public void addUserToClass(AddUsersToClassDto addUsersToClassDto) {
         User user = userService.findById(addUsersToClassDto.getUserId());
-        Class _class = findClassById(addUsersToClassDto.getClassId());
-        user.setClassId(_class);
+        user.setClassId(addUsersToClassDto.getClassId());
         userRepository.save(user);
     }
 

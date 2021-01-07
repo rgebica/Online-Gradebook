@@ -122,9 +122,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public StudentsDto getAllStudents() {
         List<UserDto> findAllStudents = userRepository.findAllStudents().stream()
-                .peek(p -> {
-                    if (p.getClassId() == null) {p.setClassId(_classNone);}
-                })
                 .map(User::dto)
                 .collect(Collectors.toList());
 
@@ -136,9 +133,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .peek(p -> {
-                    if (p.getClassId() == null) {p.setClassId(_classNone);}
-                })
                 .map(User::dto)
                 .collect(Collectors.toList());
     }
@@ -147,9 +141,6 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllTeachers() {
         return userRepository.findAllTeachers().stream()
                 .filter(user -> user.getRole().equals("ROLE_TEACHER"))
-                .peek(p -> {
-                    if (p.getClassId() == null) {p.setClassId(_classNone);}
-                })
                 .map(User::dto)
                 .collect(Collectors.toList());
     }
@@ -157,9 +148,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllParents() {
         return userRepository.findAllParents().stream()
-                .peek(p -> {
-                    if (p.getClassId() == null) {p.setClassId(_classNone);}
-                })
                 .map(User::dto)
                 .collect(Collectors.toList());
     }

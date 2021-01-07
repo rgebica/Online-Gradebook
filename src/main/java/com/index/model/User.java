@@ -32,9 +32,7 @@ public class User {
     private Role role;
     private String firstName;
     private String lastName;
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "classId")
-    private Class classId;
+    private long classId;
     private String childrenIds;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -54,7 +52,7 @@ public class User {
     public UserDto dto() {
         return UserDto.builder()
                 .userId(userId)
-                .classId(classId.getClassId())
+                .classId(classId)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
@@ -66,7 +64,7 @@ public class User {
     public ChildrenDto childrenDto() {
         return ChildrenDto.builder()
                 .userId(userId)
-                .className(classId.getClassName())
+                .classId(classId)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)

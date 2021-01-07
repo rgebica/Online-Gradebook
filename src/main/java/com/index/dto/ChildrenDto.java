@@ -1,6 +1,5 @@
 package com.index.dto;
 
-import com.index.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChildrenDto {
     private long userId;
-    private String className;
+    private long classId;
     private String firstName;
     private String lastName;
     private String email;
