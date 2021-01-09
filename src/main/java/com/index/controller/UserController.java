@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -52,7 +53,7 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDto) {
         userService.createUser(createUserDto);
-        return new ResponseEntity<>("User Created", OK);
+        return new ResponseEntity<>("User Created", CREATED);
     }
 
     @CrossOrigin

@@ -1,4 +1,4 @@
-package com.index;
+package authTests;
 
 import com.index.model.User;
 import org.junit.jupiter.api.Test;

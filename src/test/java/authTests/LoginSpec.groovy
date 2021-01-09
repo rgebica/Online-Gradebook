@@ -1,4 +1,4 @@
-package com.index.authTests
+package authTests
 
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
@@ -7,14 +7,13 @@ import spock.lang.Specification
 
 import static groovyx.net.http.ContentType.*
 
-
 class LoginSpec extends Specification {
     @Shared
-    def client = new RESTClient("http://localhost:8080/");
+    def url = new RESTClient("http://localhost:8080/");
 
     def "should return 200 status when login data valid"() {
         when: "try to login"
-        def response = client.post(path: "api/auth/login", body: [
+        def response = url.post(path: "api/auth/login", body: [
                 username   : "test",
                 password: 'lEhTX&XwL4a$'
         ],
@@ -28,7 +27,7 @@ class LoginSpec extends Specification {
 
     def "should return status 401 when login data is not valid"() {
         when: "try to login"
-        def response = client.post(path: "api/auth/login", body: [
+        def response = url.post(path: "api/auth/login", body: [
                 username   : "test",
                 password: 'bad data'
         ],
