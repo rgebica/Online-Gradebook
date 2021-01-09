@@ -14,7 +14,7 @@ class UserSpec extends Specification {
         when: "try to add new user"
         def response = client.post(path: "api/users",
                 body: [
-                        childrenIds    : childrenIds,
+                        childrenIds: childrenIds,
                         email: email,
                         firstName: firstName,
                         lastName: lastName,
@@ -22,12 +22,11 @@ class UserSpec extends Specification {
                         username: username,
                         classId: classId
                 ],
-                contentType: JSON);
+                requestContentType : JSON);
         then: "should return 201 status and create user"
-        HttpResponseException e = thrown(HttpResponseException);
-        assert e.response.status == 201
+        assert response.status == 201: 'response code should be 201 if provided all required parameters'
         where:
-        childrenIds | email | firstName | lastName | role | username | classId
-        "" | "test@gmail.com" | "Rafal" | "Gebica" | "ROLE_STUDENT" | "testgebica" | 1
+        childrenIds | email            | firstName | lastName | role           | username     | classId
+        ''          | "test@gmail.com" | 'Rafal'   | 'Gebica' | 'ROLE_STUDENT' | 'testgebica' | 1
     }
 }
