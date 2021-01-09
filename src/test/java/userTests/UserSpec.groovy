@@ -29,4 +29,25 @@ class UserSpec extends Specification {
         childrenIds | email            | firstName | lastName | role           | username     | classId
         ''          | "test@gmail.com" | 'Rafal'   | 'Gebica' | 'ROLE_STUDENT' | 'testgebica' | 1
     }
+
+    def "should not add new user" () {
+        when: "try to add new user"
+        def response = client.post(path: "api/users",
+                body: [
+                        childrenIds: childrenIds,
+                        email: email,
+                        firstName: firstName,
+                        lastName: lastName,
+                        role: role,
+                        username: username,
+                        classId: classId
+                ],
+                requestContentType : JSON);
+        then: "should return other status then 201"
+        HttpResponseException e = thrown(HttpResponseException);
+        assert e.response.status != 201
+        where:
+        childrenIds | email            | firstName | lastName | role           | username     | classId
+        ''          | ""               | 'Rafal'   | 'Gebica' | 'ROLE_STUDENT' | 'testgebica' | 1
+    }
 }
