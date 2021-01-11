@@ -83,7 +83,7 @@ public class UserGradesController {
     }
 
     @CrossOrigin
-    @GetMapping("/semester-grades/{userId}/subjects")
+    @GetMapping("/semester-grades/{userId}/{semester}/subjects")
     public ResponseEntity<List<SemesterResultsDto>> getUserSemesterGrades(@PathVariable long userId, String semester) {
         final List<SemesterResultsDto> userGrades = subjectService.getSemesterResults(userId, semester);
         return ResponseEntity.ok(userGrades);
