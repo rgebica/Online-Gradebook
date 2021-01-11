@@ -48,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private String tokenHeader = "Authorization";
 
-
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

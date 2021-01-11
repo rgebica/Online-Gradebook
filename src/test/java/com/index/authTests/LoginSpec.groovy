@@ -1,4 +1,4 @@
-package authTests
+package com.index.authTests
 
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
@@ -15,7 +15,7 @@ class LoginSpec extends Specification {
         when: "try to login"
         def response = url.post(path: "api/auth/login", body: [
                 username   : "test",
-                password: 'lEhTX&XwL4a$'
+                password: 'reY22GADGq87'
         ],
                 contentType: JSON);
         then: 'should return 200 status'

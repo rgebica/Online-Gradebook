@@ -1,10 +1,8 @@
-package presenceTests
+package com.index.presenceTests
 
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
-import spock.lang.Shared
 import spock.lang.Specification
-import spock.lang.Unroll
 
 import static groovyx.net.http.ContentType.*
 

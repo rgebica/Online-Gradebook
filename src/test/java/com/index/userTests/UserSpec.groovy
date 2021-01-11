@@ -1,4 +1,4 @@
-package userTests
+package com.index.userTests
 
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
