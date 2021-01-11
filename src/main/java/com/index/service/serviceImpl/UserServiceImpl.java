@@ -171,8 +171,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editBasicInfo(UserEditInfoDto userEditInfoDto, long userId) {
         User user = findById(userId);
-        user.setEmail(user.getEmail());
-        user.setUsername(user.getUsername());
+        user.setFirstName(userEditInfoDto.getFirstName());
+        user.setFirstName(userEditInfoDto.getLastName());
+        user.setEmail(userEditInfoDto.getEmail());
+        user.setUsername(userEditInfoDto.getUsername());
         userRepository.save(user);
     }
 
