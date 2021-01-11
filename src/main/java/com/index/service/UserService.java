@@ -3,6 +3,8 @@ package com.index.service;
 import com.index.dto.*;
 import com.index.model.User;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface UserService {
@@ -27,4 +29,7 @@ public interface UserService {
     void editPassword(EditPasswordDto editPasswordDto, long userId);
 
     void editBasicInfo(UserEditInfoDto userEditInfoDto, long userId);
+
+    @Transactional
+    void resetPassword(long userId);
 }

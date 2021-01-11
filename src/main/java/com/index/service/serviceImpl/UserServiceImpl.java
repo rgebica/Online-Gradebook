@@ -9,11 +9,14 @@ import com.index.model.Grade;
 import com.index.model.User;
 import com.index.repository.ClassRepository;
 import com.index.repository.UserRepository;
+import com.index.model.EmailCfg;
 import com.index.service.DateService;
 import com.index.service.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +40,7 @@ public class UserServiceImpl implements UserService {
     AuthServiceImpl authService;
     MailService mailService;
     ClassRepository classRepository;
-    Class _classNone = new Class(99, "None");
+    EmailCfg emailCfg;
 
     @Override
     public void createUser(CreateUserDto createUserDto) {
@@ -56,17 +59,17 @@ public class UserServiceImpl implements UserService {
 
         String token = authService.generateVerificationToken(user);
 
-        mailService.sendMail(new NotificationEmail("Personal Information",
-                user.getEmail(), "Your account has been created. Check you personal information: " + "\n\n" +
-                "First Name: " + user.getFirstName() + "\n" +
-                "Last Name: " + user.getLastName() + "\n" +
-                "Role: " + user.getRole() +
-                "\n\n" + "Login: " + user.getUsername() + "\n" +
-                "Generated password: " + password + "\n\n" +
-                "You should change your password." + "\n\n" +
-                "If your personal information are right open link and active you account:" + "\n" + ("http://localhost:8080/api/auth/account-verification/" + token) + "\n\n" +
+        mailService.sendMail(new NotificationEmail("Dane użytkownika",
+                user.getEmail(), "Konto zostało stworzone, sprawdź swoje dane : " + "\n\n" +
+                "Imię: " + user.getFirstName() + "\n" +
+                "Nazwisko: " + user.getLastName() + "\n" +
+                "Rola: " + user.getRole() +
+                "\n\n" + "Nazwa użytkownika: " + user.getUsername() + "\n" +
+                "Wygenerowane hasło: " + password + "\n\n" +
+                "Powinieneś zmienić hasło po pierwszym logowaniu" + "\n\n" +
+                "Jeżeli dane się zgadzają, aktywuj konto otwierając link :" + "\n" + ("http://localhost:8080/api/auth/account-verification/" + token) + "\n\n" +
                 "https://gradebook-server-online.herokuapp.com/api/auth/account-verification/" + token + "\n\n" +
-                "If something is bad with your data contact with admin: "));
+                "W przypadku błędnych danych skontaktuj się z administratorem: "));
 
     }
 
@@ -171,5 +174,28 @@ public class UserServiceImpl implements UserService {
         user.setEmail(user.getEmail());
         user.setUsername(user.getUsername());
         userRepository.save(user);
+    }
+
+    @Override
+    public void resetPassword(long userId) {
+        User user = findById(userId);
+        String newGeneratedPassword = generateUserPassword();
+        String encodedPassword = passwordEncoder.encode(newGeneratedPassword);
+        userRepository.setNewPassword(encodedPassword, userId);
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(this.emailCfg.getHost());
+        mailSender.setPort(this.emailCfg.getPort());
+        mailSender.setUsername(this.emailCfg.getUsername());
+        mailSender.setPassword(this.emailCfg.getPassword());
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("gradebook@gradebook.com");
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Password reset");
+
+        mailMessage.setText("Twoje hasło zostało zmienione, nowe hasło : " + newGeneratedPassword);
+        // Send mail
+        mailSender.send(mailMessage);
     }
 }

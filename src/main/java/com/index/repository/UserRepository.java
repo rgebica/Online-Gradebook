@@ -34,4 +34,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("SELECT u FROM User u WHERE u.role = 'ROLE_TEACHER'")
     Collection<User> findAllTeachers();
+
+    @Modifying
+    @Query("UPDATE User u SET u.password = ?1 where u.userId = ?2")
+    void setNewPassword(String newGeneratedPassword, long userId);
 }

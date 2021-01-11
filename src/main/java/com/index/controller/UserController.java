@@ -105,5 +105,13 @@ public class UserController {
         final List<UserDto> parents = userService.getAllParents();
         return ResponseEntity.ok(parents);
     }
+
+    @CrossOrigin
+    @PutMapping("/reset-password/{userId}")
+    public ResponseEntity<String> resetPassword(@PathVariable long userId) {
+        userService.resetPassword(userId);
+        return new ResponseEntity<>("User password reset", OK);
+    }
+
 }
 
