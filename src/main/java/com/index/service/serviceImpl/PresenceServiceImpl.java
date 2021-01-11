@@ -136,6 +136,7 @@ public class PresenceServiceImpl implements PresenceService {
         Subject subject = subjectService.findById(subjectId);
 
         List<UserDto> users = subject.getUsers().stream()
+                .filter(user -> user.getRole().equals(Role.ROLE_STUDENT))
                 .map(User::dto)
                 .collect(Collectors.toList());
 
