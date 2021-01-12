@@ -53,6 +53,7 @@ public class User {
         return UserDto.builder()
                 .userId(userId)
                 .classId(classId)
+                .username(username)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)

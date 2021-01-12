@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class UserDto {
     private long userId;
+    private String username;
     private Long classId;
     private String firstName;
     private String lastName;
