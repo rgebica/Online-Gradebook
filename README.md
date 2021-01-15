@@ -23,6 +23,7 @@ Application corresponding to an electonic gradebook. App allows of creating an a
 
 ## ERD
 
+![PostgreSQL 9_5](https://user-images.githubusercontent.com/50657893/104745217-1f5a2880-574e-11eb-981b-6b36d2e8a106.jpeg)
 
 ## Packages
 
@@ -50,7 +51,7 @@ Application corresponding to an electonic gradebook. App allows of creating an a
 
     pom.xml - contains all the project dependencies
 
-##Deployment
+## Deployment
 Deploying to Heroku
 
     Download and install the Heroku CLI
