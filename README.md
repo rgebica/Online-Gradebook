@@ -76,7 +76,7 @@ Application corresponding to an electonic gradebook. App allows of creating an a
 
     resources/ - Contains all the static resources, templates and property files.
 
-    resources/templates - contains server-side templates which are rendered by Spring.
+    resources/templates - contains mailt Template.
 
     test/ - contains unit and integration tests
 
@@ -93,12 +93,12 @@ Running the application with Maven
 ## Deployment
 Deploying to Heroku
 
-    Download and install the Heroku CLI
+    Download and install the Heroku CLI - https://devcenter.heroku.com/articles/heroku-cli
     log in to your Heroku account heroku login
     set git remote heroku to the heroku app url, example heroku git:remote -a Online-Gradebook
     Add and Commit any pending changes to git
     push the code to heroku to deploy the app, example git push heroku master
-
+    
 ## Documentation
 
     Swagger - http://localhost:8080/swagger-ui.html- Documentation & Testing
