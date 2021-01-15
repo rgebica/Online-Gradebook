@@ -86,9 +86,9 @@ Application corresponding to an electonic gradebook. App allows of creating an a
 
 Running the application with Maven
 
-$ git clone https://github.com/rgebica/Online-Gradebook.git
-$ cd Online-Gradeebook
-$ mvn spring-boot:run
+    $ git clone https://github.com/rgebica/Online-Gradebook.git
+    $ cd Online-Gradeebook
+    $ mvn spring-boot:run
 
 ## Deployment
 Deploying to Heroku
