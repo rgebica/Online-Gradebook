@@ -27,8 +27,7 @@ and document new or existing database systems, and to deploy changes to data str
 
 * Lombok - Never write another getter or equals method again, with one annotation your class has a fully featured builder, Automate your logging variables, and much more.
 * Swagger - Open-Source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTful Web services.
-* Hibernate - Hibernate ORM is an object-relational mapping tool for the Java programming language. 
-* It provides a framework for mapping an object-oriented domain model to a relational database.
+* Hibernate - Hibernate ORM is an object-relational mapping tool for the Java programming language. It provides a framework for mapping an object-oriented domain model to a relational database.
 * JPA - The Java Persistence API (JPA) is one possible approach to ORM. Via JPA the developer can map, store, update and retrieve data from relational databases to       Java objects and vice versa. JPA can be used in Java-EE and Java-SE applications. JPA is a specification and several implementations are available.
 * Spring Security - Spring Security is a Java/Java EE framework that provides authentication, authorization and other security features for enterprise applications.
     
