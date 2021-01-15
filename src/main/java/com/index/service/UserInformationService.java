@@ -3,6 +3,7 @@ package com.index.service;
 import com.index.dto.ClassDto;
 import com.index.dto.UserDto;
 import com.index.dto.UserPersonalInformationDto;
+import com.index.exception.ClassNotFoundException;
 import com.index.exception.UserNotFoundException;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.User;
@@ -46,7 +47,7 @@ public class UserInformationService {
 
     public ClassDto getClassById(long classId) {
         return classRepository.findById(classId)
-                .orElseThrow(() -> new SpringGradebookException("No class"))
+                .orElseThrow(() -> new ClassNotFoundException(classId))
                 .dto();
     }
 }

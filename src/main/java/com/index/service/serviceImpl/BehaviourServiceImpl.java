@@ -1,14 +1,12 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
-import com.index.exceptions.SpringGradebookException;
+import com.index.exception.BehaviourNotFoundException;
+import com.index.exception.UserNotFoundException;
 import com.index.model.*;
 import com.index.repository.BehaviourRepository;
 import com.index.repository.SubjectRepository;
-import com.index.service.BehaviourService;
-import com.index.service.DateService;
-import com.index.service.PresenceService;
-import com.index.service.UserService;
+import com.index.service.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,12 +30,15 @@ public class BehaviourServiceImpl implements BehaviourService {
     AuthServiceImpl authService;
     UserService userService;
     SubjectRepository subjectRepository;
+    AccessSecurityService accessSecurityService;
 
     @Override
     public void addBehaviour(AddBehaviourDto addBehaviour) {
         Behaviour behaviour = new Behaviour();
-//        checkHasAddAccess();
-//        checkAddGradeToStudent(addBehaviour.getUserId());
+
+//        accessSecurityService.checkHasAddAccess();
+//        accessSecurityService.checkAddGradeToStudent(addBehaviour.getUserId());
+
         behaviour.setUserId(addBehaviour.getUserId());
         behaviour.setGrade(addBehaviour.getGrade());
         behaviour.setDescription(addBehaviour.getDescription());
@@ -58,20 +59,6 @@ public class BehaviourServiceImpl implements BehaviourService {
                 .lastName(user.getLastName())
                 .behaviours(behavioursByUserId)
                 .build();
-    }
-
-    void checkHasAddAccess() {
-        User user = authService.getCurrentUser();
-        if (!user.getRole().equals(Role.ROLE_TEACHER)) {
-            throw new SpringGradebookException("Has no add access");
-        }
-    }
-
-    void checkAddGradeToStudent(long userId) {
-        User user = userService.findById(userId);
-        if (!user.getRole().equals(Role.ROLE_STUDENT)) {
-            throw new SpringGradebookException("Bad userId");
-        }
     }
 
     long addedBy() {
@@ -128,6 +115,5 @@ public class BehaviourServiceImpl implements BehaviourService {
         behaviour.setDescription(editBehaviourDto.getDescription());
         behaviourRepository.save(behaviour);
     }
-
 }
 

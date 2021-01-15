@@ -1,6 +1,9 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
+import com.index.exception.GradeNotFoundException;
+import com.index.exception.HasNoAddAccessException;
+import com.index.exception.SubjectNotFoundException;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.*;
 import com.index.repository.*;
@@ -30,14 +33,16 @@ public class GradeServiceImpl implements GradeService {
     SemesterGradeRepository semesterGradeRepository;
     AuthService authService;
     UserService userService;
+    AccessSecurityService accessSecurityService;
 
     @Override
     public void addGrade(AddGradeDto addGrade) {
         Grade grade = new Grade();
-        checkIfSubjectExists(addGrade.getSubjectId());
-//        checkHasAddAccess();
-//        checkAddGradeToStudent(addGrade.getUserId());
-//        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+
+//        checkIfSubjectExists(addGrade.getSubjectId());
+//        accessSecurityService.checkHasAddAccess();
+//        accessSecurityService.checkAddGradeToStudent(addGrade.getUserId());
+
        User user = userService.findById(addGrade.getUserId());
         grade.setUserId(addGrade.getUserId());
         grade.setSubjectId(addGrade.getSubjectId());
@@ -83,24 +88,6 @@ public class GradeServiceImpl implements GradeService {
                 .collect(Collectors.toList());
     }
 
-    void checkIfSubjectExists(long subjectId) {
-        subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
-    }
-
-    void checkHasAddAccess() {
-        User user = authService.getCurrentUser();
-        if (!user.getRole().equals(Role.ROLE_TEACHER)) {
-            throw new SpringGradebookException("Has no add access");
-        }
-    }
-
-    void checkAddGradeToStudent(long userId) {
-        User user = userService.findById(userId);
-        if (!user.getRole().equals(Role.ROLE_STUDENT)) {
-            throw new SpringGradebookException("Bad userId");
-        }
-    }
-
     long addedBy() {
         return authService.getCurrentUser().getUserId();
     }
@@ -117,7 +104,7 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public void editGrade(EditGradeDto editGradeDto, long gradeId) {
-        Grade grade = gradeRepository.findById(gradeId).orElseThrow(() -> new SpringGradebookException("Grade does not exist"));
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(() -> new GradeNotFoundException(gradeId));
         grade.setSubjectId(editGradeDto.getSubjectId());
         grade.setGrade(editGradeDto.getGrade());
         grade.setComment(editGradeDto.getComment());

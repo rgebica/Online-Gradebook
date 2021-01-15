@@ -21,7 +21,6 @@ public
 class MailService {
 
     JavaMailSender mailSender;
-    MailContentBuilder mailContentBuilder;
 
     @Async
     public void sendMail(NotificationEmail notificationEmail) {

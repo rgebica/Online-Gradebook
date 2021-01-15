@@ -1,16 +1,13 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
-import com.index.exception.UserNotFoundException;
-import com.index.exceptions.SpringGradebookException;
+import com.index.exception.TokenNotFoundException;
 import com.index.model.*;
-import com.index.repository.SubjectRepository;
 import com.index.repository.UserRepository;
 import com.index.repository.VerificationTokenRepository;
 import com.index.security.JwtTokenUtil;
 import com.index.service.AuthService;
 import com.index.service.RefreshTokenService;
-import com.index.service.serviceImpl.MailService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,10 +21,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -69,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void verifyAccount(String token) {
         Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
-        fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringGradebookException("Invalid Token")));
+        fetchUserAndEnable(verificationToken.orElseThrow(() -> new TokenNotFoundException(token)));
     }
 
     @Override

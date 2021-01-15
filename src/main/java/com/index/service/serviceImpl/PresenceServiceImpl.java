@@ -1,7 +1,7 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
-import com.index.exceptions.SpringGradebookException;
+import com.index.exception.PresenceNotFoundException;
 import com.index.model.*;
 import com.index.repository.PresenceRepository;
 import com.index.repository.SubjectRepository;
@@ -27,14 +27,15 @@ public class PresenceServiceImpl implements PresenceService {
     GradeServiceImpl gradeService;
     UserService userService;
     AuthService authService;
+    AccessSecurityService accessSecurityService;
 
     @Override
     public void addPresenceDto(AddPresenceDto addPresence) {
         Presence presence = new Presence();
 
-//        checkHasAddAccess();
-//        checkIfSubjectExists(addPresence.getSubjectId());
-//        checkAddGradeToStudent(addPresence.getUserId());
+//        accessSecurityService.checkHasAddAccess();
+//        accessSecurityService.checkIfSubjectExists(addPresence.getSubjectId());
+//        accessSecurityService.checkAddGradeToStudent(addPresence.getUserId());
 
         presence.setUserId(addPresence.getUserId());
         presence.setSubjectId(addPresence.getSubjectId());
@@ -81,24 +82,6 @@ public class PresenceServiceImpl implements PresenceService {
         return (int) (getPresenceCounter(presences) * 100.0 / presencesAndAbsences + 0.5);
     }
 
-    void checkIfSubjectExists(long subjectId) {
-        subjectRepository.findById(subjectId).orElseThrow(() -> new SpringGradebookException("No subject"));
-    }
-
-    void checkHasAddAccess() {
-        User user = authService.getCurrentUser();
-        if (!user.getRole().equals(Role.ROLE_TEACHER)) {
-            throw new SpringGradebookException("Has no add access");
-        }
-    }
-
-    void checkAddGradeToStudent(long userId) {
-        User user = userService.findById(userId);
-        if (!user.getRole().equals(Role.ROLE_STUDENT)) {
-            throw new SpringGradebookException("Bad userId");
-        }
-    }
-
     long addedBy() {
         return authService.getCurrentUser().getUserId();
     }
@@ -119,7 +102,7 @@ public class PresenceServiceImpl implements PresenceService {
     @Override
     public void editPresence(EditPresenceDto editPresenceDto, long presenceId) {
         Presence presence = presenceRepository.findById(presenceId).
-                orElseThrow(() -> new SpringGradebookException("Presence does not exist"));
+                orElseThrow(() -> new PresenceNotFoundException(presenceId));
         presence.setPresence(editPresenceDto.isPresence());
         presence.setStatus(editPresenceDto.getStatus());
         presenceRepository.save(presence);
@@ -128,7 +111,7 @@ public class PresenceServiceImpl implements PresenceService {
     @Override
     public PresenceDto getPresenceById(long presenceId) {
         return presenceRepository.findById(presenceId)
-                .map(Presence::dto).orElseThrow(() -> new SpringGradebookException("Presence does not exist"));
+                .map(Presence::dto).orElseThrow(() -> new PresenceNotFoundException(presenceId));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.index.service.serviceImpl;
 
 import com.index.dto.*;
-import com.index.exceptions.SpringGradebookException;
+import com.index.exception.HasNoAddAccessException;
 import com.index.model.Behaviour;
 import com.index.model.EmailCfg;
 import com.index.model.Role;
@@ -62,7 +62,6 @@ public class ParentServiceImpl implements ParentService {
 
     @Override
     public void createResponseToBehaviour(CreateBehaviourResponse createBehaviourResponse) {
-
         Behaviour behaviour = behaviourRepository.findById(createBehaviourResponse.getBehaviourId());
         UserDto user = userService.getById(behaviour.getAddedBy());
         String subject = createBehaviourResponse.getSubject();
@@ -83,8 +82,6 @@ public class ParentServiceImpl implements ParentService {
                 "\n\n" + "Odpowiedź rodzica:" + "\n" +
                 createBehaviourResponse.getResponseContent());
 
-        // Send mail
-//        checkHasAddAccess();
         mailSender.send(mailMessage);
     }
 
@@ -92,10 +89,4 @@ public class ParentServiceImpl implements ParentService {
         return authService.getCurrentUser().getEmail();
     }
 
-    void checkHasAddAccess() {
-        User user = authService.getCurrentUser();
-        if (!user.getRole().equals(Role.ROLE_PARENT)) {
-            throw new SpringGradebookException("Has no add access");
-        }
-    }
 }

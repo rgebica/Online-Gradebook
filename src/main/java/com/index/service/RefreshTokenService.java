@@ -1,5 +1,6 @@
 package com.index.service;
 
+import com.index.exception.TokenNotFoundException;
 import com.index.exceptions.SpringGradebookException;
 import com.index.model.RefreshToken;
 import com.index.repository.RefreshTokenRepository;
@@ -27,7 +28,7 @@ public class RefreshTokenService {
 
     void validateRefreshToken(String token) {
         refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new SpringGradebookException("Invalid refresh Token"));
+                .orElseThrow(() -> new TokenNotFoundException(token));
     }
 
     public void deleteRefreshToken(String token) {

@@ -64,7 +64,7 @@ public class ClassServiceImpl implements ClassService {
 
     public Class findClassById(long classId) {
         return classRepository.findById(classId)
-                .orElseThrow(() -> new SpringGradebookException("Class not found"));
+                .orElseThrow(() -> new ClassNotFoundException(classId));
     }
 
     @Override

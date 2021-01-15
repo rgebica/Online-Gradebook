@@ -26,6 +26,7 @@ public class SubjectService {
     UserRepository userRepository;
     GradeRepository gradeRepository;
     SemesterGradeRepository semesterGradeRepository;
+    AccessSecurityService accessSecurityService;
 
     public void createSubject(CreateSubjectDto createSubjectDto) {
         Subject subject = new Subject();
@@ -155,11 +156,11 @@ public class SubjectService {
 
     public void addSemesterGrade(AddFinalGradeDto addFinalGradeDto) {
         SemesterGrade semesterGrade = new SemesterGrade();
-        List<GradeDto> grades = gradeService.getGradesByUser(addFinalGradeDto.getUserId());
-//        checkIfSubjectExists(addFinalGradeDto.getSubjectId());
-//        checkHasAddAccess();
-//        checkAddGradeToStudent(addGrade.getUserId());
-//        return gradeRepository.save(Grade.createGrade(addGrade)).dto();
+
+//        accessSecurityService.checkIfSubjectExists(addFinalGradeDto.getSubjectId());
+//        accessSecurityService.checkHasAddAccess();
+//        accessSecurityService.checkAddGradeToStudent(addFinalGradeDto.getUserId());
+
         semesterGrade.setUserId(addFinalGradeDto.getUserId());
         semesterGrade.setSubjectId(addFinalGradeDto.getSubjectId());
         semesterGrade.setFinalGrade(addFinalGradeDto.getFinalGrade());
@@ -206,6 +207,7 @@ public class SubjectService {
                 .mapToDouble(UserSubjectsGradesDetailsDto::getSubjectAverage)
                 .sum();
     }
+
     public List<SemesterResultsDto> getSemesterResults(long userId, String semester) {
         Map<Long, List<SemesterGradeDto>> gradesBySubjectIds = gradeService.getSemesterGrades(userId).stream()
                 .collect(Collectors.groupingBy(SemesterGradeDto::getSubjectId));

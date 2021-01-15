@@ -4,12 +4,10 @@ import com.index.dto.*;
 import com.index.exception.UserNotFoundException;
 import com.index.dto.NotificationEmail;
 import com.index.exceptions.SpringGradebookException;
+import com.index.model.*;
 import com.index.model.Class;
-import com.index.model.Grade;
-import com.index.model.User;
 import com.index.repository.ClassRepository;
 import com.index.repository.UserRepository;
-import com.index.model.EmailCfg;
 import com.index.service.DateService;
 import com.index.service.UserService;
 import lombok.AccessLevel;
@@ -39,7 +37,6 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     AuthServiceImpl authService;
     MailService mailService;
-    ClassRepository classRepository;
     EmailCfg emailCfg;
 
     @Override
@@ -119,10 +116,6 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    public Class findClass (long userId) {
-        return userRepository.findByClassId(userId);
-    }
-
     @Override
     public StudentsDto getAllStudents() {
         List<UserDto> findAllStudents = userRepository.findAllStudents().stream()
@@ -144,7 +137,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllTeachers() {
         return userRepository.findAllTeachers().stream()
-                .filter(user -> user.getRole().equals("ROLE_TEACHER"))
+                .filter(user -> user.getRole().equals(Role.ROLE_TEACHER))
                 .map(User::dto)
                 .collect(Collectors.toList());
     }
