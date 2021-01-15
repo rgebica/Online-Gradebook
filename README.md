@@ -1,6 +1,6 @@
 ## Online Gradebook
 
-# Project for Engineering Thesis at State Higher Vocational School in Tarnów 2021
+ Project for Engineering Thesis at State Higher Vocational School in Tarnów 2021
 
 ## Data
 
