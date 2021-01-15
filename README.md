@@ -95,7 +95,7 @@ Deploying to Heroku
 
     Download and install the Heroku CLI
     log in to your Heroku account heroku login
-    set git remote heroku to the heroku app url, example heroku git:remote -a spring-boot-app-template
+    set git remote heroku to the heroku app url, example heroku git:remote -a Online-Gradebook
     Add and Commit any pending changes to git
     push the code to heroku to deploy the app, example git push heroku master
 
@@ -110,8 +110,6 @@ Deploying to Heroku
     Generate results PDF file
     Exams for students
     Full responsiveness
-    
-    The End
 
 In the end, I hope you enjoyed the application and find it useful. Application is still under development
 
