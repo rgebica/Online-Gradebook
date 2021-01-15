@@ -113,7 +113,7 @@ Deploying to Heroku
 
 In the end, I hope you enjoyed the application and find it useful. Application is still under development
 
-If like my project, please:
+If you like this project, please:
 
     Give feedback,
     
