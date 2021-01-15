@@ -4,10 +4,10 @@
 
 ## Data
 
-    PostgreSQL - Database managment
-    DataGrip - DataGrip provides context-sensitive code completion, helping you to write SQL code faster. Completion is aware of the tables structure, foreign keys,        and even database objects created in code you're editing.
-    Toad Data Modeler - Toad Data Modeler is a database design tool allowing users to visually create, maintain, 
-    and document new or existing database systems, and to deploy changes to data structures across different platforms.
+* PostgreSQL - Database managment
+* DataGrip - DataGrip provides context-sensitive code completion, helping you to write SQL code faster. Completion is aware of the tables structure, foreign keys,           and even database objects created in code you're editing.
+* Toad Data Modeler - Toad Data Modeler is a database design tool allowing users to visually create, maintain, 
+and document new or existing database systems, and to deploy changes to data structures across different platforms.
 
 ## Client - Frontend/UI
 
